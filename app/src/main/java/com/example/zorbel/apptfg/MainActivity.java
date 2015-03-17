@@ -11,8 +11,6 @@ public class MainActivity extends ActionBarActivity{
     //Necessary for the tabs
     private FragmentTabHost mTabHost;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

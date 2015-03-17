@@ -27,8 +27,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TextViewer"
+            android:name=".TextViewerActivity"
             android:label="@string/title_activity_text_viewer" >
+        </activity>
+        <activity
+            android:name=".TableOfContentsActivity"
+            android:label="@string/title_activity_table_of_contents" >
         </activity>
     </application>
 

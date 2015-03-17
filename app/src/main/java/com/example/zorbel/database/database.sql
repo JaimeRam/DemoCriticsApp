@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-03-2015 a las 16:52:17
+-- Tiempo de generación: 17-03-2015 a las 20:09:50
 -- Versión del servidor: 5.5.41-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.6
 
@@ -63,10 +63,17 @@ CREATE TABLE IF NOT EXISTS `header` (
 CREATE TABLE IF NOT EXISTS `political_party` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `logo` blob NOT NULL,
+  `logo` blob,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `political_party`
+--
+
+INSERT INTO `political_party` (`id`, `name`, `logo`) VALUES
+(2, 'Confederación Pirata', NULL);
 
 -- --------------------------------------------------------
 
@@ -98,6 +105,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `nickname` (`nickname`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `visit`
+--
+
+CREATE TABLE IF NOT EXISTS `visit` (
+  `id_header` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

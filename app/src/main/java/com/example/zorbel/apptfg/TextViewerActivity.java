@@ -8,7 +8,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 
 
-public class TextViewer extends ActionBarActivity {
+public class TextViewerActivity extends ActionBarActivity {
 
     private WebView mWebView;
     private Button mButtonLike;

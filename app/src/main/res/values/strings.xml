@@ -11,5 +11,6 @@
     <string name="title_activity_text_viewer">TextViewer</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_table_of_contents">TableOfContents</string>
 
 </resources>
