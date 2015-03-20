@@ -5,6 +5,7 @@
 
     <string name="titleTab1">Programas</string>
     <string name="titleTab2">Propuestas</string>
+    <string name="titleIndex">Indice</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -12,5 +13,17 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_table_of_contents">TableOfContents</string>
+
+    <string name="drawer_open">Menu Abierto!</string>
+    <string name="drawer_close">Menu Cerrado!</string>
+
+    <string-array name="MenuEntries">
+        <item>Partidos</item>
+        <item>Lo + visto</item>
+        <item>Lo + comentado</item>
+        <item>Lo + votado</item>
+        <item>Estadisticas</item>
+    </string-array>
+    <string name="title_activity_activity_prueba_nav_drawer">ActivityPruebaNavDrawer</string>
 
 </resources>

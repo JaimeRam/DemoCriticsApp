@@ -17,9 +17,9 @@ public class ProgramsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_programs, container, false);
 
-        View v = inflater.inflate(R.layout.fragment_programs, container, false);
-        return v;
+        return rootView;
 
     }
 
