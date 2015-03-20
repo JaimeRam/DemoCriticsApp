@@ -6,6 +6,8 @@
     <string name="titleTab1">Programas</string>
     <string name="titleTab2">Propuestas</string>
     <string name="titleIndex">Indice</string>
+    <string name="titleMenu">Menu</string>
+
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

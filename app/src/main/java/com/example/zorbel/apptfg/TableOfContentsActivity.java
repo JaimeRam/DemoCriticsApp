@@ -1,14 +1,10 @@
 package com.example.zorbel.apptfg;
 
-import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +15,6 @@ public class TableOfContentsActivity extends ActionBarActivity {
 
     private ExpandableListView mIndexListView;
     private ExpandableListAdapter mListAdapter;
-    private ExpandableListView mExpListView;
     private List<String> mListDataHeader;
 
 

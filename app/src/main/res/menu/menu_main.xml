@@ -4,7 +4,7 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 
-    <item android:id="@+id/index"
+    <item android:id="@+id/index_action"
         android:title="@string/titleIndex"
         app:showAsAction="withText|always"/>
 
