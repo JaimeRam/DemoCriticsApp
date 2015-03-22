@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,18 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getProgramsData(null);
 
         //TABS
 
@@ -105,7 +119,7 @@ public class MainActivity extends ActionBarActivity {
 
             public void onDrawerOpened(View drawerView) {
                 //Acciones que se ejecutan cuando se despliega el drawer
-                if(drawerLayout.isDrawerVisible(Gravity.END)) {
+                if (drawerLayout.isDrawerVisible(Gravity.END)) {
                     getSupportActionBar().setTitle(getString(R.string.titleIndex));
                 } else {
                     getSupportActionBar().setTitle(getString(R.string.titleMenu));
@@ -122,14 +136,13 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
-
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         // If the nav drawer is open, hide action items related to the content view
-        for(int i = 0; i< menu.size(); i++) {
+        for (int i = 0; i < menu.size(); i++) {
 
             if (drawerLayout.isDrawerOpen(drawerListLeft) || drawerLayout.isDrawerOpen(drawerListRight)) {
                 menu.getItem(i).setVisible(false);
@@ -153,7 +166,7 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-       int id = item.getItemId();
+        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -165,14 +178,14 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-       if (drawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             // Toma los eventos de selección del toggle aquí
 
-           if(drawerLayout.isDrawerVisible(Gravity.END)) {
-               drawerLayout.closeDrawer(Gravity.END);
-           }
+            if (drawerLayout.isDrawerVisible(Gravity.END)) {
+                drawerLayout.closeDrawer(Gravity.END);
+            }
 
-           return true;
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -233,6 +246,42 @@ public class MainActivity extends ActionBarActivity {
 
         mListAdapter = new ExpandableListAdapter(this, mListDataHeader, listDataChild);
         drawerListRight.setAdapter(mListAdapter);
+    }
+
+    private void getProgramsData(String politicalParty) {
+        String link = "http://10.0.2.2/service/public/politicalProgram/" + getPoliticalPartyId(politicalParty);
+        getJSON(link);
+    }
+
+    private String getJSON(String address) {
+        StringBuilder builder = new StringBuilder();
+        HttpClient client = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(address);
+        try {
+            HttpResponse response = client.execute(httpGet);
+            StatusLine statusLine = response.getStatusLine();
+            int statusCode = statusLine.getStatusCode();
+            if (statusCode == 200) {
+                HttpEntity entity = response.getEntity();
+                InputStream content = entity.getContent();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+            } else {
+                Log.e(MainActivity.class.toString(), "Failed to get JSON object");
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
+
+    private String getPoliticalPartyId(String politicalParty) {
+        return "1";
     }
 
     private HashMap<String, List<String>> generateData() {
