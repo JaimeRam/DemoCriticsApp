@@ -2,6 +2,7 @@ package com.example.zorbel.apptfg;
 
 
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,8 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.zorbel.data_structures.Section;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -24,11 +27,18 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -249,11 +259,18 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void getProgramsData(String politicalParty) {
-        String link = "http://10.0.2.2/service/public/politicalProgram/" + getPoliticalPartyId(politicalParty);
-        getJSON(link);
+        URL link = null;
+        try {
+            link = new URL("http://10.0.2.2/service/public/politicalProgram/" + getPoliticalPartyId(politicalParty));
+            GetJSONTask task = new GetJSONTask();
+            task.execute(link);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private String getJSON(String address) {
+/*    private String getJSON(String address) {
         StringBuilder builder = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(address);
@@ -278,7 +295,91 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
         return builder.toString();
+    }*/
+
+
+    public class GetJSONTask extends AsyncTask<URL, Void, ArrayList<Section>> {
+
+        HttpURLConnection con;
+
+        private static final String TAG_SECTION_TITLE = "title";
+
+
+        @Override
+        protected ArrayList<Section> doInBackground(URL... urls) {
+
+            StringBuilder builder = new StringBuilder();
+
+            try {
+
+                // Establecer la conexión
+                con = (HttpURLConnection) urls[0].openConnection();
+
+                // Obtener el estado del recurso
+                int statusCode = con.getResponseCode();
+
+                if (statusCode == 200) {
+                    InputStream in = new BufferedInputStream(con.getInputStream());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line);
+                    }
+                } else {
+                    Log.e(MainActivity.class.toString(), "Failed to get JSON object");
+                }
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Log.d("JSON", "   " + builder.toString() + "  ");
+            ArrayList<Section> ar = getSections(builder.toString());
+            return ar;
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Section> s) {
+            super.onPostExecute(s);
+
+
+        }
+
+        protected ArrayList<Section> getSections(String jsonStr) {
+
+            ArrayList<Section> al = new ArrayList<Section>();
+
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+
+                    // Getting JSON Array node
+                    JSONArray sections = jsonObj.getJSONArray("");
+
+
+                    for (int i = 0; i < sections.length(); i++) {
+                        JSONObject s = sections.getJSONObject(i);
+
+                        String title = s.getString(TAG_SECTION_TITLE);
+
+                        Section sec = new Section(null, null, title, null, null);
+
+                        al.add(sec);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return al;
+        }
+
     }
+
 
     private String getPoliticalPartyId(String politicalParty) {
         return "1";
