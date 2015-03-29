@@ -364,7 +364,8 @@ public class MainActivity extends ActionBarActivity {
 
                         String title = s.getString(TAG_SECTION_TITLE);
 
-                        Section sec = new Section(null, null, title, null, null);
+                        // TODO fill in the section with the proper attributes (id_section)
+                        Section sec = new Section(0, 0, title, null, null);
 
                         al.add(sec);
 
@@ -376,6 +377,68 @@ public class MainActivity extends ActionBarActivity {
             }
 
             return al;
+        }
+
+    }
+
+    public int createIndex (Section parent, ArrayList<Section> JSONResult, int index) {
+
+        // X = currentSection
+        Section currentSection = JSONResult.get(index);
+
+        if (parent.getlSections() == null) {
+            parent.setlSections(new ArrayList<Section>());
+        }
+        parent.addSubSection(currentSection);
+        //P.hijo(X) ??
+
+        // c = nextIndex
+        int nextIndex = index + 1;
+
+        while (getLevel(JSONResult.get(nextIndex)) >= getLevel(currentSection)) {
+
+            if (getLevel(JSONResult.get(nextIndex)) == getLevel(currentSection)) {
+
+                currentSection = JSONResult.get(nextIndex);
+                nextIndex++;
+                parent.addSubSection(currentSection);
+            }
+
+            else if (getLevel(JSONResult.get(nextIndex)) > getLevel(currentSection)) {
+
+                nextIndex = createIndex(currentSection, JSONResult, nextIndex);
+
+            }
+        }
+
+        return nextIndex;
+
+    }
+
+    public int getLevel(Section sec) {
+
+        int id_sec = sec.getmSection();
+        int level = 0;
+
+        if (id_sec % 100 != 0) {
+
+            level = 4;
+            return level;
+
+        } else if (id_sec % 10000 != 0) {
+
+            level = 3;
+            return level;
+
+        } else if (id_sec % 1000000 != 0) {
+
+            level = 2;
+            return level;
+
+        } else {
+
+            level = 1;
+            return level;
         }
 
     }
