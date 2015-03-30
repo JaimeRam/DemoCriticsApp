@@ -18,15 +18,11 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
+import com.example.zorbel.service.GetPoliticalParties;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getProgramsData(null);
+        getProgramsData();
 
         //TABS
 
@@ -145,6 +141,9 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+
+        PoliticalGroups p = PoliticalGroups.getInstance();
+        int i = 0;
 
     }
 
@@ -258,12 +257,14 @@ public class MainActivity extends ActionBarActivity {
         drawerListRight.setAdapter(mListAdapter);
     }
 
-    private void getProgramsData(String politicalParty) {
+    private void getProgramsData() {
         URL link = null;
         try {
-            link = new URL("http://10.0.2.2/service/public/getPoliticalProgram/" + getPoliticalPartyId(politicalParty));
+            link = new URL("http://10.0.2.2/ServiceRest/public/PoliticalParty");
+            //link = new URL("http://10.0.2.2/service/public/getPoliticalProgram/" + getPoliticalPartyId(politicalParty));
             //link = new URL ("http://10.0.2.2/service/public/getPoliticalProgram/1/01010000/getContent");
-            GetJSONTask task = new GetJSONTask();
+            GetPoliticalParties task = new GetPoliticalParties();
+            //GetJSONTask task = new GetJSONTask();
             task.execute(link);
 
         } catch (MalformedURLException e) {

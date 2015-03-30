@@ -4,8 +4,6 @@ import java.util.List;
 
 public class Section {
 
-
-
     private int mSection;
     private int mPoliticalParty;
     private String mTitle;
