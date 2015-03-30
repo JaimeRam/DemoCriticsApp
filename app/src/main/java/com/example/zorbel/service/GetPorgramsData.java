@@ -3,6 +3,7 @@ package com.example.zorbel.service;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 
 import org.apache.http.client.ClientProtocolException;
@@ -98,6 +99,7 @@ public class GetPorgramsData extends AsyncTask<URL, Void, Void> {
 
         Section root = new Section(0, 0, null, null, null);
         createIndex(root, al, 0);
+        PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(0).setmSectionRoot(root);
 
     }
 

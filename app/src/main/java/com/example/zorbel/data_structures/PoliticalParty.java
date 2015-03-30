@@ -9,13 +9,13 @@ public class PoliticalParty {
     private int mId;
     private String mName;
     private Blob mLogo;
-    private List<Section> mListSections;
+    private Section mSectionRoot;
 
-    public PoliticalParty(int mId, String mName, Blob mLogo, List<Section> mListSections) {
+    public PoliticalParty(int mId, String mName, Blob mLogo, Section mSectionRoot) {
         this.mId = mId;
         this.mName = mName;
         this.mLogo = mLogo;
-        this.mListSections = mListSections;
+        this.mSectionRoot = mSectionRoot;
     }
 
     public int getmId() {
@@ -30,7 +30,11 @@ public class PoliticalParty {
         return mLogo;
     }
 
-    public List<Section> getmListSections() {
-        return mListSections;
+    public Section getmSectionRoot() {
+        return mSectionRoot;
+    }
+
+    public void setmSectionRoot(Section root) {
+        this.mSectionRoot = root;
     }
 }
