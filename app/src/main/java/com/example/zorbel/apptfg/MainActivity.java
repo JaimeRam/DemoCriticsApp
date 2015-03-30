@@ -265,6 +265,7 @@ public class MainActivity extends ActionBarActivity {
             //link = new URL ("http://10.0.2.2/service/public/getPoliticalProgram/1/01010000/getContent");
             GetJSONTask task = new GetJSONTask();
             task.execute(link);
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
