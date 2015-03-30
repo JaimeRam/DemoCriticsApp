@@ -96,6 +96,69 @@ public class GetPorgramsData extends AsyncTask<URL, Void, Void> {
 
         }
 
-        // save
+        Section root = new Section(0, 0, null, null, null);
+        createIndex(root, al, 0);
+
+    }
+
+    protected int createIndex(Section parent, List<Section> JSONResult, int index) {
+
+        // X = currentSection
+        Section currentSection = JSONResult.get(index);
+
+        if (parent.getlSections() == null) {
+            parent.setlSections(new ArrayList<Section>());
+        }
+        parent.addSubSection(currentSection);
+        Log.d("Index", currentSection.getmSection() + "  :  " + currentSection.getmTitle());
+        //P.hijo(X) ??
+
+        // c = nextIndex
+        int nextIndex = index + 1;
+
+        while ((nextIndex < JSONResult.size()) && (getLevel(JSONResult.get(nextIndex)) >= getLevel(currentSection))) {
+
+            if (getLevel(JSONResult.get(nextIndex)) == getLevel(currentSection)) {
+
+                currentSection = JSONResult.get(nextIndex);
+                nextIndex++;
+                parent.addSubSection(currentSection);
+                Log.d("Index", currentSection.getmSection() + "  :  " + currentSection.getmTitle());
+            } else if (getLevel(JSONResult.get(nextIndex)) > getLevel(currentSection)) {
+
+                nextIndex = createIndex(currentSection, JSONResult, nextIndex);
+
+            }
+        }
+
+        return nextIndex;
+
+    }
+
+    protected int getLevel(Section sec) {
+
+        int id_sec = sec.getmSection();
+        int level = 0;
+
+        if (id_sec % 100 != 0) {
+
+            level = 4;
+            return level;
+
+        } else if (id_sec % 10000 != 0) {
+
+            level = 3;
+            return level;
+
+        } else if (id_sec % 1000000 != 0) {
+
+            level = 2;
+            return level;
+
+        } else {
+
+            level = 1;
+            return level;
+        }
     }
 }
