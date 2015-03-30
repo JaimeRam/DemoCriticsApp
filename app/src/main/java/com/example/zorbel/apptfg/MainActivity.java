@@ -261,7 +261,8 @@ public class MainActivity extends ActionBarActivity {
     private void getProgramsData(String politicalParty) {
         URL link = null;
         try {
-            link = new URL("http://10.0.2.2/service/public/politicalProgram/" + getPoliticalPartyId(politicalParty));
+            link = new URL("http://10.0.2.2/service/public/getPoliticalProgram/" + getPoliticalPartyId(politicalParty));
+            //link = new URL ("http://10.0.2.2/service/public/getPoliticalProgram/1/01010000/getContent");
             GetJSONTask task = new GetJSONTask();
             task.execute(link);
         } catch (MalformedURLException e) {
@@ -270,40 +271,14 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-/*    private String getJSON(String address) {
-        StringBuilder builder = new StringBuilder();
-        HttpClient client = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(address);
-        try {
-            HttpResponse response = client.execute(httpGet);
-            StatusLine statusLine = response.getStatusLine();
-            int statusCode = statusLine.getStatusCode();
-            if (statusCode == 200) {
-                HttpEntity entity = response.getEntity();
-                InputStream content = entity.getContent();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-            } else {
-                Log.e(MainActivity.class.toString(), "Failed to get JSON object");
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return builder.toString();
-    }*/
-
 
     public class GetJSONTask extends AsyncTask<URL, Void, ArrayList<Section>> {
 
         HttpURLConnection con;
 
         private static final String TAG_SECTION_TITLE = "title";
-
+        private static final String TAG_SECTION_ID = "section";
+        private static final String TAG_SECTION_TEXT = "text";
 
         @Override
         protected ArrayList<Section> doInBackground(URL... urls) {
@@ -334,8 +309,13 @@ public class MainActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
 
-            Log.d("JSON", "   " + builder.toString() + "  ");
+            Log.d("JSON", "     :      " + builder.toString() + "  ");
             ArrayList<Section> ar = getSections(builder.toString());
+            //ArrayList<Section> ar = getSectionText(builder.toString());
+
+            Section root = new Section(0,0,null,null,null);
+            createIndex(root, ar, 0);
+
             return ar;
 
         }
@@ -347,25 +327,67 @@ public class MainActivity extends ActionBarActivity {
 
         }
 
-        protected ArrayList<Section> getSections(String jsonStr) {
+        protected ArrayList<Section> getSectionText(String jsonStr) {
 
             ArrayList<Section> al = new ArrayList<Section>();
 
             if (jsonStr != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    //JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
-                    JSONArray sections = jsonObj.getJSONArray("");
+                    //JSONArray sections = jsonObj.getJSONArray("");
+
+                    JSONArray sections = new JSONArray(jsonStr);
 
 
                     for (int i = 0; i < sections.length(); i++) {
                         JSONObject s = sections.getJSONObject(i);
 
                         String title = s.getString(TAG_SECTION_TITLE);
+                        String text = s.getString(TAG_SECTION_TEXT);
 
                         // TODO fill in the section with the proper attributes (id_section)
-                        Section sec = new Section(0, 0, title, null, null);
+                        Section sec = new Section(0, 0, title, text, null);
+
+                        al.add(sec);
+                        Log.d("JSON Text", "    :     " + al.get(i).getmTitle() + "  -----  " + al.get(i).getmText());
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return al;
+
+
+
+        }
+
+        protected ArrayList<Section> getSections(String jsonStr) {
+
+            ArrayList<Section> al = new ArrayList<Section>();
+
+            if (jsonStr != null) {
+                try {
+                    //JSONObject jsonObj = new JSONObject(jsonStr);
+
+                    // Getting JSON Array node
+                    //JSONArray sections = jsonObj.getJSONArray("");
+
+                    JSONArray sections = new JSONArray(jsonStr);
+
+
+                    for (int i = 0; i < sections.length(); i++) {
+                        JSONObject s = sections.getJSONObject(i);
+
+                        String title = s.getString(TAG_SECTION_TITLE);
+                        int id_section = s.getInt(TAG_SECTION_ID);
+
+                        // TODO fill in the section with the proper attributes (id_section)
+                        Section sec = new Section(id_section, 0, title, null, null);
 
                         al.add(sec);
 
@@ -379,70 +401,71 @@ public class MainActivity extends ActionBarActivity {
             return al;
         }
 
-    }
+        protected int createIndex (Section parent, ArrayList<Section> JSONResult, int index) {
 
-    public int createIndex (Section parent, ArrayList<Section> JSONResult, int index) {
+            // X = currentSection
+            Section currentSection = JSONResult.get(index);
 
-        // X = currentSection
-        Section currentSection = JSONResult.get(index);
+            if (parent.getlSections() == null) {
+                parent.setlSections(new ArrayList<Section>());
+            }
+            parent.addSubSection(currentSection);
+            Log.d("Index", currentSection.getmSection() + "  :  " + currentSection.getmTitle());
+            //P.hijo(X) ??
 
-        if (parent.getlSections() == null) {
-            parent.setlSections(new ArrayList<Section>());
-        }
-        parent.addSubSection(currentSection);
-        //P.hijo(X) ??
+            // c = nextIndex
+            int nextIndex = index + 1;
 
-        // c = nextIndex
-        int nextIndex = index + 1;
+            while ((nextIndex < JSONResult.size()) && (getLevel(JSONResult.get(nextIndex)) >= getLevel(currentSection))) {
 
-        while (getLevel(JSONResult.get(nextIndex)) >= getLevel(currentSection)) {
+                if (getLevel(JSONResult.get(nextIndex)) == getLevel(currentSection)) {
 
-            if (getLevel(JSONResult.get(nextIndex)) == getLevel(currentSection)) {
+                    currentSection = JSONResult.get(nextIndex);
+                    nextIndex++;
+                    parent.addSubSection(currentSection);
+                    Log.d("Index", currentSection.getmSection() + "  :  " + currentSection.getmTitle());
+                }
 
-                currentSection = JSONResult.get(nextIndex);
-                nextIndex++;
-                parent.addSubSection(currentSection);
+                else if (getLevel(JSONResult.get(nextIndex)) > getLevel(currentSection)) {
+
+                    nextIndex = createIndex(currentSection, JSONResult, nextIndex);
+
+                }
             }
 
-            else if (getLevel(JSONResult.get(nextIndex)) > getLevel(currentSection)) {
+            return nextIndex;
 
-                nextIndex = createIndex(currentSection, JSONResult, nextIndex);
+        }
 
+        protected int getLevel(Section sec) {
+
+            int id_sec = sec.getmSection();
+            int level = 0;
+
+            if (id_sec % 100 != 0) {
+
+                level = 4;
+                return level;
+
+            } else if (id_sec % 10000 != 0) {
+
+                level = 3;
+                return level;
+
+            } else if (id_sec % 1000000 != 0) {
+
+                level = 2;
+                return level;
+
+            } else {
+
+                level = 1;
+                return level;
             }
-        }
 
-        return nextIndex;
-
-    }
-
-    public int getLevel(Section sec) {
-
-        int id_sec = sec.getmSection();
-        int level = 0;
-
-        if (id_sec % 100 != 0) {
-
-            level = 4;
-            return level;
-
-        } else if (id_sec % 10000 != 0) {
-
-            level = 3;
-            return level;
-
-        } else if (id_sec % 1000000 != 0) {
-
-            level = 2;
-            return level;
-
-        } else {
-
-            level = 1;
-            return level;
         }
 
     }
-
 
     private String getPoliticalPartyId(String politicalParty) {
         return "1";
