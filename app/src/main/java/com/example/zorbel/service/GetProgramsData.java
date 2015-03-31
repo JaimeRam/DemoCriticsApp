@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by jaime on 30/03/15.
  */
-public class GetPorgramsData extends AsyncTask<URL, Void, Void> {
+public class GetProgramsData extends AsyncTask<URL, Void, Void> {
 
     private HttpURLConnection con;
     private static final String TAG_SECTION_TITLE = "title";
@@ -60,12 +60,13 @@ public class GetPorgramsData extends AsyncTask<URL, Void, Void> {
         }
 
         Log.d("JSON", "     :      " + builder.toString() + "  ");
-        getPoliticalPrograms(builder.toString());
+        String id = urls[0].toString();
+        getPoliticalPrograms(builder.toString(), Integer.parseInt("" + id.charAt(id.length() - 1)));
 
         return null;
     }
 
-    private void getPoliticalPrograms(String jsonStr) {
+    private void getPoliticalPrograms(String jsonStr, int id) {
 
         List<Section> al = new ArrayList<Section>();
 
@@ -99,7 +100,7 @@ public class GetPorgramsData extends AsyncTask<URL, Void, Void> {
 
         Section root = new Section(0, 0, null, null, null);
         createIndex(root, al, 0);
-        PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(0).setmSectionRoot(root);
+        PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(id).setmSectionRoot(root);
 
     }
 
