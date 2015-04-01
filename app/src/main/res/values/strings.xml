@@ -26,6 +26,12 @@
         <item>Lo + votado</item>
         <item>Estadisticas</item>
     </string-array>
-    <string name="title_activity_activity_prueba_nav_drawer">ActivityPruebaNavDrawer</string>
+
+    <string name="title_activity_parties">Partidos Políticos</string>
+
+
+    <string name="text_dialog_downloading">Descargando datos... Espere por favor...</string>
+
+    <string name="title_activity_political_program_index">Indice del Programa</string>
 
 </resources>

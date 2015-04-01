@@ -14,38 +14,6 @@
         android:text="@string/titleTab1"
         android:textAppearance="?android:attr/textAppearanceMedium" />-->
     
-    <GridLayout
-        android:layout_weight="1"
-        android:id="@+id/layoutParties"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:columnCount="3">
 
-        <com.example.zorbel.apptfg.PartyWidget
-            android:id="@+id/party1"
-           android:layout_margin="15dp">
-
-        </com.example.zorbel.apptfg.PartyWidget>
-
-        <com.example.zorbel.apptfg.PartyWidget
-            android:id="@+id/party2"
-            android:layout_margin="15dp">
-
-        </com.example.zorbel.apptfg.PartyWidget>
-
-        <com.example.zorbel.apptfg.PartyWidget
-            android:id="@+id/party3"
-            android:layout_margin="15dp">
-
-        </com.example.zorbel.apptfg.PartyWidget>
-
-        <com.example.zorbel.apptfg.PartyWidget
-            android:id="@+id/party4"
-            android:layout_margin="15dp">
-
-        </com.example.zorbel.apptfg.PartyWidget>
-
-     </GridLayout>
 
 </LinearLayout>

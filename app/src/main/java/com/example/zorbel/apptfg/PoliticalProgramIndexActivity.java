@@ -1,12 +1,10 @@
 package com.example.zorbel.apptfg;
 
-
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -15,16 +13,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import com.example.zorbel.data_structures.PoliticalGroups;
+import com.example.zorbel.data_structures.PoliticalParty;
+import com.example.zorbel.service.GetProgramsData;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity {
 
-    //Necessary for the tabs
-    private FragmentTabHost mTabHost;
+public class PoliticalProgramIndexActivity extends ActionBarActivity {
 
     //Left Menu
     private ListView drawerListLeft;
@@ -35,34 +36,41 @@ public class MainActivity extends ActionBarActivity {
     private ExpandableListAdapter mListAdapter;
     private List<String> mListDataHeader;
 
-    private String titleTab1;
-    private String titleTab2;
-
     //Nav Drawer menus
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
+    //Expandable List Index
+    private ExpandableListView mIndexListView;
+    private ExpandableListAdapter mListAdapterIndex;
+    private List<String> mListDataHeaderIndex;
+
+    private PoliticalParty polParty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //getPoliticalPartiesData();
+        setContentView(R.layout.activity_political_program_index);
 
-        //TABS
+        createMenus();
 
-        titleTab1 = getString(R.string.titleTab1);
-        titleTab2 = getString(R.string.titleTab2);
+        mIndexListView =(ExpandableListView) findViewById(R.id.expandableListView);
 
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+        int polIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
 
-        mTabHost.addTab(
-                mTabHost.newTabSpec(titleTab1).setIndicator(titleTab1, null),
-                ProgramsFragment.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec(titleTab2).setIndicator(titleTab2, null),
-                ProposalsFragment.class, null);
+        polParty = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex);
 
+        if (polParty.getmSectionRoot() == null) {
+            getProgramSectionsData(polParty.getmId());
+        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+    }
+
+    public void createMenus() {
 
         //MENU LEFT NAV DRAWER
 
@@ -100,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
         ) {
             public void onDrawerClosed(View view) {
                 //Acciones que se ejecutan cuando se cierra el drawer
-                getSupportActionBar().setTitle(getString(R.string.app_name));
+                getSupportActionBar().setTitle(getString(R.string.title_activity_political_program_index));
                 supportInvalidateOptionsMenu();
                 drawerToggle.syncState();
             }
@@ -120,8 +128,6 @@ public class MainActivity extends ActionBarActivity {
 
         drawerLayout.setDrawerListener(drawerToggle);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -144,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_political_program_index, menu);
         return true;
     }
 
@@ -187,13 +193,10 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Cambiar las configuraciones del drawer si hubo modificaciones
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void selectItem(int position) {
-
-        TextView tv = (TextView) mTabHost.getTabContentView().findViewById(R.id.textFragmentTab);
 
         if (position == 0) {  //Parties Menu
 
@@ -202,26 +205,30 @@ public class MainActivity extends ActionBarActivity {
 
         }
 
-        //String article = getResources().getStringArray(R.array.MenuEntries)[position];
-
-        //tv.setText(article);
-
-        /*//Reemplazar contenido
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.mainLayout, fragment).commit();*/
-
         // Se actualiza el item seleccionado y el título, después de cerrar el drawer
         drawerListLeft.setItemChecked(position, true);
         setTitle(tagTitles[position]);
         drawerLayout.closeDrawer(drawerListLeft);
     }
 
-
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+
+    private void getProgramSectionsData(int id) {
+        URL link = null;
+        try {
+            link = new URL("http://10.0.2.2/ServiceRest/public/getPoliticalProgram/" + id);
+            GetProgramsData task = new GetProgramsData(this, findViewById(R.id.activityPoliticalProgramIndexLayout), id);
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -241,10 +248,6 @@ public class MainActivity extends ActionBarActivity {
         drawerListRight.setAdapter(mListAdapter);
     }
 
-
-    private String getPoliticalPartyId(String politicalParty) {
-        return "1";
-    }
 
     private HashMap<String, List<String>> generateData() {
         HashMap<String, List<String>> listDataSection = new HashMap<String, List<String>>();
@@ -299,5 +302,6 @@ public class MainActivity extends ActionBarActivity {
 
         return listDataSection;
     }
+
 
 }

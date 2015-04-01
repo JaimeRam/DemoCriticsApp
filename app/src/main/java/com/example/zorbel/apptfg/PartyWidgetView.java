@@ -8,23 +8,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.zorbel.data_structures.PoliticalParty;
+
 /**
  * Created by javier on 25/03/15.
  */
-public class PartyWidget extends RelativeLayout {
+public class PartyWidgetView extends RelativeLayout {
 
     private ImageView logo;
     private TextView partyName;
+    private PoliticalParty pol_party;
 
 
-    public PartyWidget(Context context, AttributeSet attrs) {
+    public PartyWidgetView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initializeView();
     }
 
-    public PartyWidget(Context context) {
+    public PartyWidgetView(Context context, PoliticalParty p) {
         super(context);
         initializeView();
+        this.pol_party = p;
     }
 
     public void initializeView() {
@@ -49,5 +53,9 @@ public class PartyWidget extends RelativeLayout {
     public void setPartyName(String pN) {
 
         partyName.setText(pN);
+    }
+
+    public PoliticalParty getPol_party() {
+        return pol_party;
     }
 }

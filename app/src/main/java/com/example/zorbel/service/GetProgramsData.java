@@ -1,8 +1,12 @@
 package com.example.zorbel.service;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
+import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 
@@ -30,6 +34,20 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
     private static final String TAG_SECTION_TITLE = "title";
     private static final String TAG_SECTION_ID = "section";
     private static final String TAG_SECTION_TEXT = "text";
+
+    private Context mContext;
+    private View mRootView;
+    private int politicalProgramId;
+
+    private ProgressDialog pDialog;
+
+    public GetProgramsData(Context con, View rootView, int id) {
+        this.mContext = con;
+        this.mRootView = rootView;
+        this.politicalProgramId = id;
+
+    }
+
 
     @Override
     protected Void doInBackground(URL... urls) {
@@ -60,22 +78,32 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
         }
 
         Log.d("JSON", "     :      " + builder.toString() + "  ");
-        String id = urls[0].toString();
-        getPoliticalPrograms(builder.toString(), Integer.parseInt("" + id.charAt(id.length() - 1)));
+        getPoliticalProgram(builder.toString(), politicalProgramId);
 
         return null;
     }
 
-    private void getPoliticalPrograms(String jsonStr, int id) {
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage(mContext.getString(R.string.text_dialog_downloading));
+        pDialog.show();
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        // TODO: create the index view
+        pDialog.dismiss();
+    }
+
+    private void getPoliticalProgram(String jsonStr, int id) {
 
         List<Section> al = new ArrayList<Section>();
 
         if (jsonStr != null) {
             try {
-                //JSONObject jsonObj = new JSONObject(jsonStr);
-
-                // Getting JSON Array node
-                //JSONArray sections = jsonObj.getJSONArray("");
 
                 JSONArray sections = new JSONArray(jsonStr);
 
@@ -87,7 +115,7 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
                     int id_section = s.getInt(TAG_SECTION_ID);
 
                     // TODO fill in the section with the proper attributes (id_section)
-                    Section sec = new Section(id_section, 0, title, null, null);
+                    Section sec = new Section(id_section, id, title, null, null);
 
                     al.add(sec);
 
@@ -98,7 +126,7 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
 
         }
 
-        Section root = new Section(0, 0, null, null, null);
+        Section root = new Section(0, id, null, null, null);
         createIndex(root, al, 0);
         PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(id).setmSectionRoot(root);
 

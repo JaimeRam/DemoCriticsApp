@@ -1,17 +1,15 @@
 package com.example.zorbel.data_structures;
 
-import java.sql.Blob;
-import java.util.HashMap;
-import java.util.List;
+import android.graphics.Bitmap;
 
 public class PoliticalParty {
 
     private int mId;
     private String mName;
-    private Blob mLogo;
+    private Bitmap mLogo;
     private Section mSectionRoot;
 
-    public PoliticalParty(int mId, String mName, Blob mLogo, Section mSectionRoot) {
+    public PoliticalParty(int mId, String mName, Bitmap mLogo, Section mSectionRoot) {
         this.mId = mId;
         this.mName = mName;
         this.mLogo = mLogo;
@@ -26,7 +24,7 @@ public class PoliticalParty {
         return mName;
     }
 
-    public Blob getmLogo() {
+    public Bitmap getmLogo() {
         return mLogo;
     }
 
