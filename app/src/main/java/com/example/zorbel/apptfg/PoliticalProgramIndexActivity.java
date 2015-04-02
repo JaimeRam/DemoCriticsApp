@@ -16,6 +16,7 @@ import android.widget.ListView;
 
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.PoliticalParty;
+import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service.GetProgramsData;
 
 import java.net.MalformedURLException;
@@ -31,19 +32,14 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
     private ListView drawerListLeft;
     private String[] tagTitles;
 
-    //Right Menu Index
-    private ExpandableListView drawerListRight;
-    private ExpandableListAdapter mListAdapter;
-    private List<String> mListDataHeader;
-
     //Nav Drawer menus
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
     //Expandable List Index
     private ExpandableListView mIndexListView;
-    private ExpandableListAdapter mListAdapterIndex;
-    private List<String> mListDataHeaderIndex;
+    private ExpandableIndexAdapter mListAdapterIndex;
+    private List<Section> mListDataHeaderIndex;
 
     private PoliticalParty polParty;
 
@@ -61,8 +57,35 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
         polParty = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex);
 
         if (polParty.getmSectionRoot() == null) {
-            getProgramSectionsData(polParty.getmId());
+            getProgramSectionsData(polParty.getmId(), polIndex);
+        } else {
+            List<Section> headers = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex).getmSectionRoot().getlSections();
+            HashMap<Section, List<Section>> listDataChild = generateSubSections(headers);
+
+            mIndexListView =(ExpandableListView) findViewById(R.id.expandableListView);
+            mIndexListView.setAdapter(new ExpandableIndexAdapter(this, headers, listDataChild));
         }
+
+
+       /* mIndexListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                // TODO: create intent to launch the SectionActivity with the selected Section
+
+                return true;
+            }
+        });*/
+
+        mIndexListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                // TODO: create intent to launch the SectionActivity with the selected Section
+
+                return true;
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -80,10 +103,6 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //Obtener listview
         drawerListLeft = (ListView) findViewById(R.id.left_drawer);
-        drawerListRight = (ExpandableListView) findViewById(R.id.right_drawer);
-
-        //Fill the index right menu
-        getIndexTitles(0);
 
         //Nueva lista de drawer items
         ArrayList<MenuLeftItem> items = new ArrayList<MenuLeftItem>();
@@ -114,12 +133,9 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
             }
 
             public void onDrawerOpened(View drawerView) {
-                //Acciones que se ejecutan cuando se despliega el drawer
-                if (drawerLayout.isDrawerVisible(Gravity.END)) {
-                    getSupportActionBar().setTitle(getString(R.string.titleIndex));
-                } else {
+
                     getSupportActionBar().setTitle(getString(R.string.titleMenu));
-                }
+
                 supportInvalidateOptionsMenu();
                 drawerToggle.syncState();
             }
@@ -137,7 +153,7 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
         // If the nav drawer is open, hide action items related to the content view
         for (int i = 0; i < menu.size(); i++) {
 
-            if (drawerLayout.isDrawerOpen(drawerListLeft) || drawerLayout.isDrawerOpen(drawerListRight)) {
+            if (drawerLayout.isDrawerOpen(drawerListLeft)) {
                 menu.getItem(i).setVisible(false);
             } else {
                 menu.getItem(i).setVisible(true);
@@ -166,17 +182,8 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
             return true;
         }
 
-        if (id == R.id.index_action) {
-            drawerLayout.openDrawer(Gravity.END);
-        }
-
-
         if (drawerToggle.onOptionsItemSelected(item)) {
             // Toma los eventos de selección del toggle aquí
-
-            if (drawerLayout.isDrawerVisible(Gravity.END)) {
-                drawerLayout.closeDrawer(Gravity.END);
-            }
 
             return true;
         }
@@ -218,11 +225,11 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
         }
     }
 
-    private void getProgramSectionsData(int id) {
+    private void getProgramSectionsData(int id, int index) {
         URL link = null;
         try {
             link = new URL("http://10.0.2.2/ServiceRest/public/getPoliticalProgram/" + id);
-            GetProgramsData task = new GetProgramsData(this, findViewById(R.id.activityPoliticalProgramIndexLayout), id);
+            GetProgramsData task = new GetProgramsData(this, findViewById(R.id.activityPoliticalProgramIndexLayout), id, index);
             task.execute(link);
 
         } catch (MalformedURLException e) {
@@ -232,75 +239,18 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
     }
 
 
-    private void getIndexTitles(int political_party_id) {
-        // Request to the database the table of contents that matches the id of the political party.
-        HashMap<String, List<String>> listDataChild = generateData();
-        mListDataHeader = new ArrayList<String>();
-        mListDataHeader.add("0. Preámbulo");
-        mListDataHeader.add("1. Democracia, participación y transparencia");
-        mListDataHeader.add("2. Economía al servicio de la ciudadanía");
-        mListDataHeader.add("3. Políticas Sociales");
-        mListDataHeader.add("4. Derechos civiles");
-        mListDataHeader.add("5. Red, derechos de autor y cultura libre");
-        mListDataHeader.add("6. Medio Ambiente");
+    protected HashMap<Section, List<Section>> generateSubSections(List<Section> list) {
 
-        mListAdapter = new ExpandableListAdapter(this, mListDataHeader, listDataChild);
-        drawerListRight.setAdapter(mListAdapter);
-    }
+        HashMap<Section, List<Section>> listSubSections = new HashMap<Section, List<Section>>();
 
+        for (int i = 0; i < list.size(); i++) {
 
-    private HashMap<String, List<String>> generateData() {
-        HashMap<String, List<String>> listDataSection = new HashMap<String, List<String>>();
+            List<Section> listDataChild = list.get(i).getlSections();
+            listSubSections.put(list.get(i), listDataChild);
+        }
 
-        List<String> listDataChild = new ArrayList<String>();
-        listDataChild.add("- Los derechos humanos");
-        listDataChild.add("- Los compromisos piratas");
-        listDataChild.add("- Una Unión Europea de las personas");
-        listDataSection.put("0. Preámbulo", listDataChild);
+        return listSubSections;
 
-        listDataChild = new ArrayList<String>();
-        listDataChild.add("1.1 Participación ciudadana y gobierno abierto");
-        listDataChild.add("1.2 Calidad legislativa");
-        listDataChild.add("1.3 Diversidad");
-        listDataChild.add("1.4 Resiliencia");
-        listDataSection.put("1. Democracia, participación y transparencia", listDataChild);
-
-        listDataChild = new ArrayList<String>();
-        listDataChild.add("2.1 Derecho al trabajo");
-        listDataChild.add("2.2 Derecho a la propiedad privada y colectiva");
-        listDataChild.add("2.3 Economía al servicio del bienestar social");
-        listDataChild.add("2.4 Igualdad de oportunidades");
-        listDataSection.put("2. Economía al servicio de la ciudadanía", listDataChild);
-
-        listDataChild = new ArrayList<String>();
-        listDataChild.add("3.1 Servicios públicos universales");
-        listDataChild.add("3.2 Garantía de protección de los consumidores y usuarios");
-        listDataChild.add("3.3 Igualdad de oportunidades en la educación");
-        listDataChild.add("3.4 Sanidad");
-        listDataSection.put("3. Políticas Sociales", listDataChild);
-
-        listDataChild = new ArrayList<String>();
-        listDataChild.add("4.1 Salud sexual y reproductiva");
-        listDataChild.add("4.2 Derechos de la infancia");
-        listDataChild.add("4.3 Justicia independiente, gratuita e igual para todos");
-        listDataChild.add("4.4 Libertad de prensa");
-        listDataSection.put("4. Derechos civiles", listDataChild);
-
-        listDataChild = new ArrayList<String>();
-        listDataChild.add("5.1 Derechos de autor");
-        listDataChild.add("5.2 Software Libre, Cultura Libre y Conocimiento Libre");
-        listDataChild.add("5.3 Open Access y Open Data");
-        listDataChild.add("5.4 Patentes");
-        listDataSection.put("5. Red, derechos de autor y cultura libre", listDataChild);
-
-        listDataChild = new ArrayList<String>();
-        listDataChild.add("6.1. Endurecimiento de la lucha contra la minería no sostenible");
-        listDataChild.add("6.2. Contaminación del litoral y de las aguas");
-        listDataChild.add("6.3. Lucha activa contra la aceleración del cambio climático");
-        listDataChild.add("6.4. El Ártico, Santuario Global");
-        listDataSection.put("6. Medio Ambiente", listDataChild);
-
-        return listDataSection;
     }
 
 

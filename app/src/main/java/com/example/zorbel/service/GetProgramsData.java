@@ -5,7 +5,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ExpandableListView;
 
+import com.example.zorbel.apptfg.ExpandableIndexAdapter;
+import com.example.zorbel.apptfg.ExpandableListAdapter;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
@@ -23,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,13 +42,15 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
     private Context mContext;
     private View mRootView;
     private int politicalProgramId;
+    private int politicalProgramGroupIndex;
 
     private ProgressDialog pDialog;
 
-    public GetProgramsData(Context con, View rootView, int id) {
+    public GetProgramsData(Context con, View rootView, int id, int index) {
         this.mContext = con;
         this.mRootView = rootView;
         this.politicalProgramId = id;
+        this.politicalProgramGroupIndex = index;
 
     }
 
@@ -94,7 +100,16 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+
         // TODO: create the index view
+
+
+        List<Section> headers = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).getmSectionRoot().getlSections();
+        HashMap<Section, List<Section>> listDataChild = generateSubSections(headers);
+
+        ExpandableListView mIndexListView =(ExpandableListView) mRootView.findViewById(R.id.expandableListView);
+        mIndexListView.setAdapter(new ExpandableIndexAdapter(mContext, headers, listDataChild));
+
         pDialog.dismiss();
     }
 
@@ -114,7 +129,7 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
                     String title = s.getString(TAG_SECTION_TITLE);
                     int id_section = s.getInt(TAG_SECTION_ID);
 
-                    // TODO fill in the section with the proper attributes (id_section)
+
                     Section sec = new Section(id_section, id, title, null, null);
 
                     al.add(sec);
@@ -128,7 +143,7 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
 
         Section root = new Section(0, id, null, null, null);
         createIndex(root, al, 0);
-        PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(id).setmSectionRoot(root);
+        PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).setmSectionRoot(root);
 
     }
 
@@ -192,4 +207,21 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
             return level;
         }
     }
+
+
+    protected HashMap<Section, List<Section>> generateSubSections(List<Section> list) {
+
+        HashMap<Section, List<Section>> listSubSections = new HashMap<Section, List<Section>>();
+
+        for (int i = 0; i < list.size(); i++) {
+
+            List<Section> listDataChild = list.get(i).getlSections();
+            listSubSections.put(list.get(i), listDataChild);
+        }
+
+        return listSubSections;
+
+    }
+
+
 }
