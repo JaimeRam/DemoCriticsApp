@@ -107,7 +107,7 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
         List<Section> headers = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).getmSectionRoot().getlSections();
         HashMap<Section, List<Section>> listDataChild = generateSubSections(headers);
 
-        ExpandableListView mIndexListView =(ExpandableListView) mRootView.findViewById(R.id.expandableListView);
+        ExpandableListView mIndexListView = (ExpandableListView) mRootView.findViewById(R.id.expandableListView);
         mIndexListView.setAdapter(new ExpandableIndexAdapter(mContext, headers, listDataChild));
 
         pDialog.dismiss();
@@ -183,29 +183,21 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
 
     protected int getLevel(Section sec) {
 
-        int id_sec = sec.getmSection();
-        int level = 0;
+        int id_sec = sec.getmSection(), level = -1;
 
         if (id_sec % 100 != 0) {
-
             level = 4;
-            return level;
 
         } else if (id_sec % 10000 != 0) {
-
             level = 3;
-            return level;
 
         } else if (id_sec % 1000000 != 0) {
-
             level = 2;
-            return level;
 
-        } else {
-
+        } else
             level = 1;
-            return level;
-        }
+
+        return level;
     }
 
 
@@ -214,13 +206,11 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
         HashMap<Section, List<Section>> listSubSections = new HashMap<Section, List<Section>>();
 
         for (int i = 0; i < list.size(); i++) {
-
             List<Section> listDataChild = list.get(i).getlSections();
             listSubSections.put(list.get(i), listDataChild);
         }
 
         return listSubSections;
-
     }
 
 
