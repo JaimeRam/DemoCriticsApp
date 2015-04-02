@@ -33,5 +33,11 @@
     <string name="text_dialog_downloading">Descargando datos... Espere por favor...</string>
 
     <string name="title_activity_political_program_index">Indice del Programa</string>
+    <string name="title_activity_section_viewer">SectionViewerActivity</string>
+
+    <string name="name_buttonLike">Me gusta</string>
+    <string name="name_buttonDislike">No me gusta</string>
+    <string name="name_buttonNotUnderstood">No lo entiendo</string>
+    <string name="name_buttonComment">Comentar</string>
 
 </resources>
