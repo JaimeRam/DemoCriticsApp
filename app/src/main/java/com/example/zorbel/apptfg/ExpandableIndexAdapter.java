@@ -53,14 +53,16 @@ public class ExpandableIndexAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item, null);
+            convertView = layoutInflater.inflate(R.layout.list_child_item, null);
+
         }
 
         TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
+                .findViewById(R.id.childListItem);
 
         txtListChild.setText(childText);
         txtListChild.setTextColor(Color.WHITE);
+        txtListChild.setPadding(10,5,0,5);
 
         return convertView;
     }
@@ -96,7 +98,7 @@ public class ExpandableIndexAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_group, null);
+            convertView = layoutInflater.inflate(R.layout.list_group_item, null);
         }
 
         TextView lblListHeader = (TextView) convertView

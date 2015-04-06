@@ -122,10 +122,10 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
         Button notUnderstoodButton = (Button) mRootView.findViewById(R.id.buttonNotUnderstood);
         Button dislikeButton  = (Button) mRootView.findViewById(R.id.buttonDislike);
 
-        if(currentSection.getmTitle() != null) { //Check if Section doesn't have text
-            sectionTitle.setText(currentSection.getmTitle());
-        } else {
+        if(currentSection.getmTitle().equalsIgnoreCase("null")) { //Check if Section doesn't have text (its text is "null")
             sectionTitle.setText("No text");
+        } else {
+            sectionTitle.setText(currentSection.getmTitle());
         }
 
         sectionText.setText(currentSection.getmText());

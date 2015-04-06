@@ -199,7 +199,21 @@ public class SectionViewerActivity extends ActionBarActivity {
 
                  //TODO: launch the new SectionViewer Activity
 
-                return false;
+                Intent in = new Intent(SectionViewerActivity.this, SectionViewerActivity.class);
+
+                ExpandableIndexAdapter adapter = (ExpandableIndexAdapter) parent.getExpandableListAdapter();
+                Section sec = (Section) adapter.getGroup(groupPosition);
+                int section_id = sec.getmSection();
+
+                Bundle b = new Bundle();
+                b.putInt("PoliticalPartyIndex", politicalPartyGroupIndex);
+                b.putInt("SectionId", section_id);
+
+                in.putExtras(b);
+
+                startActivity(in);
+
+                return true;
             }
         });
 
@@ -208,7 +222,23 @@ public class SectionViewerActivity extends ActionBarActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 //TODO: launch the new SectionViewer Activity
-                return false;
+
+                Intent in = new Intent(SectionViewerActivity.this, SectionViewerActivity.class);
+
+                ExpandableIndexAdapter adapter = (ExpandableIndexAdapter) parent.getExpandableListAdapter();
+                Section sec = (Section) adapter.getChild(groupPosition, childPosition);
+                int section_id = sec.getmSection();
+
+                Bundle b = new Bundle();
+                b.putInt("PoliticalPartyIndex", politicalPartyGroupIndex);
+                b.putInt("SectionId", section_id);
+
+                in.putExtras(b);
+
+                startActivity(in);
+
+                return true;
+
             }
         });
 
