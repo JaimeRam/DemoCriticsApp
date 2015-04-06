@@ -39,7 +39,7 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
     private static final String TAG_SECTION_TEXT = "text";
     private static final String TAG_SECTION_LIKES = "likes";
     private static final String TAG_SECTION_NOT_UNDERSTOOD = "not_understood";
-    private static final String TAG_SECTION_DISLIKES = "unlikes";
+    private static final String TAG_SECTION_DISLIKES = "dislikes";
     private static final String TAG_SECTION_NUM_COMMENTS= "comments";
 
     private Context mContext;
