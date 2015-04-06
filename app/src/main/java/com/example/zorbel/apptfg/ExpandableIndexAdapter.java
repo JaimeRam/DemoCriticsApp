@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.example.zorbel.data_structures.Section;
@@ -59,7 +60,7 @@ public class ExpandableIndexAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
-        txtListChild.setTextColor(Color.DKGRAY);
+        txtListChild.setTextColor(Color.WHITE);
 
         return convertView;
     }
@@ -102,7 +103,13 @@ public class ExpandableIndexAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-        lblListHeader.setTextColor(Color.BLACK);
+        lblListHeader.setTextColor(Color.WHITE);
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            ExpandableListView mExpandableListView = (ExpandableListView) parent;
+            mExpandableListView.expandGroup(i);
+
+        }
 
         return convertView;
     }

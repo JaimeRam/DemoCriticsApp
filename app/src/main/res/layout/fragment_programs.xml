@@ -10,7 +10,7 @@
         android:id="@+id/textFragmentTab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:gravity="center_horizontal|center_vertical"
         android:text="@string/titleTab1"
         android:textAppearance="?android:attr/textAppearanceMedium" />-->
     

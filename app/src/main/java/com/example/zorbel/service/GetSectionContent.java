@@ -5,13 +5,16 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.zorbel.apptfg.ListIndexAdapter;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 
 import org.apache.http.client.ClientProtocolException;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,30 +25,34 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by javier on 2/04/15.
  */
+
 public class GetSectionContent extends AsyncTask<URL, Void, Void> {
 
     private HttpURLConnection con;
-    private static final String TAG_SECTION_TITLE = "title";
+
     private static final String TAG_SECTION_ID = "section";
+    private static final String TAG_SECTION_TITLE = "title";
     private static final String TAG_SECTION_TEXT = "text";
+    private static final String TAG_SECTION_LIKES = "likes";
+    private static final String TAG_SECTION_NOT_UNDERSTOOD = "not_understood";
+    private static final String TAG_SECTION_DISLIKES = "unlikes";
+    private static final String TAG_SECTION_NUM_COMMENTS= "comments";
 
     private Context mContext;
     private View mRootView;
-    private int politicalProgramId;
     private int politicalProgramGroupIndex;
+
+    private Section currentSection;
 
     private ProgressDialog pDialog;
 
-    public GetSectionContent(Context con, View rootView, int id, int index) {
+    public GetSectionContent(Context con, View rootView, int index) {
         this.mContext = con;
         this.mRootView = rootView;
-        this.politicalProgramId = id;
         this.politicalProgramGroupIndex = index;
 
     }
@@ -53,14 +60,13 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
 
     @Override
     protected Void doInBackground(URL... urls) {
-        StringBuilder builder = new StringBuilder();
+
+       StringBuilder builder = new StringBuilder();
 
         try {
 
-            // Establecer la conexión
             con = (HttpURLConnection) urls[0].openConnection();
 
-            // Obtener el estado del recurso
             int statusCode = con.getResponseCode();
 
             if (statusCode == 200) {
@@ -71,16 +77,20 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
                     builder.append(line);
                 }
             } else {
-                Log.e(GetPoliticalParties.class.toString(), "Failed to get JSON object");
+                Log.e(GetSectionContent.class.toString(), "Failed to get JSON object");
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }  finally {
+            if (con != null) {
+                con.disconnect();
+            }
         }
 
         Log.d("JSON", "     :      " + builder.toString() + "  ");
-        getPoliticalProgram(builder.toString(), politicalProgramId);
+        getSectionData(builder.toString());
 
         return null;
     }
@@ -97,47 +107,70 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        // TODO: create the index view
-
+        updateView();
 
         pDialog.dismiss();
     }
 
-    private void getPoliticalProgram(String jsonStr, int id) {
+    protected void updateView() {
 
-        List<Section> al = new ArrayList<Section>();
+        TextView sectionTitle = (TextView) mRootView.findViewById(R.id.sectionTitle);
+        TextView sectionText = (TextView) mRootView.findViewById(R.id.textSection);
+
+        Button commentButton = (Button) mRootView.findViewById(R.id.buttonComment);
+        Button likeButton = (Button) mRootView.findViewById(R.id.buttonLike);
+        Button notUnderstoodButton = (Button) mRootView.findViewById(R.id.buttonNotUnderstood);
+        Button dislikeButton  = (Button) mRootView.findViewById(R.id.buttonDislike);
+
+        if(currentSection.getmTitle() != null) { //Check if Section doesn't have text
+            sectionTitle.setText(currentSection.getmTitle());
+        } else {
+            sectionTitle.setText("No text");
+        }
+
+        sectionText.setText(currentSection.getmText());
+
+        likeButton.setText(mContext.getString(R.string.name_buttonLike) + "\n" + "(" + currentSection.getNumLikes() + ")");
+        dislikeButton.setText(mContext.getString(R.string.name_buttonDislike) + "\n" + "(" + currentSection.getNumDislikes() + ")");
+        notUnderstoodButton.setText(mContext.getString(R.string.name_buttonNotUnderstood) + "\n" + "(" + currentSection.getNumNotUnderstoods() + ")");
+        commentButton.setText(mContext.getString(R.string.name_buttonComment) + "\n" + "(" + currentSection.getNumComments() + ")");
+
+        if (currentSection.getlSections() != null) { //Check if Section doesn't have subsections
+            ListView mIndexListView =(ListView) mRootView.findViewById(R.id.indexListView);
+            mIndexListView.setAdapter(new ListIndexAdapter(mContext, currentSection.getlSections()));
+        }
+
+    }
+
+    protected void getSectionData(String jsonStr) {
 
         if (jsonStr != null) {
             try {
 
-                JSONArray sections = new JSONArray(jsonStr);
+                JSONObject s = new JSONObject(jsonStr);
 
-
-                for (int i = 0; i < sections.length(); i++) {
-                    JSONObject s = sections.getJSONObject(i);
-
-                    String title = s.getString(TAG_SECTION_TITLE);
                     int id_section = s.getInt(TAG_SECTION_ID);
+                    String title = s.getString(TAG_SECTION_TITLE);
+                    String text = s.getString(TAG_SECTION_TEXT);
+                    int likes = s.getInt(TAG_SECTION_LIKES);
+                    int not_understood = s.getInt(TAG_SECTION_NOT_UNDERSTOOD);
+                    int dislikes = s.getInt(TAG_SECTION_DISLIKES);
 
+                    int num_comments = s.getInt(TAG_SECTION_NUM_COMMENTS);
 
-                    Section sec = new Section(id_section, id, title, null, null);
+                    currentSection = PoliticalGroups.getInstance().getSection(politicalProgramGroupIndex, id_section);
 
-                    al.add(sec);
+                    currentSection.setmText(text);
+                    currentSection.setNumLikes(likes);
+                    currentSection.setNumDislikes(dislikes);
+                    currentSection.setNumNotUnderstoods(not_understood);
+                    currentSection.setNumComments(num_comments);
 
-                }
-            } catch (JSONException e) {
+                } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
-
-        Section root = new Section(0, id, null, null, null);
-
-        PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).setmSectionRoot(root);
-
     }
-
-
-
 
 }

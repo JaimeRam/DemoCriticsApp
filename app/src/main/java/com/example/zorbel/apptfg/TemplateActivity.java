@@ -28,8 +28,6 @@ public class TemplateActivity extends ActionBarActivity {
 
     //Right Menu Index
     private ExpandableListView drawerListRight;
-    private ExpandableListAdapter mListAdapter;
-    private List<String> mListDataHeader;
 
     //Nav Drawer menus
     private DrawerLayout drawerLayout;

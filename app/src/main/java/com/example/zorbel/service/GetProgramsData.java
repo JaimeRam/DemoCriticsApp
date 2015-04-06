@@ -5,10 +5,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.ExpandableListView;
+import android.widget.ListView;
 
-import com.example.zorbel.apptfg.ExpandableIndexAdapter;
-import com.example.zorbel.apptfg.ExpandableListAdapter;
+import com.example.zorbel.apptfg.ListIndexAdapter;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
@@ -81,6 +80,10 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }  finally {
+            if (con != null) {
+                con.disconnect();
+            }
         }
 
         Log.d("JSON", "     :      " + builder.toString() + "  ");
@@ -103,12 +106,10 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
 
         // TODO: create the index view
 
+        List<Section> index = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).getmSectionRoot().getlSections();
 
-        List<Section> headers = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).getmSectionRoot().getlSections();
-        HashMap<Section, List<Section>> listDataChild = generateSubSections(headers);
-
-        ExpandableListView mIndexListView = (ExpandableListView) mRootView.findViewById(R.id.expandableListView);
-        mIndexListView.setAdapter(new ExpandableIndexAdapter(mContext, headers, listDataChild));
+        ListView mIndexListView = (ListView) mRootView.findViewById(R.id.indexListView);
+        mIndexListView.setAdapter(new ListIndexAdapter(mContext, index));
 
         pDialog.dismiss();
     }
@@ -199,19 +200,5 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
 
         return level;
     }
-
-
-    protected HashMap<Section, List<Section>> generateSubSections(List<Section> list) {
-
-        HashMap<Section, List<Section>> listSubSections = new HashMap<Section, List<Section>>();
-
-        for (int i = 0; i < list.size(); i++) {
-            List<Section> listDataChild = list.get(i).getlSections();
-            listSubSections.put(list.get(i), listDataChild);
-        }
-
-        return listSubSections;
-    }
-
 
 }

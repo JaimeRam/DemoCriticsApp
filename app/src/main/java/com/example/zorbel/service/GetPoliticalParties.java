@@ -76,6 +76,10 @@ public class GetPoliticalParties extends AsyncTask<URL, Void, Void> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }  finally {
+            if (con != null) {
+                con.disconnect();
+            }
         }
 
         Log.d("JSON", "     :      " + builder.toString() + "  ");

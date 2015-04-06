@@ -21,7 +21,6 @@ import com.example.zorbel.service.GetProgramsData;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -35,10 +34,9 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
-    //Expandable List Index
-    private ExpandableListView mIndexListView;
-    private ExpandableIndexAdapter mListAdapterIndex;
-    private List<Section> mListDataHeaderIndex;
+    //List Index
+    private ListView mIndexListView;
+    private List<Section> mIndexList;
 
     private PoliticalParty polParty;
 
@@ -49,40 +47,38 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
 
         createMenus();
 
-        mIndexListView =(ExpandableListView) findViewById(R.id.expandableListView);
-
-        int polIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
+        final int polIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
 
         polParty = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex);
+
+        mIndexListView =(ListView) findViewById(R.id.indexListView);
 
         if (polParty.getmSectionRoot() == null) {
             getProgramSectionsData(polParty.getmId(), polIndex);
         } else {
-            List<Section> headers = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex).getmSectionRoot().getlSections();
-            HashMap<Section, List<Section>> listDataChild = generateSubSections(headers);
+            List<Section> index = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex).getmSectionRoot().getlSections();
 
-            mIndexListView =(ExpandableListView) findViewById(R.id.expandableListView);
-            mIndexListView.setAdapter(new ExpandableIndexAdapter(this, headers, listDataChild));
+            mIndexListView.setAdapter(new ListIndexAdapter(this, index));
         }
 
-
-       /* mIndexListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        mIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 // TODO: create intent to launch the SectionActivity with the selected Section
+                Intent in = new Intent(PoliticalProgramIndexActivity.this, SectionViewerActivity.class);
 
-                return true;
-            }
-        });*/
+                Section sec = (Section) parent.getItemAtPosition(position);
+                int section_id = sec.getmSection();
 
-        mIndexListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Bundle b = new Bundle();
+                b.putInt("PoliticalPartyIndex", polIndex);
+                b.putInt("SectionId", section_id);
 
-                // TODO: create intent to launch the SectionActivity with the selected Section
+                in.putExtras(b);
 
-                return true;
+                startActivity(in);
+
             }
         });
 
@@ -236,21 +232,4 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
         }
 
     }
-
-
-    private HashMap<Section, List<Section>> generateSubSections(List<Section> list) {
-
-        HashMap<Section, List<Section>> listSubSections = new HashMap<Section, List<Section>>();
-
-        for (int i = 0; i < list.size(); i++) {
-
-            List<Section> listDataChild = list.get(i).getlSections();
-            listSubSections.put(list.get(i), listDataChild);
-        }
-
-        return listSubSections;
-
-    }
-
-
 }

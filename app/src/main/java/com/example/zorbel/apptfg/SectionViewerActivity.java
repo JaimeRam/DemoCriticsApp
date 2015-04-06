@@ -18,7 +18,13 @@ import android.widget.TextView;
 
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
+import com.example.zorbel.service.GetProgramsData;
+import com.example.zorbel.service.GetSectionContent;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,21 +44,21 @@ public class SectionViewerActivity extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
+    //Index of subsections
+    private ListView mIndexListView;
+
 
     private TextView sectionTitle;
     private TextView sectionText;
 
     private Button commentButton;
-    //private TextView numComments;
     private Button likeButton;
-    //private TextView numLikes;
     private Button notUnderstoodButton;
-    //private TextView numNotUnderstood;
     private Button dislikeButton;
-    //private TextView numDislikes;
 
     private Section currentSection;
     private int politicalPartyGroupIndex;
+    private int sectionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,43 +68,58 @@ public class SectionViewerActivity extends ActionBarActivity {
         sectionTitle = (TextView) findViewById(R.id.sectionTitle);
         sectionText = (TextView) findViewById(R.id.textSection);
 
-        //REMOVE
-        sectionTitle.setText("1.1 Este es el titulo de la seccion");
-        sectionText.setText("Programa de inversiones y políticas públicas para la reactivación económica,\n" +
-                "la creación de empleo de calidad y la reconversión del modelo productivo\n" +
-                "hacia una economía basada en la innovación que contribuya al bien común\n" +
-                "teniendo en cuenta criterios de responsabilidad social, ética y medioambiental.\n" +
-                "Promoción del protagonismo de la pequeña y mediana empresa en la\n" +
-                "creación de empleo, resaltando el papel de las entidades de la economía\n" +
-                "social. Política de contratación pública favorable a la pequeña y mediana\n" +
-                "empresa que incluya cláusulas sociales en la adjudicación de los contratos.\n" +
-                "Reducción de la jornada laboral a 35 horas semanales y de la edad de\n" +
-                "jubilación a 60 años, como mecanismos para redistribuir equitativamente el\n" +
-                "trabajo y la riqueza, favoreciendo la conciliación familiar. Prohibición de los\n" +
-                "despidos en empresas con beneficios. Derogación de las reformas laborales\n" +
-                "implantadas desde el estallido de la crisis: 2010, 2012 y RD 3/2014.\n" +
-                "Establecimiento de mecanismos para combatir la precarización del empleo,\n" +
-                "especialmente en el empleo joven para contrarrestar el exilio juvenil.\n" +
-                "Eliminación de las Empresas de Trabajo Temporal. Incremento significativo del\n" +
-                "salario mínimo interprofesional y establecimiento de un salario máximo\n" +
-                "vinculado proporcionalmente al salario mínimo interprofesional . Derecho a\n" +
-                "disfrutar de una pensión pública no contributiva, de calidad y que garantice\n" +
-                "una vida decente tras la jubilación,su cuantía igualará como mínimo el salario\n" +
-                "mínimo interprofesional. Derogación de la última reforma de las pensiones y\n" +
-                "prohibición de la privatización o recortes del sistema público de pensiones.\n" +
-                "\n" +
-                "Establecimiento de políticas redistributivas para la reducción de la\n" +
-                "desigualdad social en el marco nacional y comunitario. Convergencia del\n" +
-                "gasto social sobre el PIB respecto al promedio de la Unión.");
-
         commentButton = (Button) findViewById(R.id.buttonComment);
         likeButton = (Button) findViewById(R.id.buttonLike);
         notUnderstoodButton = (Button) findViewById(R.id.buttonNotUnderstood);
         dislikeButton  = (Button) findViewById(R.id.buttonDislike);
 
+        mIndexListView =(ListView) findViewById(R.id.indexListView);
+
+        politicalPartyGroupIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
+        sectionId = getIntent().getExtras().getInt("SectionId");
+
+        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyGroupIndex, sectionId);
+
+        //if(currentSection.getmText() == null) { //TODO: check the condition (what if the section doesn't has text?)
+
+            getSectionContentData(currentSection.getmSection(), currentSection.getmPoliticalParty(), politicalPartyGroupIndex);
+
+       /* } else { //The section info has been already retrieved from the server
+
+            sectionTitle.setText(currentSection.getmTitle());
+            sectionText.setText(currentSection.getmText());
+
+            likeButton.setText(getString(R.string.name_buttonLike) + "/n" + "(" + currentSection.getNumLikes() + ")");
+            dislikeButton.setText(getString(R.string.name_buttonDislike) + "/n" + "(" + currentSection.getNumDislikes() + ")");
+            notUnderstoodButton.setText(getString(R.string.name_buttonNotUnderstood) + "/n" + "(" + currentSection.getNumNotUnderstoods() + ")");
+            commentButton.setText(getString(R.string.name_buttonComment) + "/n" + "(" + currentSection.getNumComments() + ")");
+
+            mIndexListView.setAdapter(new ListIndexAdapter(this,currentSection.getlSections()));
+
+        }*/
+
+        mIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent in = new Intent(SectionViewerActivity.this, SectionViewerActivity.class);
+
+                Section sec = (Section) parent.getItemAtPosition(position);
+                int section_id = sec.getmSection();
+
+                Bundle b = new Bundle();
+                b.putInt("PoliticalPartyIndex", politicalPartyGroupIndex);
+                b.putInt("SectionId", section_id);
+
+                in.putExtras(b);
+
+                startActivity(in);
+            }
+        });
+
         setMenus();
 
-        //createRightIndex();
+        createRightIndex();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -172,6 +193,25 @@ public class SectionViewerActivity extends ActionBarActivity {
         mRightIndexAdapter = new ExpandableIndexAdapter(this, headers, listDataChild);
         drawerListRight.setAdapter(mRightIndexAdapter);
 
+        drawerListRight.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                 //TODO: launch the new SectionViewer Activity
+
+                return false;
+            }
+        });
+
+        drawerListRight.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                //TODO: launch the new SectionViewer Activity
+                return false;
+            }
+        });
+
 
     }
 
@@ -188,7 +228,6 @@ public class SectionViewerActivity extends ActionBarActivity {
         return listSubSections;
 
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -268,12 +307,28 @@ public class SectionViewerActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(drawerListLeft);
     }
 
-
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+
+    private void getSectionContentData(int id_section, int id_politicalParty, int index) {
+        URL link = null;
+        try {
+            link = new URL("http://10.0.2.2/ServiceRest/public/getPoliticalProgram/" + id_politicalParty + "/" + id_section);
+
+            //Prepare post arguments
+            //String parameters = "section=" + URLEncoder.encode(Integer.toString(id_section), "UTF-8") + "&id_political_party=" + URLEncoder.encode(Integer.toString(id_politicalParty), "UTF-8");
+
+            GetSectionContent task = new GetSectionContent(this, findViewById(R.id.activitySectionViewerLayout), index);
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
