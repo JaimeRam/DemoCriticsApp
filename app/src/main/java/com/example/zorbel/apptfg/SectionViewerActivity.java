@@ -21,6 +21,8 @@ import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service.GetProgramsData;
 import com.example.zorbel.service.GetSectionContent;
 
+import org.w3c.dom.Comment;
+
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -112,8 +114,20 @@ public class SectionViewerActivity extends ActionBarActivity {
                 b.putInt("SectionId", section_id);
 
                 in.putExtras(b);
-
                 startActivity(in);
+            }
+        });
+
+        commentButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(SectionViewerActivity.this, CommentActivity.class);
+
+                Bundle b = new Bundle();
+                b.putInt("PoliticalPartyIndex", currentSection.getmPoliticalParty());
+                b.putInt("SectionId", sectionId);
+
+                i.putExtras(b);
+                startActivity(i);
             }
         });
 
@@ -347,7 +361,7 @@ public class SectionViewerActivity extends ActionBarActivity {
     private void getSectionContentData(int id_section, int id_politicalParty, int index) {
         URL link = null;
         try {
-            link = new URL("http://10.0.2.2/ServiceRest/public/getPoliticalProgram/" + id_politicalParty + "/" + id_section);
+            link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + id_politicalParty + "/section/" + id_section);
 
             //Prepare post arguments
             //String parameters = "section=" + URLEncoder.encode(Integer.toString(id_section), "UTF-8") + "&id_political_party=" + URLEncoder.encode(Integer.toString(id_politicalParty), "UTF-8");

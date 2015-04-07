@@ -39,5 +39,6 @@
     <string name="name_buttonDislike">No me gusta</string>
     <string name="name_buttonNotUnderstood">No lo entiendo</string>
     <string name="name_buttonComment">Comentar</string>
+    <string name="title_activity_comment">CommentActivity</string>
 
 </resources>
