@@ -20,6 +20,8 @@ import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service.GetProgramsData;
 import com.example.zorbel.service.GetSectionContent;
+import com.example.zorbel.service.PostComment;
+import com.example.zorbel.service.PutOpinion;
 
 import org.w3c.dom.Comment;
 
@@ -128,6 +130,54 @@ public class SectionViewerActivity extends ActionBarActivity {
 
                 i.putExtras(b);
                 startActivity(i);
+            }
+        });
+
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                URL link = null;
+
+                try {
+                    link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/like");
+
+                    PutOpinion task = new PutOpinion();
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        dislikeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                URL link = null;
+
+                try {
+                    link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/dislike");
+
+                    PutOpinion task = new PutOpinion();
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        notUnderstoodButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                URL link = null;
+
+                try {
+                    link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/notUnderstood");
+
+                    PutOpinion task = new PutOpinion();
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
