@@ -53,6 +53,8 @@ public class PostComment extends AsyncTask<URL, Void, Void> {
             con.setReadTimeout(10000);
             con.setConnectTimeout(15000);
             con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded");
             con.setDoInput(true);
             con.setDoOutput(true);
 
@@ -62,6 +64,8 @@ public class PostComment extends AsyncTask<URL, Void, Void> {
             writer.flush();
             writer.close();
             os.close();
+
+            int statusCode = con.getResponseCode();
 
             con.connect();
 
