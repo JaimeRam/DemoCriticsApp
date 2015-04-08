@@ -9,14 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.zorbel.service.GetSectionContent;
 import com.example.zorbel.service.PostComment;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class CommentActivity extends ActionBarActivity {
+public class CommentsActivity extends ActionBarActivity {
 
     private ListView listViewComments;
     private EditText editTextComment;
@@ -28,7 +27,7 @@ public class CommentActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment);
+        setContentView(R.layout.activity_comments);
         listViewComments = (ListView) findViewById(R.id.listViewComments);
         editTextComment = (EditText) findViewById(R.id.editTextComment);
         buttonSendComment = (Button) findViewById(R.id.buttonSendComment);
