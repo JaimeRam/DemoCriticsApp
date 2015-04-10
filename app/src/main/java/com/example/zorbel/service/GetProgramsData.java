@@ -80,13 +80,12 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }  finally {
+        } finally {
             if (con != null) {
                 con.disconnect();
             }
         }
 
-        Log.d("JSON", "     :      " + builder.toString() + "  ");
         getPoliticalProgram(builder.toString(), politicalProgramId);
 
         return null;
@@ -149,7 +148,6 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
     }
 
     protected int createIndex(Section parent, List<Section> JSONResult, int index) {
-
         // X = currentSection
         Section currentSection = JSONResult.get(index);
 
@@ -157,8 +155,6 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
             parent.setlSections(new ArrayList<Section>());
         }
         parent.addSubSection(currentSection);
-        Log.d("Index", currentSection.getmSection() + "  :  " + currentSection.getmTitle());
-        //P.hijo(X) ??
 
         // c = nextIndex
         int nextIndex = index + 1;
@@ -166,20 +162,15 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
         while ((nextIndex < JSONResult.size()) && (getLevel(JSONResult.get(nextIndex)) >= getLevel(currentSection))) {
 
             if (getLevel(JSONResult.get(nextIndex)) == getLevel(currentSection)) {
-
                 currentSection = JSONResult.get(nextIndex);
                 nextIndex++;
                 parent.addSubSection(currentSection);
-                Log.d("Index", currentSection.getmSection() + "  :  " + currentSection.getmTitle());
-            } else if (getLevel(JSONResult.get(nextIndex)) > getLevel(currentSection)) {
 
+            } else if (getLevel(JSONResult.get(nextIndex)) > getLevel(currentSection))
                 nextIndex = createIndex(currentSection, JSONResult, nextIndex);
-
-            }
         }
 
         return nextIndex;
-
     }
 
     protected int getLevel(Section sec) {
