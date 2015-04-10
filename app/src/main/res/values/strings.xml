@@ -13,7 +13,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_text_viewer">TextViewer</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_table_of_contents">TableOfContents</string>
 
     <string name="drawer_open">Menu Abierto!</string>
@@ -31,14 +30,18 @@
 
 
     <string name="text_dialog_downloading">Descargando datos... Espere por favor...</string>
+    <string name="text_dialog_uploading">Cargando datos... Espere por favor...</string>
 
     <string name="title_activity_political_program_index">Indice del Programa</string>
     <string name="title_activity_section_viewer">SectionViewerActivity</string>
+    <string name="title_activity_comment">Comentarios</string>
+
+    <string name="text_comment">Haz tu comentario:</string>
+    <string name="text_buttonDoComment">Enviar Comentario</string>
 
     <string name="name_buttonLike">Me gusta</string>
     <string name="name_buttonDislike">No me gusta</string>
     <string name="name_buttonNotUnderstood">No lo entiendo</string>
     <string name="name_buttonComment">Comentar</string>
-    <string name="title_activity_comment">CommentActivity</string>
 
 </resources>

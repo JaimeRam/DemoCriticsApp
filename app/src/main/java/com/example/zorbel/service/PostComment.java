@@ -1,6 +1,12 @@
 package com.example.zorbel.service;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.ListView;
+
+import com.example.zorbel.apptfg.CommentListAdapter;
+import com.example.zorbel.apptfg.R;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -30,11 +36,16 @@ public class PostComment extends AsyncTask<URL, Void, Void> {
     private String text;
     private List<NameValuePair> params;
 
-    public PostComment(int id_user, int section, int id_political_party, String text) {
+    private Context mContext;
+    private ProgressDialog pDialog;
+
+    public PostComment(Context context, int id_user, int section, int id_political_party, String text) {
         this.id_user = id_user;
         this.section = section;
         this.id_political_party = id_political_party;
         this.text = text;
+
+        this.mContext = context;
 
         this.params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("id_political_party", Integer.toString(id_political_party)));
@@ -82,7 +93,21 @@ public class PostComment extends AsyncTask<URL, Void, Void> {
         return null;
     }
 
-    private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException {
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage(mContext.getString(R.string.text_dialog_uploading));
+        pDialog.show();
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        pDialog.dismiss();
+    }
+
+    protected String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
 

@@ -18,17 +18,11 @@ import android.widget.TextView;
 
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
-import com.example.zorbel.service.GetProgramsData;
 import com.example.zorbel.service.GetSectionContent;
-import com.example.zorbel.service.PostComment;
 import com.example.zorbel.service.PutOpinion;
 
-import org.w3c.dom.Comment;
-
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -122,7 +116,7 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         commentButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(SectionViewerActivity.this, CommentActivity.class);
+                Intent i = new Intent(SectionViewerActivity.this, CommentsActivity.class);
 
                 Bundle b = new Bundle();
                 b.putInt("PoliticalPartyIndex", currentSection.getmPoliticalParty());
@@ -140,7 +134,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 try {
                     link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/like");
 
-                    PutOpinion task = new PutOpinion();
+                    PutOpinion task = new PutOpinion(SectionViewerActivity.this);
                     task.execute(link);
 
                 } catch (MalformedURLException e) {
@@ -156,7 +150,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 try {
                     link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/dislike");
 
-                    PutOpinion task = new PutOpinion();
+                    PutOpinion task = new PutOpinion(SectionViewerActivity.this);
                     task.execute(link);
 
                 } catch (MalformedURLException e) {
@@ -172,7 +166,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 try {
                     link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/notUnderstood");
 
-                    PutOpinion task = new PutOpinion();
+                    PutOpinion task = new PutOpinion(SectionViewerActivity.this);
                     task.execute(link);
 
                 } catch (MalformedURLException e) {

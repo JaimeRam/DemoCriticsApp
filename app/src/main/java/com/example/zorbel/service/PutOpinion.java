@@ -1,6 +1,10 @@
 package com.example.zorbel.service;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+
+import com.example.zorbel.apptfg.R;
 
 import org.apache.http.client.ClientProtocolException;
 
@@ -18,8 +22,11 @@ public class PutOpinion extends AsyncTask<URL, Void, Void> {
 
     private HttpURLConnection con;
 
-    public PutOpinion() {
+    private ProgressDialog pDialog;
+    private Context mContext;
 
+    public PutOpinion(Context mContext) {
+        this.mContext = mContext;
     }
 
     @Override
@@ -51,5 +58,19 @@ public class PutOpinion extends AsyncTask<URL, Void, Void> {
         }
 
         return null;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage(mContext.getString(R.string.text_dialog_uploading));
+        pDialog.show();
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        pDialog.dismiss();
     }
 }

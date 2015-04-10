@@ -51,7 +51,7 @@
             android:label="@string/title_activity_section_viewer" >
         </activity>
         <activity
-            android:name=".CommentActivity"
+            android:name=".CommentsActivity"
             android:label="@string/title_activity_comment" >
         </activity>
     </application>
