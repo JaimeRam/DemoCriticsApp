@@ -1,8 +1,10 @@
 package com.example.zorbel.service;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 
 import com.example.zorbel.apptfg.R;
 
@@ -24,9 +26,11 @@ public class PutOpinion extends AsyncTask<URL, Void, Void> {
 
     private ProgressDialog pDialog;
     private Context mContext;
+    private Activity mActivityRoot;
 
-    public PutOpinion(Context mContext) {
-        this.mContext = mContext;
+    public PutOpinion(Context context, Activity activityRoot) {
+        mContext = context;
+        mActivityRoot = activityRoot;
     }
 
     @Override
@@ -72,5 +76,6 @@ public class PutOpinion extends AsyncTask<URL, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         pDialog.dismiss();
+        mActivityRoot.recreate();
     }
 }

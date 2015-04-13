@@ -134,7 +134,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 try {
                     link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/like");
 
-                    PutOpinion task = new PutOpinion(SectionViewerActivity.this);
+                    PutOpinion task = new PutOpinion(SectionViewerActivity.this, SectionViewerActivity.this);
                     task.execute(link);
 
                 } catch (MalformedURLException e) {
@@ -150,7 +150,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 try {
                     link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/dislike");
 
-                    PutOpinion task = new PutOpinion(SectionViewerActivity.this);
+                    PutOpinion task = new PutOpinion(SectionViewerActivity.this, SectionViewerActivity.this);
                     task.execute(link);
 
                 } catch (MalformedURLException e) {
@@ -166,7 +166,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 try {
                     link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/notUnderstood");
 
-                    PutOpinion task = new PutOpinion(SectionViewerActivity.this);
+                    PutOpinion task = new PutOpinion(SectionViewerActivity.this, SectionViewerActivity.this);
                     task.execute(link);
 
                 } catch (MalformedURLException e) {
