@@ -119,7 +119,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 Intent i = new Intent(SectionViewerActivity.this, CommentsActivity.class);
 
                 Bundle b = new Bundle();
-                b.putInt("PoliticalPartyIndex", currentSection.getmPoliticalParty());
+                b.putInt("PoliticalPartyIndex", politicalPartyGroupIndex);
                 b.putInt("SectionId", sectionId);
 
                 i.putExtras(b);
