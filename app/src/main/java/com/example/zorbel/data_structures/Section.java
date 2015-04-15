@@ -14,6 +14,8 @@ public class Section {
     private int numNotUnderstoods;
     private int numComments;
 
+    private int numViews;
+
     public void setlSections(List<Section> lSections) {
         this.lSections = lSections;
     }
@@ -26,6 +28,17 @@ public class Section {
         this.mTitle = mTitle;
         this.mText = mText;
         this.lSections = lSections;
+    }
+
+    public Section(int mSection, int mPoliticalParty, String mTitle, int numLikes, int numDislikes, int numNotUnderstoods, int numComments, int numViews) {
+        this.mSection = mSection;
+        this.mPoliticalParty = mPoliticalParty;
+        this.mTitle = mTitle;
+        this.numLikes = numLikes;
+        this.numDislikes = numDislikes;
+        this.numNotUnderstoods = numNotUnderstoods;
+        this.numComments = numComments;
+        this.numViews = numViews;
     }
 
     public int getmSection() { return mSection; }
@@ -68,9 +81,7 @@ public class Section {
         return numNotUnderstoods;
     }
 
-    public void setNumNotUnderstoods(int numNotUnderstoods) {
-        this.numNotUnderstoods = numNotUnderstoods;
-    }
+    public void setNumNotUnderstoods(int numNotUnderstoods) { this.numNotUnderstoods = numNotUnderstoods; }
 
     public int getNumComments() {
         return numComments;
@@ -78,6 +89,14 @@ public class Section {
 
     public void setNumComments(int numComments) {
         this.numComments = numComments;
+    }
+
+    public int getNumViews() {
+        return numViews;
+    }
+
+    public void setNumViews(int numViews) {
+        this.numViews = numViews;
     }
 
     public void addSubSection (Section subSec) {
