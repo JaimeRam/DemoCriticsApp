@@ -100,8 +100,6 @@ public class GetPoliticalParties extends AsyncTask<URL, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         pDialog.dismiss();
-        GridView gridview = (GridView) mRootView.findViewById(R.id.gridview);
-        gridview.setAdapter(new PartyWidgetAdapter(mContext, PoliticalGroups.getInstance().getMlistOfPoliticalParties()));
 
     }
 

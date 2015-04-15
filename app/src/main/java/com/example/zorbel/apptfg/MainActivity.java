@@ -18,6 +18,11 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.zorbel.data_structures.PoliticalGroups;
+import com.example.zorbel.service.GetPoliticalParties;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +52,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getPoliticalPartiesData();
+
+
+        if (PoliticalGroups.getInstance().getMlistOfPoliticalParties() == null) {
+
+            getPoliticalPartiesData();
+
+        }
 
         //TABS
 
@@ -64,6 +75,14 @@ public class MainActivity extends ActionBarActivity {
                 mTabHost.newTabSpec(titleTab2).setIndicator(titleTab2, null),
                 ProposalsFragment.class, null);
 
+        createMenus();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+    }
+
+    public void createMenus() {
 
         //MENU LEFT NAV DRAWER
 
@@ -73,8 +92,6 @@ public class MainActivity extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //Obtener listview
         drawerListLeft = (ListView) findViewById(R.id.left_drawer);
-        drawerListRight = (ExpandableListView) findViewById(R.id.right_drawer);
-
 
         //Nueva lista de drawer items
         ArrayList<MenuLeftItem> items = new ArrayList<MenuLeftItem>();
@@ -106,11 +123,9 @@ public class MainActivity extends ActionBarActivity {
 
             public void onDrawerOpened(View drawerView) {
                 //Acciones que se ejecutan cuando se despliega el drawer
-                if (drawerLayout.isDrawerVisible(Gravity.END)) {
-                    getSupportActionBar().setTitle(getString(R.string.titleIndex));
-                } else {
-                    getSupportActionBar().setTitle(getString(R.string.titleMenu));
-                }
+
+                getSupportActionBar().setTitle(getString(R.string.titleMenu));
+
                 supportInvalidateOptionsMenu();
                 drawerToggle.syncState();
             }
@@ -118,9 +133,6 @@ public class MainActivity extends ActionBarActivity {
         //Seteamos la escucha
 
         drawerLayout.setDrawerListener(drawerToggle);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -130,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
         // If the nav drawer is open, hide action items related to the content view
         for (int i = 0; i < menu.size(); i++) {
 
-            if (drawerLayout.isDrawerOpen(drawerListLeft) || drawerLayout.isDrawerOpen(drawerListRight)) {
+            if (drawerLayout.isDrawerOpen(drawerListLeft)) {
                 menu.getItem(i).setVisible(false);
             } else {
                 menu.getItem(i).setVisible(true);
@@ -159,17 +171,8 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
 
-        if (id == R.id.index_action) {
-            drawerLayout.openDrawer(Gravity.END);
-        }
-
-
         if (drawerToggle.onOptionsItemSelected(item)) {
             // Toma los eventos de selección del toggle aquí
-
-            if (drawerLayout.isDrawerVisible(Gravity.END)) {
-                drawerLayout.closeDrawer(Gravity.END);
-            }
 
             return true;
         }
@@ -221,6 +224,19 @@ public class MainActivity extends ActionBarActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+
+    private void getPoliticalPartiesData() {
+        URL link = null;
+        try {
+            link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty");
+            GetPoliticalParties task = new GetPoliticalParties(this, findViewById(R.id.activityPartiesLayout));
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -103,7 +103,6 @@ public class CommentsActivity extends ActionBarActivity {
         items.add(new MenuLeftItem(tagTitles[2]));
         items.add(new MenuLeftItem(tagTitles[3]));
 
-
         // Relacionar el adaptador y la escucha de la lista del drawer
         drawerListLeft.setAdapter(new MenuLeftListAdapter(this, items));
 
