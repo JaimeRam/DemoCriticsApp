@@ -1,5 +1,6 @@
 package com.example.zorbel.data_structures;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,5 +52,10 @@ public class PoliticalGroups {
         }
 
         return sect;
+    }
+
+    public PoliticalParty getPoliticalParty(int id) {
+        int index = Collections.binarySearch(mlistOfPoliticalParties, id);
+        return mlistOfPoliticalParties.get(index);
     }
 }
