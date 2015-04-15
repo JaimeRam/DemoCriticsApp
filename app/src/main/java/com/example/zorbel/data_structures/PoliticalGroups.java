@@ -55,7 +55,20 @@ public class PoliticalGroups {
     }
 
     public PoliticalParty getPoliticalParty(int id) {
-        int index = Collections.binarySearch(mlistOfPoliticalParties, id);
-        return mlistOfPoliticalParties.get(index);
+
+        /*for (PoliticalParty p : mlistOfPoliticalParties) {
+            if (id == p.getmId())
+                return p;
+        }*/
+
+        PoliticalParty p = null;
+
+        for (int i = 0; i < mlistOfPoliticalParties.size(); i++) {
+            PoliticalParty aux = mlistOfPoliticalParties.get(i);
+            if (id == aux.getmId())
+                p = aux;
+        }
+
+        return p;
     }
 }

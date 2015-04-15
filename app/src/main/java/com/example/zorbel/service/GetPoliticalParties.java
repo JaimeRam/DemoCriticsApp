@@ -100,7 +100,8 @@ public class GetPoliticalParties extends AsyncTask<URL, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         pDialog.dismiss();
-
+        PoliticalParty p = PoliticalGroups.getInstance().getPoliticalParty(3);
+        int i = 0;
     }
 
     private void getPoliticalParties(String jsonStr) {

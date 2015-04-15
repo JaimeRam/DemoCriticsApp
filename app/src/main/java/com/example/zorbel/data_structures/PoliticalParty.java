@@ -2,9 +2,9 @@ package com.example.zorbel.data_structures;
 
 import android.graphics.Bitmap;
 
-public class PoliticalParty implements Comparable<Integer> {
+public class PoliticalParty {
 
-    private Integer mId;
+    private int mId;
     private String mName;
     private Bitmap mLogo;
     private Section mSectionRoot;
@@ -34,10 +34,5 @@ public class PoliticalParty implements Comparable<Integer> {
 
     public void setmSectionRoot(Section root) {
         this.mSectionRoot = root;
-    }
-
-    @Override
-    public int compareTo(Integer another) {
-        return mId.compareTo(another);
     }
 }

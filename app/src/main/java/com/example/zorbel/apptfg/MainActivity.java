@@ -54,11 +54,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-        if (PoliticalGroups.getInstance().getMlistOfPoliticalParties() == null) {
-
+        if (PoliticalGroups.getInstance().getMlistOfPoliticalParties() == null)
             getPoliticalPartiesData();
-
-        }
 
         //TABS
 
