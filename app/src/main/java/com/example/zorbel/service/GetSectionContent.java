@@ -89,7 +89,6 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
             }
         }
 
-        Log.d("JSON", "     :      " + builder.toString() + "  ");
         getSectionData(builder.toString());
 
         return null;

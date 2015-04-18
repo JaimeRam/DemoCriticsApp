@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.zorbel.service.GetSectionContent;
 import com.example.zorbel.service.GetTopIndex;
 
 import java.net.MalformedURLException;
@@ -39,7 +38,7 @@ public class ProgramsFragment extends Fragment {
     }
 
     private void getTop3Ranking(View rootView) {
-        URL link = null;
+        URL link;
         try {
             link = new URL("http://10.0.2.2/ServiceRest/public/top");
 

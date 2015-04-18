@@ -25,7 +25,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -175,7 +174,7 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
 
     protected int getLevel(Section sec) {
 
-        int id_sec = sec.getmSection(), level = -1;
+        int id_sec = sec.getmSection(), level;
 
         if (id_sec % 100 != 0) {
             level = 4;

@@ -8,9 +8,7 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.GridView;
 
-import com.example.zorbel.apptfg.PartyWidgetAdapter;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.PoliticalParty;
@@ -100,8 +98,6 @@ public class GetPoliticalParties extends AsyncTask<URL, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         pDialog.dismiss();
-        PoliticalParty p = PoliticalGroups.getInstance().getPoliticalParty(3);
-        int i = 0;
     }
 
     private void getPoliticalParties(String jsonStr) {

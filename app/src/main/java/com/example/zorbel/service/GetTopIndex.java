@@ -1,6 +1,5 @@
 package com.example.zorbel.service;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,10 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.example.zorbel.apptfg.CommentListAdapter;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.TopItemAdapter;
-import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 
 import org.apache.http.client.ClientProtocolException;

@@ -3,9 +3,7 @@ package com.example.zorbel.service;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.ListView;
 
-import com.example.zorbel.apptfg.CommentListAdapter;
 import com.example.zorbel.apptfg.R;
 
 import org.apache.http.NameValuePair;
@@ -22,7 +20,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes;
 
 /**
  * Created by jaime on 7/04/15.
@@ -56,7 +53,6 @@ public class PostComment extends AsyncTask<URL, Void, Void> {
 
     @Override
     protected Void doInBackground(URL... urls) {
-        StringBuilder builder = new StringBuilder();
 
         try {
             // Establecer la conexión

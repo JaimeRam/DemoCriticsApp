@@ -15,7 +15,6 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by javier on 2/04/15.

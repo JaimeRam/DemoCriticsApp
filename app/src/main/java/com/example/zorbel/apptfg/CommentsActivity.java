@@ -17,7 +17,6 @@ import android.widget.ListView;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service.GetComments;
-import com.example.zorbel.service.GetSectionContent;
 import com.example.zorbel.service.PostComment;
 
 import java.net.MalformedURLException;
@@ -66,7 +65,7 @@ public class CommentsActivity extends ActionBarActivity {
 
         buttonSendComment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                URL link = null;
+                URL link;
 
                 try {
                     link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/comment");
@@ -217,7 +216,7 @@ public class CommentsActivity extends ActionBarActivity {
     }
 
     private void getSectionComments(int id_section, int id_politicalParty) {
-        URL link = null;
+        URL link;
         try {
             link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + id_politicalParty + "/section/" + id_section + "/comment");
 

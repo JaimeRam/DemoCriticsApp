@@ -1,6 +1,5 @@
 package com.example.zorbel.data_structures;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

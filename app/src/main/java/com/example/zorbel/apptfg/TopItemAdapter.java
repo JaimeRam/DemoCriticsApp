@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zorbel.data_structures.Comment;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Section;
