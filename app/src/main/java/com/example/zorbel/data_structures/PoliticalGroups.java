@@ -7,8 +7,8 @@ import java.util.List;
  */
 public class PoliticalGroups {
 
-    private List<PoliticalParty> mlistOfPoliticalParties;
     private static PoliticalGroups INSTANCE = new PoliticalGroups();
+    private List<PoliticalParty> mlistOfPoliticalParties;
 
     private PoliticalGroups() {
 
@@ -18,12 +18,12 @@ public class PoliticalGroups {
         return INSTANCE;
     }
 
-    public void setMlistOfPoliticalParties(List<PoliticalParty> mlistOfPoliticalParties) {
-        this.mlistOfPoliticalParties = mlistOfPoliticalParties;
-    }
-
     public List<PoliticalParty> getMlistOfPoliticalParties() {
         return mlistOfPoliticalParties;
+    }
+
+    public void setMlistOfPoliticalParties(List<PoliticalParty> mlistOfPoliticalParties) {
+        this.mlistOfPoliticalParties = mlistOfPoliticalParties;
     }
 
     public Section getSection(int index_political_party, int section) {

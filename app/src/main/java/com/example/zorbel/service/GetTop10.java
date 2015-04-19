@@ -38,7 +38,7 @@ public class GetTop10 extends AsyncTask<URL, Void, Void> {
     private static final String TAG_SECTION_LIKES = "likes";
     private static final String TAG_SECTION_NOT_UNDERSTOOD = "not_understood";
     private static final String TAG_SECTION_DISLIKES = "dislikes";
-    private static final String TAG_SECTION_NUM_COMMENTS= "comments";
+    private static final String TAG_SECTION_NUM_COMMENTS = "comments";
 
     private HttpURLConnection con;
     private Context mContext;

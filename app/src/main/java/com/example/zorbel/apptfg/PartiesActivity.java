@@ -3,9 +3,9 @@ package com.example.zorbel.apptfg;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,7 +73,6 @@ public class PartiesActivity extends ActionBarActivity {
         });
 
 
-
     }
 
     public void createMenus() {
@@ -118,7 +117,7 @@ public class PartiesActivity extends ActionBarActivity {
             public void onDrawerOpened(View drawerView) {
                 //Acciones que se ejecutan cuando se despliega el drawer
 
-                    getSupportActionBar().setTitle(getString(R.string.titleMenu));
+                getSupportActionBar().setTitle(getString(R.string.titleMenu));
 
                 supportInvalidateOptionsMenu();
                 drawerToggle.syncState();
@@ -195,14 +194,6 @@ public class PartiesActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(drawerListLeft);
     }
 
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     private void getPoliticalPartiesData() {
         URL link = null;
         try {
@@ -214,5 +205,12 @@ public class PartiesActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
     }
 }

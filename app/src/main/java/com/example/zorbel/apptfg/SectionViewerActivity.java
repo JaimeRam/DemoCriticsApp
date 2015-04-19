@@ -2,9 +2,9 @@ package com.example.zorbel.apptfg;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -69,9 +69,9 @@ public class SectionViewerActivity extends ActionBarActivity {
         commentButton = (Button) findViewById(R.id.buttonComment);
         likeButton = (Button) findViewById(R.id.buttonLike);
         notUnderstoodButton = (Button) findViewById(R.id.buttonNotUnderstood);
-        dislikeButton  = (Button) findViewById(R.id.buttonDislike);
+        dislikeButton = (Button) findViewById(R.id.buttonDislike);
 
-        mIndexListView =(ListView) findViewById(R.id.indexListView);
+        mIndexListView = (ListView) findViewById(R.id.indexListView);
 
         politicalPartyGroupIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
         sectionId = getIntent().getExtras().getInt("SectionId");
@@ -80,7 +80,7 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         //if(currentSection.getmText() == null) { //TODO: check the condition (what if the section doesn't has text?)
 
-            getSectionContentData(currentSection.getmSection(), currentSection.getmPoliticalParty(), politicalPartyGroupIndex);
+        getSectionContentData(currentSection.getmSection(), currentSection.getmPoliticalParty(), politicalPartyGroupIndex);
 
        /* } else { //The section info has been already retrieved from the server
 
@@ -255,7 +255,7 @@ public class SectionViewerActivity extends ActionBarActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-                 //TODO: launch the new SectionViewer Activity
+                //TODO: launch the new SectionViewer Activity
 
                 Intent in = new Intent(SectionViewerActivity.this, SectionViewerActivity.class);
 
@@ -395,13 +395,6 @@ public class SectionViewerActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(drawerListLeft);
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     private void getSectionContentData(int id_section, int id_politicalParty, int index) {
         URL link = null;
         try {
@@ -417,6 +410,13 @@ public class SectionViewerActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
     }
 
 }

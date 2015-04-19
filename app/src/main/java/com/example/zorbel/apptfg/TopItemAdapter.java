@@ -45,8 +45,8 @@ public class TopItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
-            LayoutInflater inflater = (LayoutInflater)parent.getContext().
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) parent.getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.top_ranking_item, null);
         }
@@ -81,7 +81,6 @@ public class TopItemAdapter extends BaseAdapter {
         numViews.setText(Integer.toString(item.getNumViews()));
 
         return convertView;
-
 
 
     }

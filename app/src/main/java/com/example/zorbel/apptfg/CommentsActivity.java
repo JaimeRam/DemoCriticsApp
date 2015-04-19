@@ -1,14 +1,18 @@
 package com.example.zorbel.apptfg;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +55,7 @@ public class CommentsActivity extends ActionBarActivity {
         listViewComments = (ListView) findViewById(R.id.listViewComments);
         editTextComment = (EditText) findViewById(R.id.editTextComment);
         buttonSendComment = (Button) findViewById(R.id.buttonSendComment);
+        buttonSendComment.setEnabled(false);
 
         politicalPartyIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
         sectionId = getIntent().getExtras().getInt("SectionId");
@@ -69,18 +74,47 @@ public class CommentsActivity extends ActionBarActivity {
                     link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/comment");
 
                     //TODO: set the user for the comment
-                    PostComment task = new PostComment(CommentsActivity.this, 1,  sectionId, politicalPartyIndex, editTextComment.getText().toString());
+                    PostComment task = new PostComment(CommentsActivity.this, 1, editTextComment.getText().toString(), findViewById(R.id.activityCommentsLayout));
                     task.execute(link);
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
 
+                editTextComment.setText("");
+                InputMethodManager imm = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editTextComment.getWindowToken(), 0);
+            }
+        });
+
+        editTextComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                enableSubmitIfReady();
             }
         });
     }
 
+    private void enableSubmitIfReady() {
 
+        boolean isReady = editTextComment.getText().toString().length() > 3;
+
+        if (isReady)
+            buttonSendComment.setEnabled(true);
+        else
+            buttonSendComment.setEnabled(false);
+    }
 
     public void createMenus() {
 
@@ -206,13 +240,6 @@ public class CommentsActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(drawerListLeft);
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     private void getSectionComments(int id_section, int id_politicalParty) {
         URL link;
         try {
@@ -225,5 +252,12 @@ public class CommentsActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
     }
 }

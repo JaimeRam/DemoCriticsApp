@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:textSize="20dp"
         android:layout_margin="5dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/commentDate"
@@ -24,13 +24,13 @@
         android:gravity="right"
         android:layout_toRightOf="@id/commentUser"
         android:layout_margin="5dp"
-        android:textStyle="italic"/>
+        android:textStyle="italic" />
 
-        <TextView
-            android:id="@+id/commentText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_below="@id/commentUser"/>
+    <TextView
+        android:id="@+id/commentText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_below="@id/commentUser" />
 
 </RelativeLayout>

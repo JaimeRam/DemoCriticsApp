@@ -15,11 +15,6 @@ public class Section {
     private int numComments;
 
     private int numViews;
-
-    public void setlSections(List<Section> lSections) {
-        this.lSections = lSections;
-    }
-
     private List<Section> lSections;
 
     public Section(int mSection, int mPoliticalParty, String mTitle, String mText, List<Section> lSections) {
@@ -41,24 +36,32 @@ public class Section {
         this.numViews = numViews;
     }
 
-    public int getmSection() { return mSection; }
+    public int getmSection() {
+        return mSection;
+    }
 
     public String getmTitle() {
         return mTitle;
     }
 
-    public int getmPoliticalParty() {return mPoliticalParty; }
+    public int getmPoliticalParty() {
+        return mPoliticalParty;
+    }
 
     public String getmText() {
         return mText;
+    }
+
+    public void setmText(String mText) {
+        this.mText = mText;
     }
 
     public List<Section> getlSections() {
         return lSections;
     }
 
-    public void setmText(String mText) {
-        this.mText = mText;
+    public void setlSections(List<Section> lSections) {
+        this.lSections = lSections;
     }
 
     public int getNumLikes() {
@@ -81,7 +84,9 @@ public class Section {
         return numNotUnderstoods;
     }
 
-    public void setNumNotUnderstoods(int numNotUnderstoods) { this.numNotUnderstoods = numNotUnderstoods; }
+    public void setNumNotUnderstoods(int numNotUnderstoods) {
+        this.numNotUnderstoods = numNotUnderstoods;
+    }
 
     public int getNumComments() {
         return numComments;
@@ -99,7 +104,7 @@ public class Section {
         this.numViews = numViews;
     }
 
-    public void addSubSection (Section subSec) {
+    public void addSubSection(Section subSec) {
         this.lSections.add(subSec);
     }
 }

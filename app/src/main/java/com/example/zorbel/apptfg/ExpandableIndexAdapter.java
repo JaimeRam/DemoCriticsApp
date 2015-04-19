@@ -26,7 +26,7 @@ public class ExpandableIndexAdapter extends BaseExpandableListAdapter {
     private HashMap<Section, List<Section>> _listDataChild;
 
     public ExpandableIndexAdapter(Context context, List<Section> listDataHeader,
-                                 HashMap<Section, List<Section>> listChildData) {
+                                  HashMap<Section, List<Section>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -62,7 +62,7 @@ public class ExpandableIndexAdapter extends BaseExpandableListAdapter {
 
         txtListChild.setText(childText);
         txtListChild.setTextColor(Color.WHITE);
-        txtListChild.setPadding(10,5,0,5);
+        txtListChild.setPadding(10, 5, 0, 5);
 
         return convertView;
     }

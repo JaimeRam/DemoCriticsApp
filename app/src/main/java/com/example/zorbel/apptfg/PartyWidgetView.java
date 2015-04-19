@@ -35,7 +35,7 @@ public class PartyWidgetView extends RelativeLayout {
 
         String infService = Context.LAYOUT_INFLATER_SERVICE;
         LayoutInflater li =
-                (LayoutInflater)getContext().getSystemService(infService);
+                (LayoutInflater) getContext().getSystemService(infService);
         li.inflate(R.layout.party_widget, this, true);
 
         logo = (ImageView) findViewById(R.id.partyLogo);

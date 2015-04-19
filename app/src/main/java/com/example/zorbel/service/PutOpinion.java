@@ -31,7 +31,7 @@ public class PutOpinion extends AsyncTask<URL, Void, Void> {
     private static final String TAG_SECTION_LIKES = "likes";
     private static final String TAG_SECTION_NOT_UNDERSTOOD = "not_understood";
     private static final String TAG_SECTION_DISLIKES = "dislikes";
-    private static final String TAG_SECTION_NUM_COMMENTS= "comments";
+    private static final String TAG_SECTION_NUM_COMMENTS = "comments";
 
     private HttpURLConnection con;
     private ProgressDialog pDialog;
@@ -111,7 +111,7 @@ public class PutOpinion extends AsyncTask<URL, Void, Void> {
     private void updateCounters() {
         Button likeButton = (Button) mRootView.findViewById(R.id.buttonLike);
         Button notUnderstoodButton = (Button) mRootView.findViewById(R.id.buttonNotUnderstood);
-        Button dislikeButton  = (Button) mRootView.findViewById(R.id.buttonDislike);
+        Button dislikeButton = (Button) mRootView.findViewById(R.id.buttonDislike);
         Button commentButton = (Button) mRootView.findViewById(R.id.buttonComment);
 
         likeButton.setText(mContext.getString(R.string.name_buttonLike) + "\n" + "(" + mListCounters[0] + ")");

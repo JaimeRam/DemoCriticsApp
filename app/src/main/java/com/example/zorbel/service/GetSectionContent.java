@@ -32,16 +32,14 @@ import java.net.URL;
 
 public class GetSectionContent extends AsyncTask<URL, Void, Void> {
 
-    private HttpURLConnection con;
-
     private static final String TAG_SECTION_ID = "section";
     private static final String TAG_SECTION_TITLE = "title";
     private static final String TAG_SECTION_TEXT = "text";
     private static final String TAG_SECTION_LIKES = "likes";
     private static final String TAG_SECTION_NOT_UNDERSTOOD = "not_understood";
     private static final String TAG_SECTION_DISLIKES = "dislikes";
-    private static final String TAG_SECTION_NUM_COMMENTS= "comments";
-
+    private static final String TAG_SECTION_NUM_COMMENTS = "comments";
+    private HttpURLConnection con;
     private Context mContext;
     private View mRootView;
     private int politicalProgramGroupIndex;
@@ -61,7 +59,7 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
     @Override
     protected Void doInBackground(URL... urls) {
 
-       StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
         try {
 
@@ -83,7 +81,7 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }  finally {
+        } finally {
             if (con != null) {
                 con.disconnect();
             }
@@ -119,9 +117,9 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
         Button commentButton = (Button) mRootView.findViewById(R.id.buttonComment);
         Button likeButton = (Button) mRootView.findViewById(R.id.buttonLike);
         Button notUnderstoodButton = (Button) mRootView.findViewById(R.id.buttonNotUnderstood);
-        Button dislikeButton  = (Button) mRootView.findViewById(R.id.buttonDislike);
+        Button dislikeButton = (Button) mRootView.findViewById(R.id.buttonDislike);
 
-        if(currentSection.getmTitle().equalsIgnoreCase("null")) { //Check if Section doesn't have text (its text is "null")
+        if (currentSection.getmTitle().equalsIgnoreCase("null")) { //Check if Section doesn't have text (its text is "null")
             sectionTitle.setText("No text");
         } else {
             sectionTitle.setText(currentSection.getmTitle());
@@ -129,13 +127,32 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
 
         sectionText.setText(currentSection.getmText());
 
-        likeButton.setText(mContext.getString(R.string.name_buttonLike) + "\n" + "(" + currentSection.getNumLikes() + ")");
-        dislikeButton.setText(mContext.getString(R.string.name_buttonDislike) + "\n" + "(" + currentSection.getNumDislikes() + ")");
-        notUnderstoodButton.setText(mContext.getString(R.string.name_buttonNotUnderstood) + "\n" + "(" + currentSection.getNumNotUnderstoods() + ")");
-        commentButton.setText(mContext.getString(R.string.name_buttonComment) + "\n" + "(" + currentSection.getNumComments() + ")");
+        if (sectionText.getText().toString().length() > 0) {
+            likeButton.setText(mContext.getString(R.string.name_buttonLike) + "\n" + "(" + currentSection.getNumLikes() + ")");
+            dislikeButton.setText(mContext.getString(R.string.name_buttonDislike) + "\n" + "(" + currentSection.getNumDislikes() + ")");
+            notUnderstoodButton.setText(mContext.getString(R.string.name_buttonNotUnderstood) + "\n" + "(" + currentSection.getNumNotUnderstoods() + ")");
+            commentButton.setText(mContext.getString(R.string.name_buttonComment) + "\n" + "(" + currentSection.getNumComments() + ")");
+        } else {
+         /*
+         * Esto sirve para eliminar los botones cuando la sección no contiene texto.
+         * Funciona perfectamente, pero el layout no se adapta bien cuando eliminas los elementos.
+         * Habrá que cambiar las propiedades del ListView.
+
+            RelativeLayout rl = (RelativeLayout) mRootView.findViewById(R.id.activitySectionViewerLayout);
+            rl.removeView(likeButton);
+            rl.removeView(dislikeButton);
+            rl.removeView(notUnderstoodButton);
+            rl.removeView(commentButton);
+            */
+
+            likeButton.setEnabled(false);
+            dislikeButton.setEnabled(false);
+            notUnderstoodButton.setEnabled(false);
+            commentButton.setEnabled(false);
+        }
 
         if (currentSection.getlSections() != null) { //Check if Section doesn't have subsections
-            ListView mIndexListView =(ListView) mRootView.findViewById(R.id.indexListView);
+            ListView mIndexListView = (ListView) mRootView.findViewById(R.id.indexListView);
             mIndexListView.setAdapter(new ListIndexAdapter(mContext, currentSection.getlSections()));
         }
 
@@ -148,24 +165,24 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
 
                 JSONObject s = new JSONObject(jsonStr);
 
-                    int id_section = s.getInt(TAG_SECTION_ID);
-                    String title = s.getString(TAG_SECTION_TITLE);
-                    String text = s.getString(TAG_SECTION_TEXT);
-                    int likes = s.getInt(TAG_SECTION_LIKES);
-                    int not_understood = s.getInt(TAG_SECTION_NOT_UNDERSTOOD);
-                    int dislikes = s.getInt(TAG_SECTION_DISLIKES);
+                int id_section = s.getInt(TAG_SECTION_ID);
+                String title = s.getString(TAG_SECTION_TITLE);
+                String text = s.getString(TAG_SECTION_TEXT);
+                int likes = s.getInt(TAG_SECTION_LIKES);
+                int not_understood = s.getInt(TAG_SECTION_NOT_UNDERSTOOD);
+                int dislikes = s.getInt(TAG_SECTION_DISLIKES);
 
-                    int num_comments = s.getInt(TAG_SECTION_NUM_COMMENTS);
+                int num_comments = s.getInt(TAG_SECTION_NUM_COMMENTS);
 
-                    currentSection = PoliticalGroups.getInstance().getSection(politicalProgramGroupIndex, id_section);
+                currentSection = PoliticalGroups.getInstance().getSection(politicalProgramGroupIndex, id_section);
 
-                    currentSection.setmText(text);
-                    currentSection.setNumLikes(likes);
-                    currentSection.setNumDislikes(dislikes);
-                    currentSection.setNumNotUnderstoods(not_understood);
-                    currentSection.setNumComments(num_comments);
+                currentSection.setmText(text);
+                currentSection.setNumLikes(likes);
+                currentSection.setNumDislikes(dislikes);
+                currentSection.setNumNotUnderstoods(not_understood);
+                currentSection.setNumComments(num_comments);
 
-                } catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 

@@ -23,8 +23,8 @@ public class CommentListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
-            LayoutInflater inflater = (LayoutInflater)parent.getContext().
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) parent.getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.comment_item, null);
         }

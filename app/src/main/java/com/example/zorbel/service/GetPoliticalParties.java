@@ -33,11 +33,10 @@ import java.util.List;
  */
 public class GetPoliticalParties extends AsyncTask<URL, Void, Void> {
 
-    private HttpURLConnection con;
     private static final String TAG_SECTION_ID = "id";
     private static final String TAG_SECTION_NAME = "name";
     private static final String TAG_SECTION_LOGO = "logo";
-
+    private HttpURLConnection con;
     private Context mContext;
     private View mRootView;
     private ProgressDialog pDialog;
@@ -74,7 +73,7 @@ public class GetPoliticalParties extends AsyncTask<URL, Void, Void> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }  finally {
+        } finally {
             if (con != null) {
                 con.disconnect();
             }

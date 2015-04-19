@@ -2,9 +2,9 @@ package com.example.zorbel.apptfg;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +50,7 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
 
         polParty = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex);
 
-        mIndexListView =(ListView) findViewById(R.id.indexListView);
+        mIndexListView = (ListView) findViewById(R.id.indexListView);
 
         if (polParty.getmSectionRoot() == null) {
             getProgramSectionsData(polParty.getmId(), polIndex);
@@ -128,7 +128,7 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
 
             public void onDrawerOpened(View drawerView) {
 
-                    getSupportActionBar().setTitle(getString(R.string.titleMenu));
+                getSupportActionBar().setTitle(getString(R.string.titleMenu));
 
                 supportInvalidateOptionsMenu();
                 drawerToggle.syncState();
@@ -212,13 +212,6 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(drawerListLeft);
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     private void getProgramSectionsData(int id, int index) {
         URL link = null;
         try {
@@ -230,5 +223,12 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
     }
 }

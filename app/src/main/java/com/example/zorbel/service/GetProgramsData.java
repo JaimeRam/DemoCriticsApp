@@ -32,11 +32,10 @@ import java.util.List;
  */
 public class GetProgramsData extends AsyncTask<URL, Void, Void> {
 
-    private HttpURLConnection con;
     private static final String TAG_SECTION_TITLE = "title";
     private static final String TAG_SECTION_ID = "section";
     private static final String TAG_SECTION_TEXT = "text";
-
+    private HttpURLConnection con;
     private Context mContext;
     private View mRootView;
     private int politicalProgramId;

@@ -43,7 +43,7 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
     private static final String TAG_TOP_LIKES = "top_likes";
     private static final String TAG_TOP_DISLIKES = "top_dislikes";
     private static final String TAG_TOP_NOT_UNDERSTOOD = "top_not_understood";
-    private static final String TAG_TOP_COMMENTS= "top_comments";
+    private static final String TAG_TOP_COMMENTS = "top_comments";
 
     private HttpURLConnection con;
     private Context mContext;
