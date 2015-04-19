@@ -44,4 +44,10 @@
     <string name="name_buttonNotUnderstood">No lo entiendo</string>
     <string name="name_buttonComment">Comentar</string>
 
+    <string name="name_headerMoreViews">Lo más visto</string>
+    <string name="name_headerMoreLikes">Lo que más gusta</string>
+    <string name="name_headerMoreDislikes">Lo que menos gusta</string>
+    <string name="name_headerMoreNotUnderstood">Lo menos entendido</string>
+    <string name="name_headerMoreComments">Lo más comentado</string>
+
 </resources>

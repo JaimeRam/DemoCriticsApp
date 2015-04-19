@@ -40,8 +40,6 @@ public class CommentsActivity extends ActionBarActivity {
 
     private int sectionId;
     private int politicalPartyIndex;
-    private int politicalPartyId;
-    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
