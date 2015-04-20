@@ -1,8 +1,10 @@
 package com.example.zorbel.data_structures;
 
+import com.example.zorbel.apptfg.TopItem;
+
 import java.util.List;
 
-public class Section {
+public class Section implements TopItem{
 
     private int mSection;
     private int mPoliticalParty;
@@ -106,5 +108,10 @@ public class Section {
 
     public void addSubSection(Section subSec) {
         this.lSections.add(subSec);
+    }
+
+    @Override
+    public boolean isSection() {
+        return true;
     }
 }

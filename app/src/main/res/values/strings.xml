@@ -36,8 +36,8 @@
     <string name="title_activity_section_viewer">SectionViewerActivity</string>
     <string name="title_activity_comment">Comentarios</string>
 
-    <string name="text_comment">Haz tu comentario:</string>
-    <string name="text_buttonDoComment">Enviar Comentario</string>
+    <string name="text_comment">Deja tu comentario...</string>
+    <string name="text_buttonDoComment">Enviar</string>
 
     <string name="name_buttonLike">Me gusta</string>
     <string name="name_buttonDislike">No me gusta</string>
@@ -49,5 +49,8 @@
     <string name="name_headerMoreDislikes">Lo que menos gusta</string>
     <string name="name_headerMoreNotUnderstood">Lo menos entendido</string>
     <string name="name_headerMoreComments">Lo más comentado</string>
+    <string name="title_activity_top10">Top10Activity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

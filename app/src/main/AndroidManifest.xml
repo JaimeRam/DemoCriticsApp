@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.zorbel.apptfg">
+    package="com.example.zorbel.apptfg" >
 
     <uses-sdk android:targetSdkVersion="20" />
 
@@ -10,10 +10,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,19 +22,23 @@
         </activity>
         <activity
             android:name=".PartiesActivity"
-            android:label="@string/title_activity_parties"></activity>
+            android:label="@string/title_activity_parties" />
         <activity
             android:name=".PoliticalProgramIndexActivity"
-            android:label="@string/title_activity_political_program_index"></activity>
+            android:label="@string/title_activity_political_program_index" />
         <activity
             android:name=".TemplateActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".SectionViewerActivity"
-            android:label="@string/title_activity_section_viewer"></activity>
+            android:label="@string/title_activity_section_viewer" />
         <activity
             android:name=".CommentsActivity"
-            android:label="@string/title_activity_comment"></activity>
+            android:label="@string/title_activity_comment" />
+        <activity
+            android:name=".Top10Activity"
+            android:label="@string/title_activity_top10" >
+        </activity>
     </application>
 
 </manifest>

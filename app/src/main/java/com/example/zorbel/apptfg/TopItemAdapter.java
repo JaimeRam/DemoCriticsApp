@@ -20,9 +20,9 @@ import java.util.ArrayList;
 public class TopItemAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<Section> list;
+    private ArrayList<TopItem> list;
 
-    public TopItemAdapter(Context mContext, ArrayList<Section> list) {
+    public TopItemAdapter(Context mContext, ArrayList<TopItem> list) {
         this.mContext = mContext;
         this.list = list;
     }
@@ -45,43 +45,63 @@ public class TopItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) parent.getContext().
-                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.top_ranking_item, null);
+        final TopItem it = list.get(position);
+
+        if (it != null) {
+
+                if (it.isSection()) {
+
+                    LayoutInflater inflater = (LayoutInflater) parent.getContext().
+                            getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    convertView = inflater.inflate(R.layout.top_ranking_item, null);
+
+                    ImageView partyLogo = (ImageView) convertView.findViewById(R.id.partyLogoTop);
+
+                    TextView titleSection = (TextView) convertView.findViewById(R.id.titleSectionTop);
+                    TextView nameParty = (TextView) convertView.findViewById(R.id.namePartyTop);
+
+                    TextView numLikes = (TextView) convertView.findViewById(R.id.numLikesTop);
+                    TextView numNotUnderstood = (TextView) convertView.findViewById(R.id.numNotUnderstoodTop);
+                    TextView numDislikes = (TextView) convertView.findViewById(R.id.numDislikesTop);
+                    TextView numComments = (TextView) convertView.findViewById(R.id.numCommentsTop);
+                    TextView numViews = (TextView) convertView.findViewById(R.id.numViewsTop);
+
+                    Section item = (Section) it;
+
+                    PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(item.getmPoliticalParty());
+
+                    partyLogo.setImageBitmap(pol.getmLogo());
+
+                    titleSection.setText(item.getmTitle());
+
+                    nameParty.setText(pol.getmName());
+
+                    numLikes.setText(Integer.toString(item.getNumLikes()));
+                    numNotUnderstood.setText(Integer.toString(item.getNumNotUnderstoods()));
+                    numDislikes.setText(Integer.toString(item.getNumDislikes()));
+                    numComments.setText(Integer.toString(item.getNumComments()));
+                    numViews.setText(Integer.toString(item.getNumViews()));
+
+
+                } else {  //item is a header
+
+                    LayoutInflater inflater = (LayoutInflater) parent.getContext().
+                            getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    convertView = inflater.inflate(R.layout.top_ranking_header, null);
+
+                    ImageView headerIcon = (ImageView) convertView.findViewById(R.id.headerTopImage);
+                    TextView headerText = (TextView) convertView.findViewById(R.id.headerTopText);
+
+                    TopHeaderItem header = (TopHeaderItem) it;
+
+                    headerIcon.setImageResource(header.getIconId());
+                    headerText.setText(header.getTitle());
+
+                }
+
         }
 
-
-        ImageView partyLogo = (ImageView) convertView.findViewById(R.id.partyLogoTop);
-
-        TextView titleSection = (TextView) convertView.findViewById(R.id.titleSectionTop);
-        TextView nameParty = (TextView) convertView.findViewById(R.id.namePartyTop);
-
-        TextView numLikes = (TextView) convertView.findViewById(R.id.numLikesTop);
-        TextView numNotUnderstood = (TextView) convertView.findViewById(R.id.numNotUnderstoodTop);
-        TextView numDislikes = (TextView) convertView.findViewById(R.id.numDislikesTop);
-        TextView numComments = (TextView) convertView.findViewById(R.id.numCommentsTop);
-        TextView numViews = (TextView) convertView.findViewById(R.id.numViewsTop);
-
-        Section item = (Section) getItem(position);
-
-
-        PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(item.getmPoliticalParty());
-
-        partyLogo.setImageBitmap(pol.getmLogo());
-
-        titleSection.setText(item.getmTitle());
-
-        nameParty.setText(pol.getmName());
-
-        numLikes.setText(Integer.toString(item.getNumLikes()));
-        numNotUnderstood.setText(Integer.toString(item.getNumNotUnderstoods()));
-        numDislikes.setText(Integer.toString(item.getNumDislikes()));
-        numComments.setText(Integer.toString(item.getNumComments()));
-        numViews.setText(Integer.toString(item.getNumViews()));
-
         return convertView;
-
 
     }
 }

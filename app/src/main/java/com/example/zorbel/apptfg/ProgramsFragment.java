@@ -1,13 +1,13 @@
 package com.example.zorbel.apptfg;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.zorbel.service.GetTopIndex;
 
@@ -17,11 +17,8 @@ import java.net.URL;
 
 public class ProgramsFragment extends Fragment {
 
-    private ListView moreViewsListView;
-    private ListView moreLikesListView;
-    private ListView moreNotUnderstoodListView;
-    private ListView moreDislikesListView;
-    private ListView moreCommentsListView;
+    private ListView topIndexListView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +30,7 @@ public class ProgramsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_programs, container, false);
 
-        setHeaders(rootView);
+        setListeners(rootView);
 
         getTop3Ranking(rootView);
 
@@ -41,51 +38,41 @@ public class ProgramsFragment extends Fragment {
 
     }
 
-    private void setHeaders(View rootView) {
+    private void setListeners(View rootView) {
 
         //set more Views header
 
-        moreViewsListView = (ListView) rootView.findViewById(R.id.moreViewsListView);
+        topIndexListView = (ListView) rootView.findViewById(R.id.topIndexListView);
 
-        View headerViews = getActivity().getLayoutInflater().inflate(R.layout.top_ranking_header, null);
+        topIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        ImageView imV = (ImageView) headerViews.findViewById(R.id.headerTopImage);
-        TextView tvV = (TextView) headerViews.findViewById(R.id.headerTopText);
+                TopItem it = (TopItem) parent.getItemAtPosition(position);
 
-        imV.setImageResource(R.mipmap.ic_views_eye);
-        tvV.setText(getString(R.string.name_headerMoreViews));
+                if (it != null) {
 
-        moreViewsListView.addHeaderView(headerViews, null, true);
+                    if (it.isSection()) {
 
+                        // TODO: launch the SectionViewerActivity
 
-        /*//set more Likes header
+                    } else {
 
-        moreLikesListView = (ListView) rootView.findViewById(R.id.moreLikesListView);
+                        TopHeaderItem header = (TopHeaderItem) it;
 
-        View headerLikes = getActivity().getLayoutInflater().inflate(R.layout.top_ranking_header, null);
+                        Intent in = new Intent(ProgramsFragment.this.getActivity(), Top10Activity.class);
 
-        ImageView imL = (ImageView) headerViews.findViewById(R.id.headerTopImage);
-        TextView tvL = (TextView) headerViews.findViewById(R.id.headerTopText);
+                        Bundle b = new Bundle();
+                        b.putString("TopURL", header.getHeaderType());
 
-        imL.setImageResource(R.mipmap.ic_greenlike);
-        tvL.setText(getString(R.string.name_headerMoreLikes));
+                        in.putExtras(b);
 
-        moreLikesListView.addHeaderView(headerLikes, null, true);
-*/
+                        startActivity(in);
 
-       /* //set more Comments header
-
-        moreCommentsListView = (ListView) rootView.findViewById(R.id.moreCommentsListView);
-
-        View headerComments = getActivity().getLayoutInflater().inflate(R.layout.top_ranking_header, null);
-
-        ImageView imC = (ImageView) headerViews.findViewById(R.id.headerTopImage);
-        TextView tvC = (TextView) headerViews.findViewById(R.id.headerTopText);
-
-        imC.setImageResource(R.mipmap.ic_commentwhite);
-        tvC.setText(getString(R.string.name_headerMoreComments));
-
-        moreCommentsListView.addHeaderView(headerComments, null, true);*/
+                    }
+                }
+            }
+        });
 
     }
 

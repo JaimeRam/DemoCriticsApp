@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.apptfg.TopHeaderItem;
+import com.example.zorbel.apptfg.TopItem;
 import com.example.zorbel.apptfg.TopItemAdapter;
 import com.example.zorbel.data_structures.Section;
 
@@ -45,16 +47,15 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
     private static final String TAG_TOP_NOT_UNDERSTOOD = "top_not_understood";
     private static final String TAG_TOP_COMMENTS = "top_comments";
 
+
+
     private HttpURLConnection con;
     private Context mContext;
     private View mRootView;
     private ProgressDialog pDialog;
 
-    private ArrayList<Section> listTopViews;
-    private ArrayList<Section> listTopLikes;
-    private ArrayList<Section> listTopDislikes;
-    private ArrayList<Section> listTopNotUnderstood;
-    private ArrayList<Section> listTopComments;
+    private ArrayList<TopItem> listTop;
+
 
     public GetTopIndex(Context mContext, View mRootView) {
         this.mContext = mContext;
@@ -104,7 +105,11 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
 
                 //Processing the views top 3
 
-                listTopViews = new ArrayList<Section>();
+                listTop = new ArrayList<TopItem>();
+
+                TopHeaderItem hV = new TopHeaderItem(TAG_VIEWS, mContext.getString(R.string.name_headerMoreViews), R.mipmap.ic_views_eye);
+
+                listTop.add(hV);
 
                 JSONArray arV = s.getJSONArray(TAG_TOP_VIEWS);
 
@@ -124,14 +129,16 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
 
                     Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
 
-                    listTopViews.add(sec);
+                    listTop.add(sec);
 
                 }
 
 
                 //Processing the likes top 3
 
-                listTopLikes = new ArrayList<Section>();
+                TopHeaderItem hL = new TopHeaderItem(TAG_LIKES, mContext.getString(R.string.name_headerMoreLikes), R.mipmap.ic_greenlike);
+
+                listTop.add(hL);
 
                 JSONArray arL = s.getJSONArray(TAG_TOP_LIKES);
 
@@ -151,14 +158,16 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
 
                     Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
 
-                    listTopLikes.add(sec);
+                    listTop.add(sec);
 
                 }
 
 
                 //Processing the dislikes top 3
 
-                listTopDislikes = new ArrayList<Section>();
+                TopHeaderItem hD = new TopHeaderItem(TAG_DISLIKES, mContext.getString(R.string.name_headerMoreDislikes), R.mipmap.ic_reddislike);
+
+                listTop.add(hD);
 
                 JSONArray arD = s.getJSONArray(TAG_TOP_DISLIKES);
 
@@ -178,14 +187,16 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
 
                     Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
 
-                    listTopDislikes.add(sec);
+                    listTop.add(sec);
 
                 }
 
 
                 //Processing the not understood top 3
 
-                listTopNotUnderstood = new ArrayList<Section>();
+                TopHeaderItem hN = new TopHeaderItem(TAG_NOT_UNDERSTOOD, mContext.getString(R.string.name_headerMoreNotUnderstood), R.mipmap.ic_bluenotunderstood);
+
+                listTop.add(hN);
 
                 JSONArray arN = s.getJSONArray(TAG_TOP_NOT_UNDERSTOOD);
 
@@ -205,14 +216,16 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
 
                     Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
 
-                    listTopNotUnderstood.add(sec);
+                    listTop.add(sec);
 
                 }
 
 
                 //Processing the comments top 3
 
-                listTopComments = new ArrayList<Section>();
+                TopHeaderItem hC = new TopHeaderItem(TAG_COMMENTS, mContext.getString(R.string.name_headerMoreComments), R.mipmap.ic_commentwhite);
+
+                listTop.add(hC);
 
                 JSONArray arC = s.getJSONArray(TAG_TOP_COMMENTS);
 
@@ -232,7 +245,7 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
 
                     Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
 
-                    listTopComments.add(sec);
+                    listTop.add(sec);
 
                 }
 
@@ -250,20 +263,8 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
     private void showTop() {
         //TODO: Show data
 
-        ListView moreViewsListView = (ListView) mRootView.findViewById(R.id.moreViewsListView);
-        moreViewsListView.setAdapter(new TopItemAdapter(mContext, listTopViews));
-
-        ListView moreLikesListView = (ListView) mRootView.findViewById(R.id.moreLikesListView);
-        moreLikesListView.setAdapter(new TopItemAdapter(mContext, listTopLikes));
-
-        ListView moreNotUnderstoodListView = (ListView) mRootView.findViewById(R.id.moreNotUnderstoodListView);
-        moreNotUnderstoodListView.setAdapter(new TopItemAdapter(mContext, listTopNotUnderstood));
-
-        ListView moreDislikesListView = (ListView) mRootView.findViewById(R.id.moreDislikesListView);
-        moreDislikesListView.setAdapter(new TopItemAdapter(mContext, listTopDislikes));
-
-        ListView moreCommentsListView = (ListView) mRootView.findViewById(R.id.moreCommentsListView);
-        moreCommentsListView.setAdapter(new TopItemAdapter(mContext, listTopComments));
+        ListView topListView = (ListView) mRootView.findViewById(R.id.topIndexListView);
+        topListView.setAdapter(new TopItemAdapter(mContext, listTop));
 
     }
 

@@ -1,41 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/moreViewsListView"
-        android:layout_centerHorizontal="true" />
-
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/moreLikesListView"
-        android:layout_below="@id/moreViewsListView"
-        android:layout_centerHorizontal="true" />
-
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/moreNotUnderstoodListView"
-        android:layout_below="@id/moreLikesListView"
-        android:layout_centerHorizontal="true" />
-
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/moreDislikesListView"
-        android:layout_below="@id/moreNotUnderstoodListView"
-        android:layout_centerHorizontal="true" />
-
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/moreCommentsListView"
-        android:layout_below="@id/moreDislikesListView"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/topIndexListView" />
 
 
-</RelativeLayout>
+</LinearLayout>
