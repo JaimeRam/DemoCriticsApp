@@ -46,6 +46,8 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
+    public static String SERVER = "https://apptfg-servicerest.rhcloud.com";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,7 +218,7 @@ public class MainActivity extends ActionBarActivity {
     private void getPoliticalPartiesData() {
         URL link = null;
         try {
-            link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty");
+            link = new URL (SERVER + "/politicalParty");
             GetPoliticalParties task = new GetPoliticalParties(this, findViewById(R.id.activityPartiesLayout));
             task.execute(link);
 

@@ -215,7 +215,7 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
     private void getProgramSectionsData(int id, int index) {
         URL link = null;
         try {
-            link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + id + "/section");
+            link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
             GetProgramsData task = new GetProgramsData(this, findViewById(R.id.activityPoliticalProgramIndexLayout), id, index);
             task.execute(link);
 

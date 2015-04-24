@@ -233,7 +233,7 @@ public class Top10Activity extends ActionBarActivity {
 
         URL link;
         try {
-            link = new URL("http://10.0.2.2/ServiceRest/public/top/" + url);
+            link = new URL(MainActivity.SERVER + "/top/" + url);
 
             GetTop10 task = new GetTop10(this, findViewById(R.id.layoutTop10));
             task.execute(link);

@@ -79,7 +79,7 @@ public class ProgramsFragment extends Fragment {
     private void getTop3Ranking(View rootView) {
         URL link;
         try {
-            link = new URL("http://10.0.2.2/ServiceRest/public/top");
+            link = new URL(MainActivity.SERVER + "/top");
 
             GetTopIndex task = new GetTopIndex(this.getActivity(), rootView);
             task.execute(link);

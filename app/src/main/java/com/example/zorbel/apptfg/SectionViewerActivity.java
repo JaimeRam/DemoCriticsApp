@@ -132,7 +132,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 URL link = null;
 
                 try {
-                    link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/like");
+                    link = new URL(MainActivity.SERVER + "/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/like");
 
                     PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
                     task.execute(link);
@@ -148,7 +148,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 URL link = null;
 
                 try {
-                    link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/dislike");
+                    link = new URL(MainActivity.SERVER + "/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/dislike");
 
                     PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
                     task.execute(link);
@@ -164,7 +164,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 URL link = null;
 
                 try {
-                    link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/notUnderstood");
+                    link = new URL(MainActivity.SERVER + "/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/notUnderstood");
 
                     PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
                     task.execute(link);
@@ -398,7 +398,7 @@ public class SectionViewerActivity extends ActionBarActivity {
     private void getSectionContentData(int id_section, int id_politicalParty, int index) {
         URL link = null;
         try {
-            link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + id_politicalParty + "/section/" + id_section);
+            link = new URL(MainActivity.SERVER + "/politicalParty/" + id_politicalParty + "/section/" + id_section);
 
             //Prepare post arguments
             //String parameters = "section=" + URLEncoder.encode(Integer.toString(id_section), "UTF-8") + "&id_political_party=" + URLEncoder.encode(Integer.toString(id_politicalParty), "UTF-8");

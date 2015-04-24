@@ -71,7 +71,7 @@ public class CommentsActivity extends ActionBarActivity {
                 URL link;
 
                 try {
-                    link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/comment");
+                    link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/comment");
 
                     //TODO: set the user for the comment
                     PostComment task = new PostComment(CommentsActivity.this, 1, editTextComment.getText().toString(), findViewById(R.id.activityCommentsLayout));
@@ -243,7 +243,7 @@ public class CommentsActivity extends ActionBarActivity {
     private void getSectionComments(int id_section, int id_politicalParty) {
         URL link;
         try {
-            link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty/" + id_politicalParty + "/section/" + id_section + "/comment");
+            link = new URL(MainActivity.SERVER + "/politicalParty/" + id_politicalParty + "/section/" + id_section + "/comment");
 
             GetComments task = new GetComments(this, findViewById(R.id.activityCommentsLayout));
             task.execute(link);

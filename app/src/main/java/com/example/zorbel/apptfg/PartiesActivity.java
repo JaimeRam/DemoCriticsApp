@@ -197,7 +197,7 @@ public class PartiesActivity extends ActionBarActivity {
     private void getPoliticalPartiesData() {
         URL link = null;
         try {
-            link = new URL("http://10.0.2.2/ServiceRest/public/politicalParty");
+            link = new URL(MainActivity.SERVER + "/politicalParty");
             GetPoliticalParties task = new GetPoliticalParties(this, findViewById(R.id.activityPartiesLayout));
             task.execute(link);
 
