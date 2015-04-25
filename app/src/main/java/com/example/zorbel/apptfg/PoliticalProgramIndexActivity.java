@@ -2,6 +2,7 @@ package com.example.zorbel.apptfg;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -10,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.PoliticalParty;
@@ -49,6 +52,12 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
         final int polIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
 
         polParty = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex);
+
+        ImageView logo = (ImageView) findViewById(R.id.partyLogoIndex);
+        logo.setImageBitmap(polParty.getmLogo());
+
+        TextView partyName = (TextView) findViewById(R.id.partyNameIndex);
+        partyName.setText(polParty.getmName());
 
         mIndexListView = (ListView) findViewById(R.id.indexListView);
 
@@ -158,6 +167,12 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuItem itemParty = menu.add("");
+        itemParty.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); // ShowAsAction
+        itemParty.setIcon(new BitmapDrawable(getResources(), polParty.getmLogo())); // Icon
+        itemParty.setEnabled(false);
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_political_program_index, menu);
         return true;

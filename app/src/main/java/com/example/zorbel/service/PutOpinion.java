@@ -114,10 +114,10 @@ public class PutOpinion extends AsyncTask<URL, Void, Void> {
         Button dislikeButton = (Button) mRootView.findViewById(R.id.buttonDislike);
         Button commentButton = (Button) mRootView.findViewById(R.id.buttonComment);
 
-        likeButton.setText(mContext.getString(R.string.name_buttonLike) + "\n" + "(" + mListCounters[0] + ")");
-        notUnderstoodButton.setText(mContext.getString(R.string.name_buttonNotUnderstood) + "\n" + "(" + mListCounters[1] + ")");
-        dislikeButton.setText(mContext.getString(R.string.name_buttonDislike) + "\n" + "(" + mListCounters[2] + ")");
-        commentButton.setText(mContext.getString(R.string.name_buttonComment) + "\n" + "(" + mListCounters[3] + ")");
+        likeButton.setText("(" + mListCounters[0] + ")");
+        notUnderstoodButton.setText("(" + mListCounters[1] + ")");
+        dislikeButton.setText("(" + mListCounters[2] + ")");
+        commentButton.setText(mContext.getString(R.string.name_buttonComment) + "  (" + mListCounters[3] + ")");
     }
 
     @Override

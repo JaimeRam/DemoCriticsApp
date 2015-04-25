@@ -2,6 +2,7 @@ package com.example.zorbel.apptfg;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -335,6 +336,12 @@ public class SectionViewerActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuItem itemParty = menu.add("");
+        itemParty.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); // ShowAsAction
+        itemParty.setIcon(new BitmapDrawable(getResources(), PoliticalGroups.getInstance().getPoliticalParty(currentSection.getmPoliticalParty()).getmLogo())); // Icon
+        itemParty.setEnabled(false);
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_section_viewer, menu);
         return true;

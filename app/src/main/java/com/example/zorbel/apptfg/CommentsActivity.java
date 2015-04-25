@@ -3,6 +3,7 @@ package com.example.zorbel.apptfg;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -44,6 +45,7 @@ public class CommentsActivity extends ActionBarActivity {
 
     private int sectionId;
     private int politicalPartyIndex;
+    private Section currentSection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,9 @@ public class CommentsActivity extends ActionBarActivity {
         politicalPartyIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
         sectionId = getIntent().getExtras().getInt("SectionId");
 
-        Section sec = PoliticalGroups.getInstance().getSection(politicalPartyIndex, sectionId);
+        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyIndex, sectionId);
 
-        final int politicalPartyId = sec.getmPoliticalParty();
+        final int politicalPartyId = currentSection.getmPoliticalParty();
 
         getSectionComments(sectionId, politicalPartyId);
 
@@ -104,6 +106,9 @@ public class CommentsActivity extends ActionBarActivity {
                 enableSubmitIfReady();
             }
         });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void enableSubmitIfReady() {
@@ -134,6 +139,7 @@ public class CommentsActivity extends ActionBarActivity {
         items.add(new MenuLeftItem(tagTitles[2]));
         items.add(new MenuLeftItem(tagTitles[3]));
 
+
         // Relacionar el adaptador y la escucha de la lista del drawer
         drawerListLeft.setAdapter(new MenuLeftListAdapter(this, items));
 
@@ -149,7 +155,7 @@ public class CommentsActivity extends ActionBarActivity {
         ) {
             public void onDrawerClosed(View view) {
                 //Acciones que se ejecutan cuando se cierra el drawer
-                getSupportActionBar().setTitle(getString(R.string.title_activity_comment));
+                getSupportActionBar().setTitle(getString(R.string.title_activity_political_program_index));
                 supportInvalidateOptionsMenu();
                 drawerToggle.syncState();
             }
@@ -187,6 +193,12 @@ public class CommentsActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuItem itemParty = menu.add("");
+        itemParty.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); // ShowAsAction
+        itemParty.setIcon(new BitmapDrawable(getResources(), PoliticalGroups.getInstance().getPoliticalParty(currentSection.getmPoliticalParty()).getmLogo())); // Icon
+        itemParty.setEnabled(false);
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_comment, menu);
         return true;
@@ -239,6 +251,7 @@ public class CommentsActivity extends ActionBarActivity {
         setTitle(tagTitles[position]);
         drawerLayout.closeDrawer(drawerListLeft);
     }
+
 
     private void getSectionComments(int id_section, int id_politicalParty) {
         URL link;
