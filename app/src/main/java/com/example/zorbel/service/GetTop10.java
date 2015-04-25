@@ -120,7 +120,7 @@ public class GetTop10 extends AsyncTask<URL, Void, Void> {
                 e.printStackTrace();
             }
         }
-        showTop();
+
     }
 
     /**

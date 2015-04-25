@@ -120,7 +120,7 @@ public class GetPoliticalParties extends AsyncTask<URL, Void, Void> {
                     byte[] decodedString = Base64.decode(encodedLogo, Base64.DEFAULT);
                     Bitmap decodedLogo = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                    // TODO fill in the section with the proper attributes (id_section)
+
                     PoliticalParty sec = new PoliticalParty(id, name, decodedLogo, null);
 
                     al.add(sec);

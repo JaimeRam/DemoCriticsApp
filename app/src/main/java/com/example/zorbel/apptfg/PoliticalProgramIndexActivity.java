@@ -64,7 +64,6 @@ public class PoliticalProgramIndexActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // TODO: create intent to launch the SectionActivity with the selected Section
                 Intent in = new Intent(PoliticalProgramIndexActivity.this, SectionViewerActivity.class);
 
                 Section sec = (Section) parent.getItemAtPosition(position);

@@ -261,7 +261,7 @@ public class GetTopIndex extends AsyncTask<URL, Void, Void> {
      */
 
     private void showTop() {
-        //TODO: Show data
+
 
         ListView topListView = (ListView) mRootView.findViewById(R.id.topIndexListView);
         topListView.setAdapter(new TopItemAdapter(mContext, listTop));

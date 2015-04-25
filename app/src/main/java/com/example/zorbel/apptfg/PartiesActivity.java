@@ -60,7 +60,7 @@ public class PartiesActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                //TODO: Launch new Activity with the index of the selected political party program.
+
                 Intent in = new Intent(PartiesActivity.this, PoliticalProgramIndexActivity.class);
                 Bundle b = new Bundle();
 
