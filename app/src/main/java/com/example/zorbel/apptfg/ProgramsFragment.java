@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.zorbel.data_structures.PoliticalGroups;
+import com.example.zorbel.data_structures.PoliticalParty;
+import com.example.zorbel.data_structures.Section;
+import com.example.zorbel.service.GetProgramsData;
 import com.example.zorbel.service.GetTopIndex;
 
 import java.net.MalformedURLException;
@@ -38,7 +42,7 @@ public class ProgramsFragment extends Fragment {
 
     }
 
-    private void setListeners(View rootView) {
+    private void setListeners(final View rootView) {
 
         //set more Views header
 
@@ -55,6 +59,14 @@ public class ProgramsFragment extends Fragment {
                     if (it.isSection()) {
 
                         // TODO: launch the SectionViewerActivity
+
+                        Section sec = (Section) it;
+
+                        PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(sec.getmPoliticalParty());
+
+                        if (pol.getmSectionRoot() == null) {
+                            //getProgramSectionsData();
+                        }
 
                     } else {
 
@@ -73,6 +85,19 @@ public class ProgramsFragment extends Fragment {
                 }
             }
         });
+
+    }
+
+    private void getProgramSectionsData(int id, int index) {
+        URL link = null;
+        try {
+            link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
+            GetProgramsData task = new GetProgramsData(this.getActivity(), null, id, index);
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
     }
 

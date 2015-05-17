@@ -24,6 +24,9 @@ import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service.GetComments;
 import com.example.zorbel.service.PostComment;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -76,7 +79,12 @@ public class CommentsActivity extends ActionBarActivity {
                     link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/comment");
 
                     //TODO: set the user for the comment
-                    PostComment task = new PostComment(CommentsActivity.this, 1, editTextComment.getText().toString(), findViewById(R.id.activityCommentsLayout));
+
+                    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("id_user", Integer.toString(1)));
+                    params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
+
+                    PostComment task = new PostComment(CommentsActivity.this, params, findViewById(R.id.activityCommentsLayout));
                     task.execute(link);
 
                 } catch (MalformedURLException e) {
@@ -190,7 +198,6 @@ public class CommentsActivity extends ActionBarActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -236,6 +243,7 @@ public class CommentsActivity extends ActionBarActivity {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
 
     private void selectItem(int position) {
 

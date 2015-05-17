@@ -1,9 +1,6 @@
 package com.example.zorbel.service;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -11,76 +8,32 @@ import com.example.zorbel.apptfg.CommentListAdapter;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.Comment;
 
-import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by javier on 8/04/15.
- */
-public class GetComments extends AsyncTask<URL, Void, Void> {
+public class GetComments extends ConnectionGet {
 
     private static final String TAG_COMMENT_USER = "nickname";
     private static final String TAG_COMMENT_TEXT = "text";
     private static final String TAG_COMMENT_DATE = "date";
-    private HttpURLConnection con;
-    private Context mContext;
-    private View mRootView;
-    private ProgressDialog pDialog;
 
     private List<Comment> listComments;
 
-
-    public GetComments(Context con, View rootView) {
-        this.mContext = con;
-        this.mRootView = rootView;
+    public GetComments(Context mContext, View mRootView) {
+        super(mContext, mRootView);
     }
 
     @Override
     protected Void doInBackground(URL... urls) {
-        StringBuilder builder = new StringBuilder();
 
-        try {
+        super.doInBackground(urls);
 
-            // Establecer la conexión
-            con = (HttpURLConnection) urls[0].openConnection();
-
-            // Obtener el estado del recurso
-            int statusCode = con.getResponseCode();
-
-            if (statusCode == 200) {
-                InputStream in = new BufferedInputStream(con.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-            } else {
-                Log.e(GetPoliticalParties.class.toString(), "Failed to get JSON object");
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (con != null) {
-                con.disconnect();
-            }
-        }
-
-        Log.d("JSON", "     :      " + builder.toString() + "  ");
-        getComments(builder.toString());
+        getComments(super.getJson());
 
         return null;
     }
@@ -88,17 +41,13 @@ public class GetComments extends AsyncTask<URL, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        pDialog = new ProgressDialog(mContext);
-        pDialog.setMessage(mContext.getString(R.string.text_dialog_downloading));
-        pDialog.show();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        ListView listview = (ListView) mRootView.findViewById(R.id.listViewComments);
-        listview.setAdapter(new CommentListAdapter(mContext, listComments));
-        pDialog.dismiss();
+        ListView listview = (ListView) super.getmRootView().findViewById(R.id.listViewComments);
+        listview.setAdapter(new CommentListAdapter(super.getmContext(), listComments));
     }
 
     private void getComments(String jsonStr) {

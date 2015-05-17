@@ -2,8 +2,6 @@ package com.example.zorbel.service;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -14,23 +12,13 @@ import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 
-import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by javier on 2/04/15.
- */
 
-public class GetSectionContent extends AsyncTask<URL, Void, Void> {
+public class GetSectionContent extends ConnectionGet {
 
     private static final String TAG_SECTION_ID = "section";
     private static final String TAG_SECTION_TITLE = "title";
@@ -39,55 +27,24 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
     private static final String TAG_SECTION_NOT_UNDERSTOOD = "not_understood";
     private static final String TAG_SECTION_DISLIKES = "dislikes";
     private static final String TAG_SECTION_NUM_COMMENTS = "comments";
-    private HttpURLConnection con;
-    private Context mContext;
-    private View mRootView;
+
     private int politicalProgramGroupIndex;
 
     private Section currentSection;
 
     private ProgressDialog pDialog;
 
-    public GetSectionContent(Context con, View rootView, int index) {
-        this.mContext = con;
-        this.mRootView = rootView;
+    public GetSectionContent(Context mContext, View mRootView, int index) {
+        super(mContext, mRootView);
         this.politicalProgramGroupIndex = index;
-
     }
-
 
     @Override
     protected Void doInBackground(URL... urls) {
 
-        StringBuilder builder = new StringBuilder();
+        super.doInBackground(urls);
 
-        try {
-
-            con = (HttpURLConnection) urls[0].openConnection();
-
-            int statusCode = con.getResponseCode();
-
-            if (statusCode == 200) {
-                InputStream in = new BufferedInputStream(con.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-            } else {
-                Log.e(GetSectionContent.class.toString(), "Failed to get JSON object");
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (con != null) {
-                con.disconnect();
-            }
-        }
-
-        getSectionData(builder.toString());
+        getSectionData(super.getJson());
 
         return null;
     }
@@ -95,9 +52,6 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        pDialog = new ProgressDialog(mContext);
-        pDialog.setMessage(mContext.getString(R.string.text_dialog_downloading));
-        pDialog.show();
     }
 
     @Override
@@ -105,19 +59,17 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
         super.onPostExecute(aVoid);
 
         updateView();
-
-        pDialog.dismiss();
     }
 
     protected void updateView() {
 
-        TextView sectionTitle = (TextView) mRootView.findViewById(R.id.sectionTitle);
-        TextView sectionText = (TextView) mRootView.findViewById(R.id.textSection);
+        TextView sectionTitle = (TextView) super.getmRootView().findViewById(R.id.sectionTitle);
+        TextView sectionText = (TextView) super.getmRootView().findViewById(R.id.textSection);
 
-        Button commentButton = (Button) mRootView.findViewById(R.id.buttonComment);
-        Button likeButton = (Button) mRootView.findViewById(R.id.buttonLike);
-        Button notUnderstoodButton = (Button) mRootView.findViewById(R.id.buttonNotUnderstood);
-        Button dislikeButton = (Button) mRootView.findViewById(R.id.buttonDislike);
+        Button commentButton = (Button) super.getmRootView().findViewById(R.id.buttonComment);
+        Button likeButton = (Button) super.getmRootView().findViewById(R.id.buttonLike);
+        Button notUnderstoodButton = (Button) super.getmRootView().findViewById(R.id.buttonNotUnderstood);
+        Button dislikeButton = (Button) super.getmRootView().findViewById(R.id.buttonDislike);
 
         if (currentSection.getmTitle().equalsIgnoreCase("null")) { //Check if Section doesn't have text (its text is "null")
             sectionTitle.setText("No text");
@@ -131,7 +83,7 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
             likeButton.setText("(" + currentSection.getNumLikes() + ")");
             dislikeButton.setText("(" + currentSection.getNumDislikes() + ")");
             notUnderstoodButton.setText("(" + currentSection.getNumNotUnderstoods() + ")");
-            commentButton.setText(mContext.getString(R.string.name_buttonComment) + "  (" + currentSection.getNumComments() + ")");
+            commentButton.setText(super.getmContext().getString(R.string.name_buttonComment) + "  (" + currentSection.getNumComments() + ")");
         } else {
          /*
          * Esto sirve para eliminar los botones cuando la sección no contiene texto.
@@ -152,8 +104,8 @@ public class GetSectionContent extends AsyncTask<URL, Void, Void> {
         }
 
         if (currentSection.getlSections() != null) { //Check if Section doesn't have subsections
-            ListView mIndexListView = (ListView) mRootView.findViewById(R.id.indexListView);
-            mIndexListView.setAdapter(new ListIndexAdapter(mContext, currentSection.getlSections()));
+            ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
+            mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), currentSection.getlSections()));
         }
 
     }

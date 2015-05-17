@@ -27,64 +27,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jaime on 30/03/15.
- */
-public class GetProgramsData extends AsyncTask<URL, Void, Void> {
+
+public class GetProgramsData extends ConnectionGet {
 
     private static final String TAG_SECTION_TITLE = "title";
     private static final String TAG_SECTION_ID = "section";
     private static final String TAG_SECTION_TEXT = "text";
-    private HttpURLConnection con;
-    private Context mContext;
-    private View mRootView;
+
     private int politicalProgramId;
     private int politicalProgramGroupIndex;
 
-    private ProgressDialog pDialog;
-
-    public GetProgramsData(Context con, View rootView, int id, int index) {
-        this.mContext = con;
-        this.mRootView = rootView;
+    public GetProgramsData(Context mContext, View mRootView, int id, int index) {
+        super(mContext, mRootView);
         this.politicalProgramId = id;
         this.politicalProgramGroupIndex = index;
-
     }
-
 
     @Override
     protected Void doInBackground(URL... urls) {
-        StringBuilder builder = new StringBuilder();
 
-        try {
+        super.doInBackground(urls);
 
-            // Establecer la conexión
-            con = (HttpURLConnection) urls[0].openConnection();
-
-            // Obtener el estado del recurso
-            int statusCode = con.getResponseCode();
-
-            if (statusCode == 200) {
-                InputStream in = new BufferedInputStream(con.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-            } else {
-                Log.e(GetPoliticalParties.class.toString(), "Failed to get JSON object");
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (con != null) {
-                con.disconnect();
-            }
-        }
-
-        getPoliticalProgram(builder.toString(), politicalProgramId);
+        getPoliticalProgram(super.getJson(), politicalProgramId);
 
         return null;
     }
@@ -92,23 +56,19 @@ public class GetProgramsData extends AsyncTask<URL, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        pDialog = new ProgressDialog(mContext);
-        pDialog.setMessage(mContext.getString(R.string.text_dialog_downloading));
-        pDialog.show();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
+        if(super.getmRootView() != null) {
+            List<Section> index = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).getmSectionRoot().getlSections();
 
+            ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
+            mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), index));
+        }
 
-        List<Section> index = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).getmSectionRoot().getlSections();
-
-        ListView mIndexListView = (ListView) mRootView.findViewById(R.id.indexListView);
-        mIndexListView.setAdapter(new ListIndexAdapter(mContext, index));
-
-        pDialog.dismiss();
     }
 
     private void getPoliticalProgram(String jsonStr, int id) {
