@@ -6,67 +6,62 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-/**
- * Created by javier on 2/04/15.
- */
-public class TemplateActivity extends ActionBarActivity {
+public class MenuActivity extends ActionBarActivity {
 
     //Left Menu
     private ListView drawerListLeft;
     private String[] tagTitles;
 
-    //Right Menu Index
-    private ExpandableListView drawerListRight;
-
     //Nav Drawer menus
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
+    private int currentMenuPosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_template); //TODO: change the layout
-
-        setMenus();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
-    public void setMenus() {
+    public void setMenus(View v, int menuOption) {
+
+        currentMenuPosition = menuOption;
 
         //MENU LEFT NAV DRAWER
 
-        tagTitles = getResources().getStringArray(R.array.MenuEntries);
+        tagTitles = v.getResources().getStringArray(R.array.MenuEntries);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) v.findViewById(R.id.drawer_layout);
 
-        drawerListLeft = (ListView) findViewById(R.id.left_drawer);
+        drawerListLeft = (ListView) v.findViewById(R.id.left_drawer);
 
-        drawerListRight = (ExpandableListView) findViewById(R.id.right_drawer);
+        //ListView Header
+        View header = getLayoutInflater().inflate(R.layout.menu_left_header, drawerListLeft, false);
+        drawerListLeft.addHeaderView(header);
 
-        //Fill the index right menu
-        //getIndexTitles(0);
-
-        //Nueva lista de drawer items
+        //New list of drawer items
         ArrayList<MenuLeftItem> items = new ArrayList<MenuLeftItem>();
-        items.add(new MenuLeftItem(tagTitles[0]));
+        items.add(new MenuLeftItem(tagTitles[0], v.getResources().getDrawable(R.mipmap.ic_home_icon_blue)));
         items.add(new MenuLeftItem(tagTitles[1]));
         items.add(new MenuLeftItem(tagTitles[2]));
         items.add(new MenuLeftItem(tagTitles[3]));
+        items.add(new MenuLeftItem(tagTitles[4]));
+        items.add(new MenuLeftItem(tagTitles[5], v.getResources().getDrawable(R.mipmap.ic_starfav_yellow)));
 
 
+        // Set the adapter
         drawerListLeft.setAdapter(new MenuLeftListAdapter(this, items));
 
         drawerListLeft.setOnItemClickListener(new DrawerItemClickListener());
@@ -80,26 +75,24 @@ public class TemplateActivity extends ActionBarActivity {
                 R.string.drawer_close
         ) {
             public void onDrawerClosed(View view) {
-
-                getSupportActionBar().setTitle(getString(R.string.app_name)); //TODO: change the heading name
+                //Acciones que se ejecutan cuando se cierra el drawer
+                getSupportActionBar().setTitle(getString(R.string.app_name));
                 supportInvalidateOptionsMenu();
                 drawerToggle.syncState();
             }
 
             public void onDrawerOpened(View drawerView) {
+                //Acciones que se ejecutan cuando se despliega el drawer
 
-                if (drawerLayout.isDrawerVisible(Gravity.END)) {
-                    getSupportActionBar().setTitle(getString(R.string.titleIndex));
-                } else {
-                    getSupportActionBar().setTitle(getString(R.string.titleMenu));
-                }
+                getSupportActionBar().setTitle(getString(R.string.titleMenu));
+
                 supportInvalidateOptionsMenu();
                 drawerToggle.syncState();
             }
         };
 
-        drawerLayout.setDrawerListener(drawerToggle);
 
+        drawerLayout.setDrawerListener(drawerToggle);
 
     }
 
@@ -109,7 +102,7 @@ public class TemplateActivity extends ActionBarActivity {
         // If the nav drawer is open, hide action items related to the content view
         for (int i = 0; i < menu.size(); i++) {
 
-            if (drawerLayout.isDrawerOpen(drawerListLeft) || drawerLayout.isDrawerOpen(drawerListRight)) {
+            if (drawerLayout.isDrawerOpen(drawerListLeft)) {
                 menu.getItem(i).setVisible(false);
             } else {
                 menu.getItem(i).setVisible(true);
@@ -118,11 +111,10 @@ public class TemplateActivity extends ActionBarActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu); //TODO: change the menu
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -138,16 +130,8 @@ public class TemplateActivity extends ActionBarActivity {
             return true;
         }
 
-        if (id == R.id.index_action) {
-            drawerLayout.openDrawer(Gravity.END);
-        }
-
-
         if (drawerToggle.onOptionsItemSelected(item)) {
-
-            if (drawerLayout.isDrawerVisible(Gravity.END)) {
-                drawerLayout.closeDrawer(Gravity.END);
-            }
+            // Toma los eventos de selección del toggle aquí
 
             return true;
         }
@@ -164,23 +148,46 @@ public class TemplateActivity extends ActionBarActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        // Cambiar las configuraciones del drawer si hubo modificaciones
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void selectItem(int position) {
 
-        if (position == 0) {  //Parties Menu
+        if (position != currentMenuPosition) {
 
-            Intent in = new Intent(this, PartiesActivity.class);
-            startActivity(in);
+            if (position == 1) { //Home Menu Option
 
+                Intent in = new Intent(this, MainActivity.class);
+                startActivity(in);
+
+            } else if (position == 2) {  //Political Parties Menu Option
+
+                Intent in = new Intent(this, PartiesActivity.class);
+                startActivity(in);
+
+            } else if (position == 3) {  //Comparatives Menu Option
+
+               //TODO: launch the activity
+
+            } else if (position == 4) {  //Proposals Menu Option
+
+                //TODO: launch the activity
+
+            } else if (position == 5) {  //Polls Menu Option
+
+                //TODO: launch the activity
+
+            } else if (position == 6) {  //Favourites Menu Option
+
+                //TODO: launch the activity
+
+            }
         }
 
         drawerListLeft.setItemChecked(position, true);
-        setTitle(tagTitles[position]);
         drawerLayout.closeDrawer(drawerListLeft);
     }
-
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override

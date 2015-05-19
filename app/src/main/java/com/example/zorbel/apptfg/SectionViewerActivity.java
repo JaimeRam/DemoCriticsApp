@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class SectionViewerActivity extends ActionBarActivity {
 
     //Left Menu
@@ -45,7 +44,6 @@ public class SectionViewerActivity extends ActionBarActivity {
 
     //Index of subsections
     private ListView mIndexListView;
-
 
     private TextView sectionTitle;
     private TextView sectionText;
@@ -79,23 +77,7 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         currentSection = PoliticalGroups.getInstance().getSection(politicalPartyGroupIndex, sectionId);
 
-        //if(currentSection.getmText() == null) { //TODO: check the condition (what if the section doesn't has text?)
-
         getSectionContentData(currentSection.getmSection(), currentSection.getmPoliticalParty(), politicalPartyGroupIndex);
-
-       /* } else { //The section info has been already retrieved from the server
-
-            sectionTitle.setText(currentSection.getmTitle());
-            sectionText.setText(currentSection.getmText());
-
-            likeButton.setText(getString(R.string.name_buttonLike) + "/n" + "(" + currentSection.getNumLikes() + ")");
-            dislikeButton.setText(getString(R.string.name_buttonDislike) + "/n" + "(" + currentSection.getNumDislikes() + ")");
-            notUnderstoodButton.setText(getString(R.string.name_buttonNotUnderstood) + "/n" + "(" + currentSection.getNumNotUnderstoods() + ")");
-            commentButton.setText(getString(R.string.name_buttonComment) + "/n" + "(" + currentSection.getNumComments() + ")");
-
-            mIndexListView.setAdapter(new ListIndexAdapter(this,currentSection.getlSections()));
-
-        }*/
 
         mIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -197,15 +179,18 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         drawerListRight = (ExpandableListView) findViewById(R.id.right_drawer);
 
-        //Fill the index right menu
-        //getIndexTitles(0);
+        //ListView Header
+        View header = getLayoutInflater().inflate(R.layout.menu_left_header, drawerListLeft, false);
+        drawerListLeft.addHeaderView(header);
 
-        //Nueva lista de drawer items
+        //New list of drawer items
         ArrayList<MenuLeftItem> items = new ArrayList<MenuLeftItem>();
-        items.add(new MenuLeftItem(tagTitles[0]));
+        items.add(new MenuLeftItem(tagTitles[0], getResources().getDrawable(R.mipmap.ic_home_icon_blue)));
         items.add(new MenuLeftItem(tagTitles[1]));
         items.add(new MenuLeftItem(tagTitles[2]));
         items.add(new MenuLeftItem(tagTitles[3]));
+        items.add(new MenuLeftItem(tagTitles[4]));
+        items.add(new MenuLeftItem(tagTitles[5], getResources().getDrawable(R.mipmap.ic_starfav_yellow)));
 
 
         drawerListLeft.setAdapter(new MenuLeftListAdapter(this, items));
@@ -256,8 +241,6 @@ public class SectionViewerActivity extends ActionBarActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-                //TODO: launch the new SectionViewer Activity
-
                 Intent in = new Intent(SectionViewerActivity.this, SectionViewerActivity.class);
 
                 ExpandableIndexAdapter adapter = (ExpandableIndexAdapter) parent.getExpandableListAdapter();
@@ -279,8 +262,6 @@ public class SectionViewerActivity extends ActionBarActivity {
         drawerListRight.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-
-                //TODO: launch the new SectionViewer Activity
 
                 Intent in = new Intent(SectionViewerActivity.this, SectionViewerActivity.class);
 
@@ -333,7 +314,6 @@ public class SectionViewerActivity extends ActionBarActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -349,12 +329,10 @@ public class SectionViewerActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             return true;
         }
@@ -390,10 +368,31 @@ public class SectionViewerActivity extends ActionBarActivity {
 
     private void selectItem(int position) {
 
-        if (position == 0) {  //Parties Menu
+        if (position == 1) { //Home Menu Option
+
+            Intent in = new Intent(this, MainActivity.class);
+            startActivity(in);
+
+        } else if (position == 2) {  //Political Parties Menu Option
 
             Intent in = new Intent(this, PartiesActivity.class);
             startActivity(in);
+
+        } else if (position == 3) {  //Comparatives Menu Option
+
+            //TODO: launch the activity
+
+        } else if (position == 4) {  //Proposals Menu Option
+
+            //TODO: launch the activity
+
+        } else if (position == 5) {  //Polls Menu Option
+
+            //TODO: launch the activity
+
+        } else if (position == 6) {  //Favourites Menu Option
+
+            //TODO: launch the activity
 
         }
 

@@ -19,11 +19,12 @@
     <string name="drawer_close">Menu Cerrado!</string>
 
     <string-array name="MenuEntries">
+        <item>Home</item>
         <item>Partidos</item>
-        <item>Lo + visto</item>
-        <item>Lo + comentado</item>
-        <item>Lo + votado</item>
-        <item>Estadisticas</item>
+        <item>Comparativas</item>
+        <item>Propuestas</item>
+        <item>Encuestas</item>
+        <item>Favoritos</item>
     </string-array>
 
     <string name="title_activity_parties">Partidos Políticos</string>
