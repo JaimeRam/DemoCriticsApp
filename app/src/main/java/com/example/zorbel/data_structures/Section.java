@@ -1,6 +1,6 @@
 package com.example.zorbel.data_structures;
 
-import com.example.zorbel.apptfg.TopItem;
+import com.example.zorbel.apptfg.views.TopItem;
 
 import java.util.List;
 
@@ -113,5 +113,10 @@ public class Section implements TopItem{
     @Override
     public boolean isSection() {
         return true;
+    }
+
+    @Override
+    public boolean isProposal() {
+        return false;
     }
 }

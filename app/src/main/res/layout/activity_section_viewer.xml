@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,22 +12,41 @@
         android:layout_height="match_parent"
         android:padding="10dp"
         android:id="@+id/activitySectionViewerLayout"
-        tools:context="com.example.zorbel.apptfg.SectionViewerActivity">
+        tools:context="com.example.zorbel.apptfg.programs.SectionViewerActivity">
 
-        <TextView
-            android:id="@+id/sectionTitle"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="5dp"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:id="@+id/layoutTitle">
+
+            <TextView
+                android:id="@+id/sectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:layout_weight="0.7"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/buttonFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_size="mini"
+                fab:fab_icon="@mipmap/ic_starfav_yellow"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@id/sectionTitle"
+            android:layout_below="@id/layoutTitle"
             android:layout_alignParentBottom="true">
 
             <LinearLayout
@@ -56,40 +76,36 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="0.3">
+                android:stretchColumns="*">
 
-                <LinearLayout
+                <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="0.5">
+                    android:orientation="horizontal">
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/ic_greenlike"
-                        android:id="@+id/buttonLike"
-                        android:layout_weight="0.3"/>
+                        android:id="@+id/buttonLike"/>
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/ic_bluenotunderstood"
-                        android:id="@+id/buttonNotUnderstood"
-                        android:layout_weight="0.3"/>
+                        android:id="@+id/buttonNotUnderstood"/>
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/ic_reddislike"
-                        android:id="@+id/buttonDislike"
-                        android:layout_weight="0.3"/>
+                        android:id="@+id/buttonDislike"/>
 
-                </LinearLayout>
+                </TableRow>
 
 
                 <Button
@@ -97,10 +113,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/name_buttonComment"
                     android:drawableLeft="@mipmap/ic_commentwhite"
-                    android:id="@+id/buttonComment"
-                    android:layout_weight="0.5"/>
+                    android:id="@+id/buttonComment"/>
 
-            </LinearLayout>
+            </TableLayout>
 
         </LinearLayout>
 

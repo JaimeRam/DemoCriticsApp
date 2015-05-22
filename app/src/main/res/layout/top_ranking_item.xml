@@ -5,7 +5,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/partyLogoTop"
+        android:id="@+id/logoTop"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginRight="10dp"
@@ -13,8 +13,8 @@
 
     <TextView
         android:layout_marginTop="10dp"
-        android:id="@+id/titleSectionTop"
-        android:layout_toRightOf="@id/partyLogoTop"
+        android:id="@+id/titleTop"
+        android:layout_toRightOf="@id/logoTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
@@ -24,9 +24,9 @@
         android:text="SECCION 1: Recuperar la democracia" />
 
     <TextView
-        android:id="@+id/namePartyTop"
-        android:layout_below="@id/titleSectionTop"
-        android:layout_toRightOf="@id/partyLogoTop"
+        android:id="@+id/subTitleTop"
+        android:layout_below="@id/titleTop"
+        android:layout_toRightOf="@id/logoTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -39,8 +39,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/namePartyTop"
-        android:layout_toRightOf="@id/partyLogoTop"
+        android:layout_below="@id/subTitleTop"
+        android:layout_toRightOf="@id/logoTop"
         android:orientation="horizontal">
 
         <TextView

@@ -2,9 +2,6 @@ package com.example.zorbel.data_structures;
 
 import java.util.List;
 
-/**
- * Created by jaime on 30/03/15.
- */
 public class PoliticalGroups {
 
     private static PoliticalGroups INSTANCE = new PoliticalGroups();

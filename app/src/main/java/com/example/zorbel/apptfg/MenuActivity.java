@@ -12,6 +12,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.zorbel.apptfg.adapters.MenuLeftListAdapter;
+import com.example.zorbel.apptfg.categories.CategoriesListActivity;
+import com.example.zorbel.apptfg.polls.PollsActivity;
+import com.example.zorbel.apptfg.programs.ProgramsActivity;
+import com.example.zorbel.apptfg.proposals.ProposalsActivity;
+import com.example.zorbel.apptfg.views.MenuLeftItem;
+
 import java.util.ArrayList;
 
 public class MenuActivity extends ActionBarActivity {
@@ -54,10 +61,10 @@ public class MenuActivity extends ActionBarActivity {
         //New list of drawer items
         ArrayList<MenuLeftItem> items = new ArrayList<MenuLeftItem>();
         items.add(new MenuLeftItem(tagTitles[0], v.getResources().getDrawable(R.mipmap.ic_home_icon_blue)));
-        items.add(new MenuLeftItem(tagTitles[1]));
-        items.add(new MenuLeftItem(tagTitles[2]));
-        items.add(new MenuLeftItem(tagTitles[3]));
-        items.add(new MenuLeftItem(tagTitles[4]));
+        items.add(new MenuLeftItem(tagTitles[1], v.getResources().getDrawable(R.mipmap.ic_programs)));
+        items.add(new MenuLeftItem(tagTitles[2], v.getResources().getDrawable(R.mipmap.ic_topics)));
+        items.add(new MenuLeftItem(tagTitles[3], v.getResources().getDrawable(R.mipmap.ic_proposals)));
+        items.add(new MenuLeftItem(tagTitles[4], v.getResources().getDrawable(R.mipmap.ic_polls)));
         items.add(new MenuLeftItem(tagTitles[5], v.getResources().getDrawable(R.mipmap.ic_starfav_yellow)));
 
 
@@ -163,24 +170,28 @@ public class MenuActivity extends ActionBarActivity {
 
             } else if (position == 2) {  //Political Parties Menu Option
 
-                Intent in = new Intent(this, PartiesActivity.class);
+                Intent in = new Intent(this, ProgramsActivity.class);
                 startActivity(in);
 
             } else if (position == 3) {  //Comparatives Menu Option
 
-               //TODO: launch the activity
+                Intent in = new Intent(this, CategoriesListActivity.class);
+                startActivity(in);
 
             } else if (position == 4) {  //Proposals Menu Option
 
-                //TODO: launch the activity
+                Intent in = new Intent(this, ProposalsActivity.class);
+                startActivity(in);
 
             } else if (position == 5) {  //Polls Menu Option
 
-                //TODO: launch the activity
+                Intent in = new Intent(this, PollsActivity.class);
+                startActivity(in);
 
             } else if (position == 6) {  //Favourites Menu Option
 
-                //TODO: launch the activity
+                Intent in = new Intent(this, FavoritesActivity.class);
+                startActivity(in);
 
             }
         }

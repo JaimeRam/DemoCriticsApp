@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.zorbel.service.GetTop10;
+import com.example.zorbel.service_connection.GetTop10;
 
 import java.net.MalformedURLException;
 import java.net.URL;
