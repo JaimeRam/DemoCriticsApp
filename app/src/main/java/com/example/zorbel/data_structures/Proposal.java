@@ -1,5 +1,6 @@
 package com.example.zorbel.data_structures;
 
+import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.views.TopItem;
 
 public class Proposal implements TopItem {
@@ -38,6 +39,36 @@ public class Proposal implements TopItem {
         this.numComments = numComments;
         this.numNotUnderstoods = numNotUnderstoods;
         this.numViews = numViews;
+    }
+
+    public static int getImage(String id_image) {
+        int resource = -1;
+
+        switch (id_image) {
+            case "ic_health_cross":
+                resource = R.drawable.ic_health_cross;
+                break;
+            case "ic_education":
+                resource = R.drawable.ic_education;
+                break;
+            case "ic_employment":
+                resource = R.drawable.ic_employment;
+                break;
+            case "ic_houses":
+                resource = R.drawable.ic_houses;
+                break;
+            case "ic_taxes":
+                resource = R.drawable.ic_taxes;
+                break;
+            case "ic_culture":
+                resource = R.drawable.ic_culture;
+                break;
+            case "ic_others":
+                resource = R.drawable.ic_others;
+                break;
+        }
+
+        return resource;
     }
 
     @Override

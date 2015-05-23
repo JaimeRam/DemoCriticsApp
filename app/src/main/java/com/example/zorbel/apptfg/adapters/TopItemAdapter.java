@@ -103,7 +103,7 @@ public class TopItemAdapter extends BaseAdapter {
 
                 Proposal item = (Proposal) it;
 
-                propLogo.setImageResource(item.getResLogo());
+                propLogo.setImageResource(Proposal.getImage((item.getResLogo())));
 
                 titleProp.setText(item.getTitleProp());
 
@@ -137,4 +137,5 @@ public class TopItemAdapter extends BaseAdapter {
         return convertView;
 
     }
+
 }
