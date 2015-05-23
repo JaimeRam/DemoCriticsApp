@@ -16,14 +16,14 @@ import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Proposal;
 import com.example.zorbel.data_structures.Section;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TopItemAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<TopItem> list;
+    private List<TopItem> list;
 
-    public TopItemAdapter(Context mContext, ArrayList<TopItem> list) {
+    public TopItemAdapter(Context mContext, List<TopItem> list) {
         this.mContext = mContext;
         this.list = list;
     }

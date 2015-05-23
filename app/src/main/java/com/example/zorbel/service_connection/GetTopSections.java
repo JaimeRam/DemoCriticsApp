@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GetTopSections extends ConnectionGet {
 
@@ -28,7 +29,7 @@ public class GetTopSections extends ConnectionGet {
     private static final String TAG_COMMENTS = "comments";
     private static final String TAG_CATEGORY = "category";
 
-    private ArrayList<TopItem> listTopSections;
+    private List<TopItem> listTopSections;
 
     public GetTopSections(Context mContext, View mRootView) {
         super(mContext, mRootView);
@@ -37,11 +38,8 @@ public class GetTopSections extends ConnectionGet {
 
     @Override
     protected Void doInBackground(URL... urls) {
-
         super.doInBackground(urls);
-
         getTop(super.getJson());
-
         return null;
     }
 
