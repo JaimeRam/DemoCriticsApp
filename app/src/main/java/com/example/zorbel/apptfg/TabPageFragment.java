@@ -26,6 +26,7 @@ import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service_connection.GetPoliticalParties;
 import com.example.zorbel.service_connection.GetTopIndex;
+import com.example.zorbel.service_connection.GetTopSections;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.net.MalformedURLException;
@@ -67,7 +68,7 @@ public class TabPageFragment extends Fragment {
 
         if (infType == 1) { //Programs Activity
 
-            if (pageTab == 8) { //Categories Tab
+            if (pageTab == 7) { //Categories Tab
 
                 view = inflater.inflate(R.layout.tab_page_categories, container, false);
 
@@ -115,12 +116,28 @@ public class TabPageFragment extends Fragment {
 
                 addButton.setVisibility(View.INVISIBLE);
 
-
-                //TODO: set the list
-
-                //setListListeners(view);
-
-                //getTop3Ranking(view);
+                int limit = 10;
+                String sLink = new String(MainActivity.SERVER + "/top/sections/");
+                URL link;
+                switch (pageTab) {
+                    case 2: //
+                        try {
+                            link = new URL(sLink + "/likes/" + limit);
+                            GetTopSections task = new GetTopSections(getActivity(), view);
+                            task.execute(link);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 3: // Like
+                        break;
+                    case 4: // Comments
+                        break;
+                    case 5: // Not understood
+                        break;
+                    case 6: // Dislike
+                        break;
+                }
             }
 
         } else if (infType == 2) { // PROPOSALS Activity

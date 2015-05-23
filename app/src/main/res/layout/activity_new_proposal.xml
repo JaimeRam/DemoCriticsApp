@@ -25,6 +25,13 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:id="@+id/txtTextProposal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="10"
+                    android:hint="Escribe aqui tu propuesta: " />
+
+                <EditText
                     android:id="@+id/txtTitleProposal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -45,13 +52,6 @@
                     android:ems="10"
                     android:prompt="@string/app_name"
                     android:id="@+id/spinnerCategoryProposal"/>
-
-                <EditText
-                    android:id="@+id/txtTextProposal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:lines="10"
-                    android:hint="Escribe aqui tu propuesta: "/>
 
                 <EditText
                     android:id="@+id/txtHowProposal"

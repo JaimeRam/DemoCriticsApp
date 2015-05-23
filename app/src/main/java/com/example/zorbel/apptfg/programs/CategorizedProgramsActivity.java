@@ -2,22 +2,11 @@ package com.example.zorbel.apptfg.programs;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
-import com.example.zorbel.service_connection.GetTop10;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class CategorizedProgramsActivity extends MenuActivity {
 

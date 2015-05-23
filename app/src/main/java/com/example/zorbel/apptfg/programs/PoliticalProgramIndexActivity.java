@@ -98,7 +98,7 @@ public class PoliticalProgramIndexActivity extends MenuActivity {
     }
 
     private void getProgramSectionsData(int id, int index) {
-        URL link = null;
+        URL link;
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
             GetProgramsData task = new GetProgramsData(this, findViewById(R.id.activityPoliticalProgramIndexLayout), id, index);

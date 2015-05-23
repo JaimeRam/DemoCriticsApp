@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.zorbel.apptfg.R;
-import com.example.zorbel.apptfg.views.TopItem;
 import com.example.zorbel.apptfg.adapters.TopItemAdapter;
+import com.example.zorbel.apptfg.views.TopItem;
 import com.example.zorbel.data_structures.Section;
 
 import org.json.JSONArray;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class GetTop10 extends ConnectionGet {
+public class GetTopSections extends ConnectionGet {
 
     private static final String TAG_ID_POLITICAL_PARTY = "id_political_party";
     private static final String TAG_SECTION_ID = "section";
@@ -26,10 +26,11 @@ public class GetTop10 extends ConnectionGet {
     private static final String TAG_DISLIKES = "dislikes";
     private static final String TAG_VIEWS = "views";
     private static final String TAG_COMMENTS = "comments";
+    private static final String TAG_CATEGORY = "category";
 
-    private ArrayList<TopItem> listTop10;
+    private ArrayList<TopItem> listTopSections;
 
-    public GetTop10(Context mContext, View mRootView) {
+    public GetTopSections(Context mContext, View mRootView) {
         super(mContext, mRootView);
     }
 
@@ -39,18 +40,18 @@ public class GetTop10 extends ConnectionGet {
 
         super.doInBackground(urls);
 
-        getTop10(super.getJson());
+        getTop(super.getJson());
 
         return null;
     }
 
-    private void getTop10(String JSONString) {
+    private void getTop(String JSONString) {
         if (JSONString != null) {
             try {
 
                 JSONArray ar = new JSONArray(JSONString);
 
-                listTop10 = new ArrayList<TopItem>();
+                listTopSections = new ArrayList<TopItem>();
 
                 for (int i = 0; i < ar.length(); i++) {
 
@@ -59,6 +60,7 @@ public class GetTop10 extends ConnectionGet {
                     int idPol = ob.getInt(TAG_ID_POLITICAL_PARTY);
                     int idSec = ob.getInt(TAG_SECTION_ID);
                     String title = ob.getString(TAG_SECTION_TITLE);
+                    String category = ob.getString(TAG_CATEGORY);
 
                     int numLikes = ob.getInt(TAG_LIKES);
                     int numNotUnd = ob.getInt(TAG_NOT_UNDERSTOOD);
@@ -66,10 +68,8 @@ public class GetTop10 extends ConnectionGet {
                     int numViews = ob.getInt(TAG_VIEWS);
                     int numComments = ob.getInt(TAG_COMMENTS);
 
-                    Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
-
-                    listTop10.add(sec);
-
+                    Section sec = new Section(idSec, idPol, title, category, numLikes, numDislikes, numNotUnd, numComments, numViews);
+                    listTopSections.add(sec);
                 }
 
             } catch (JSONException e) {
@@ -84,16 +84,13 @@ public class GetTop10 extends ConnectionGet {
      */
 
     private void showTop() {
-
-        ListView top10ListView = (ListView) super.getmRootView().findViewById(R.id.top10ListView);
-        top10ListView.setAdapter(new TopItemAdapter(super.getmContext(), listTop10));
-
+        ListView topTabPageListView = (ListView) super.getmRootView().findViewById(R.id.topTabPageListView);
+        topTabPageListView.setAdapter(new TopItemAdapter(super.getmContext(), listTopSections));
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
     }
 
     @Override

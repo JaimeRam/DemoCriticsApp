@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.apptfg.adapters.TopItemAdapter;
 import com.example.zorbel.apptfg.views.TopHeaderItem;
 import com.example.zorbel.apptfg.views.TopItem;
-import com.example.zorbel.apptfg.adapters.TopItemAdapter;
 import com.example.zorbel.data_structures.Section;
 
 import org.json.JSONArray;
@@ -80,7 +80,7 @@ public class GetTopIndex extends ConnectionGet {
                     int numViews = ob.getInt(TAG_VIEWS);
                     int numComments = ob.getInt(TAG_COMMENTS);
 
-                    Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
+                    Section sec = new Section(idSec, idPol, title, "", numLikes, numDislikes, numNotUnd, numComments, numViews);
 
                     listTop.add(sec);
 
@@ -109,7 +109,7 @@ public class GetTopIndex extends ConnectionGet {
                     int numViews = ob.getInt(TAG_VIEWS);
                     int numComments = ob.getInt(TAG_COMMENTS);
 
-                    Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
+                    Section sec = new Section(idSec, idPol, title, "", numLikes, numDislikes, numNotUnd, numComments, numViews);
 
                     listTop.add(sec);
 
@@ -138,7 +138,7 @@ public class GetTopIndex extends ConnectionGet {
                     int numViews = ob.getInt(TAG_VIEWS);
                     int numComments = ob.getInt(TAG_COMMENTS);
 
-                    Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
+                    Section sec = new Section(idSec, idPol, title, "", numLikes, numDislikes, numNotUnd, numComments, numViews);
 
                     listTop.add(sec);
 
@@ -167,7 +167,7 @@ public class GetTopIndex extends ConnectionGet {
                     int numViews = ob.getInt(TAG_VIEWS);
                     int numComments = ob.getInt(TAG_COMMENTS);
 
-                    Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
+                    Section sec = new Section(idSec, idPol, title, "", numLikes, numDislikes, numNotUnd, numComments, numViews);
 
                     listTop.add(sec);
 
@@ -196,7 +196,7 @@ public class GetTopIndex extends ConnectionGet {
                     int numViews = ob.getInt(TAG_VIEWS);
                     int numComments = ob.getInt(TAG_COMMENTS);
 
-                    Section sec = new Section(idSec, idPol, title, numLikes, numDislikes, numNotUnd, numComments, numViews);
+                    Section sec = new Section(idSec, idPol, title, "", numLikes, numDislikes, numNotUnd, numComments, numViews);
 
                     listTop.add(sec);
 

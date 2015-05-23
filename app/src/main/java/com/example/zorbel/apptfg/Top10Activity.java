@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.zorbel.service_connection.GetTop10;
+import com.example.zorbel.service_connection.GetTopSections;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -85,7 +85,7 @@ public class Top10Activity extends MenuActivity {
         try {
             link = new URL(MainActivity.SERVER + "/top/" + url);
 
-            GetTop10 task = new GetTop10(this, findViewById(R.id.layoutTop10));
+            GetTopSections task = new GetTopSections(this, findViewById(R.id.layoutTop10));
             task.execute(link);
 
         } catch (MalformedURLException e) {

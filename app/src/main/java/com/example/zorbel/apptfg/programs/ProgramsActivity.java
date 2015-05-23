@@ -2,8 +2,8 @@ package com.example.zorbel.apptfg.programs;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
