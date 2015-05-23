@@ -117,26 +117,34 @@ public class TabPageFragment extends Fragment {
                 addButton.setVisibility(View.INVISIBLE);
 
                 int limit = 10;
-                String sLink = new String(MainActivity.SERVER + "/top/sections/");
-                URL link;
+                String sLink = new String();
+
                 switch (pageTab) {
-                    case 2: //
-                        try {
-                            link = new URL(sLink + "/likes/" + limit);
-                            GetTopSections task = new GetTopSections(getActivity(), view);
-                            task.execute(link);
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
+                    case 2: // Views
+                        sLink = new String(MainActivity.SERVER + "/top/sections/views/");
                         break;
                     case 3: // Like
+                        sLink = new String(MainActivity.SERVER + "/top/sections/likes/");
                         break;
                     case 4: // Comments
+                        sLink = new String(MainActivity.SERVER + "/top/sections/comments/");
                         break;
                     case 5: // Not understood
+                        sLink = new String(MainActivity.SERVER + "/top/sections/not_understood/");
                         break;
                     case 6: // Dislike
+                        sLink = new String(MainActivity.SERVER + "/top/sections/dislikes/");
                         break;
+                }
+
+                URL link;
+
+                try {
+                    link = new URL(sLink + limit);
+                    GetTopSections task = new GetTopSections(getActivity(), view);
+                    task.execute(link);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
                 }
             }
 
