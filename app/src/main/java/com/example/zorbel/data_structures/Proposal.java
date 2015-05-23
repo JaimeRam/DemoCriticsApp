@@ -9,7 +9,7 @@ public class Proposal implements TopItem {
     private String category; //ID
     private String date;
     private String user; //ID
-    private int resLogo;
+    private String resLogo;
     private String textProp;
     private String howProp;
     private String moneyProp;
@@ -22,7 +22,7 @@ public class Proposal implements TopItem {
 
 
     public Proposal(int propId, String titleProp, String category, String date, String user,
-                    int resLogo, String textProp, String howProp, String moneyProp, int numLikes,
+                    String resLogo, String textProp, String howProp, String moneyProp, int numLikes,
                     int numDislikes, int numComments, int numNotUnderstoods, int numViews) {
         this.propId = propId;
         this.titleProp = titleProp;
@@ -90,11 +90,11 @@ public class Proposal implements TopItem {
         this.user = user;
     }
 
-    public int getResLogo() {
+    public String getResLogo() {
         return resLogo;
     }
 
-    public void setResLogo(int resLogo) {
+    public void setResLogo(String resLogo) {
         this.resLogo = resLogo;
     }
 

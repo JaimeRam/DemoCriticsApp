@@ -60,7 +60,7 @@ public class GetTopProposals extends ConnectionGet {
 
                     int idProposal = ob.getInt(TAG_PROPOSAL_ID);
                     String title = ob.getString(TAG_SECTION_TITLE);
-                    int idImage = ob.getInt(TAG_ID_IMAGE);
+                    String idImage = ob.getString(TAG_ID_IMAGE);
 
                     int numViews = ob.getInt(TAG_VIEWS);
                     int numLikes = ob.getInt(TAG_LIKES);
