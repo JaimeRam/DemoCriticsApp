@@ -24,14 +24,13 @@ import java.net.URL;
 
 public class MainActivity extends MenuActivity {
 
+    public static String SERVER = "https://apptfg-servicerest.rhcloud.com";
+    String a = "kk";
     private ListView topIndexListView;
-
     private Button btnPrograms;
     private Button btnComparatives;
     private Button btnProposals;
     private Button btnPolls;
-
-    public static String SERVER = "https://apptfg-servicerest.rhcloud.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

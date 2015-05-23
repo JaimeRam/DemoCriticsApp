@@ -11,14 +11,12 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 
-import com.example.zorbel.apptfg.adapters.MenuLeftListAdapter;
 import com.example.zorbel.apptfg.adapters.PartyWidgetAdapter;
 import com.example.zorbel.apptfg.programs.CategorizedProgramsActivity;
 import com.example.zorbel.apptfg.programs.PoliticalProgramIndexActivity;
 import com.example.zorbel.apptfg.proposals.CategorizedProposalsActivity;
 import com.example.zorbel.apptfg.proposals.NewProposalActivity;
 import com.example.zorbel.apptfg.proposals.ProposalViewerActivity;
-import com.example.zorbel.apptfg.views.MenuLeftItem;
 import com.example.zorbel.apptfg.views.TopHeaderItem;
 import com.example.zorbel.apptfg.views.TopItem;
 import com.example.zorbel.data_structures.PoliticalGroups;
@@ -26,12 +24,12 @@ import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service_connection.GetPoliticalParties;
 import com.example.zorbel.service_connection.GetTopIndex;
+import com.example.zorbel.service_connection.GetTopProposals;
 import com.example.zorbel.service_connection.GetTopSections;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class TabPageFragment extends Fragment {
 
@@ -175,29 +173,37 @@ public class TabPageFragment extends Fragment {
                 ListView lv = (ListView) view.findViewById(R.id.topTabPageListView);
 
                 //TODO: set the correct list
-                String[] tagTitles = view.getResources().getStringArray(R.array.MenuEntries);
 
-                //New list of drawer items
-                ArrayList<MenuLeftItem> items = new ArrayList<MenuLeftItem>();
-                items.add(new MenuLeftItem("Pim", view.getResources().getDrawable(R.drawable.ic_health_cross)));
-                items.add(new MenuLeftItem("Pam", view.getResources().getDrawable(R.drawable.ic_houses)));
-                items.add(new MenuLeftItem("Propuesta", view.getResources().getDrawable(R.drawable.ic_culture)));
-                items.add(new MenuLeftItem("Pim", view.getResources().getDrawable(R.drawable.ic_taxes)));
-                items.add(new MenuLeftItem("Pam", view.getResources().getDrawable(R.drawable.ic_others)));
-                items.add(new MenuLeftItem("Propuesta", view.getResources().getDrawable(R.drawable.ic_employment)));
-                items.add(new MenuLeftItem("Pim", view.getResources().getDrawable(R.drawable.ic_education)));
-                items.add(new MenuLeftItem("Pam", view.getResources().getDrawable(R.drawable.ic_health_cross)));
-                items.add(new MenuLeftItem("Propuesta", view.getResources().getDrawable(R.drawable.ic_taxes)));
-                items.add(new MenuLeftItem("Pim", view.getResources().getDrawable(R.drawable.ic_culture)));
-                items.add(new MenuLeftItem("Pam", view.getResources().getDrawable(R.drawable.ic_education)));
-                items.add(new MenuLeftItem("Propuesta", view.getResources().getDrawable(R.drawable.ic_others)));
-                items.add(new MenuLeftItem("Pim", view.getResources().getDrawable(R.drawable.ic_houses)));
-                items.add(new MenuLeftItem("Pam", view.getResources().getDrawable(R.drawable.ic_employment)));
-                items.add(new MenuLeftItem("Propuesta", view.getResources().getDrawable(R.drawable.ic_taxes)));
+                int limit = 10;
+                String sLink = new String();
 
+                switch (pageTab) {
+                    case 2: // Views
+                        sLink = new String(MainActivity.SERVER + "/top/proposals/views/");
+                        break;
+                    case 3: // Like
+                        sLink = new String(MainActivity.SERVER + "/top/proposals/likes/");
+                        break;
+                    case 4: // Comments
+                        sLink = new String(MainActivity.SERVER + "/top/proposals/comments/");
+                        break;
+                    case 5: // Not understood
+                        sLink = new String(MainActivity.SERVER + "/top/proposals/not_understood/");
+                        break;
+                    case 6: // Dislike
+                        sLink = new String(MainActivity.SERVER + "/top/proposals/dislikes/");
+                        break;
+                }
 
-                // Set the adapter
-                lv.setAdapter(new MenuLeftListAdapter(getActivity(), items));
+                URL link;
+
+                try {
+                    link = new URL(sLink + limit);
+                    GetTopProposals task = new GetTopProposals(getActivity(), view);
+                    task.execute(link);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
 
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

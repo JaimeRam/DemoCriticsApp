@@ -6,35 +6,36 @@
 
     <ImageView
         android:id="@+id/logoTop"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:layout_marginTop="10dp"
         android:id="@+id/titleTop"
-        android:layout_toRightOf="@id/logoTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/logoTop"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textStyle="bold"
+        android:text="SECCION 1: Recuperar la democracia"
         android:textSize="20dp"
-        android:text="SECCION 1: Recuperar la democracia" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/subTitleTop"
-        android:layout_below="@id/titleTop"
-        android:layout_toRightOf="@id/logoTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/titleTop"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/logoTop"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textSize="15dp"
+        android:text="Nombre Partido"
         android:textColor="#ABAB9B"
-        android:text="Nombre Partido" />
+        android:textSize="15dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -47,9 +48,9 @@
             android:id="@+id/numLikesTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:text="10"
-            android:layout_gravity="center_vertical" />
+            android:text="10" />
 
         <ImageView
             android:id="@+id/likeImageTop"
@@ -61,9 +62,9 @@
             android:id="@+id/numNotUnderstoodTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:text="5"
-            android:layout_gravity="center_vertical" />
+            android:text="5" />
 
         <ImageView
             android:id="@+id/notUnderstoodImageTop"
@@ -75,9 +76,9 @@
             android:id="@+id/numDislikesTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:text="7"
-            android:layout_gravity="center_vertical" />
+            android:text="7" />
 
         <ImageView
             android:id="@+id/dislikeImageTop"
@@ -89,9 +90,9 @@
             android:id="@+id/numCommentsTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:text="7"
-            android:layout_gravity="center_vertical" />
+            android:text="7" />
 
         <ImageView
             android:id="@+id/commentsImageTop"
@@ -103,9 +104,9 @@
             android:id="@+id/numViewsTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:text="7"
-            android:layout_gravity="center_vertical" />
+            android:text="7" />
 
         <ImageView
             android:id="@+id/viewsImageTop"

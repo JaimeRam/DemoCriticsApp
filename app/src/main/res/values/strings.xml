@@ -16,7 +16,7 @@
 
     <string-array name="MenuEntries">
         <item>Home</item>
-        <item>Partidos</item>
+        <item>Programas</item>
         <item>Categorías</item>
         <item>Propuestas</item>
         <item>Encuestas</item>
