@@ -2,8 +2,8 @@ package com.example.zorbel.apptfg.categories;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
@@ -13,10 +13,10 @@ import com.example.zorbel.tab_layout.SlidingTabLayout;
 
 public class CategoryActivity extends MenuActivity {
 
-    private final int INFTYPE = 3; //For categories
-
     public static final String ARG_CATEGORY = "ARG_CATEGORY";
+    public static final String ARG_ID_CATEGORY = "ARG_ID_CATEGORY";
     public static final String ARG_CATEGORYLOGO = "ARG_CATEGORYLOGO";
+    private final int INFTYPE = 3; //For categories
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class CategoryActivity extends MenuActivity {
 
         String title = getIntent().getExtras().getString(ARG_CATEGORY);
         int photoRes = getIntent().getExtras().getInt(ARG_CATEGORYLOGO);
+        int id_category = getIntent().getExtras().getInt(ARG_CATEGORYLOGO);
 
         super.setMenus(findViewById(R.id.drawer_layout), 0);
 
@@ -56,8 +57,6 @@ public class CategoryActivity extends MenuActivity {
         // Center the tabs in the layout
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
-
-
     }
 
 

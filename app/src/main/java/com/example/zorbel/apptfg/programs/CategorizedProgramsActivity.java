@@ -5,16 +5,20 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.service_connection.GetTopSections;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class CategorizedProgramsActivity extends MenuActivity {
 
-    private ListView categorizedSectionsListView;
-
     public static final String ARG_CATEGORY = "ARG_CATEGORY";
+    public static final String ARG_ID_CATEGORY = "ARG_ID_CATEGORY";
     public static final String ARG_CATEGORYLOGO = "ARG_CATEGORYLOGO";
-
+    private ListView categorizedSectionsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,7 @@ public class CategorizedProgramsActivity extends MenuActivity {
 
         String title = getIntent().getExtras().getString(ARG_CATEGORY);
         int photoRes = getIntent().getExtras().getInt(ARG_CATEGORYLOGO);
+        int id_category = getIntent().getExtras().getInt(ARG_ID_CATEGORY);
 
         super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4775FF")));
 
@@ -35,8 +40,19 @@ public class CategorizedProgramsActivity extends MenuActivity {
         //Set the title category for the action bar
         super.getSupportActionBar().setTitle(title);
 
-
-
+        getSectionsData(id_category);
     }
 
+    private void getSectionsData(int id_category) {
+        int limit = 10;
+        URL link;
+
+        try {
+            link = new URL(MainActivity.SERVER + "/category/" + id_category + "/section/" + limit);
+            GetTopSections task = new GetTopSections(this, findViewById(R.id.layoutTop10));
+            task.execute(link);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 }

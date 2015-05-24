@@ -13,6 +13,7 @@ import com.example.zorbel.apptfg.R;
 public class CategoriesListActivity extends MenuActivity {
 
     public static final String ARG_CATEGORY = "ARG_CATEGORY";
+    public static final String ARG_ID_CATEGORY = "ARG_ID_CATEGORY";
     public static final String ARG_CATEGORYLOGO = "ARG_CATEGORYLOGO";
 
     @Override
@@ -45,6 +46,7 @@ public class CategoriesListActivity extends MenuActivity {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryHealth));
+                b.putInt(ARG_ID_CATEGORY, 1);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_health_cross);
                 in.putExtras(b);
                 startActivity(in);
@@ -63,6 +65,7 @@ public class CategoriesListActivity extends MenuActivity {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryEducation));
+                b.putInt(ARG_ID_CATEGORY, 2);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_education);
                 in.putExtras(b);
                 startActivity(in);
@@ -81,6 +84,7 @@ public class CategoriesListActivity extends MenuActivity {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryEmployment));
+                b.putInt(ARG_ID_CATEGORY, 3);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_employment);
                 in.putExtras(b);
                 startActivity(in);
@@ -99,6 +103,7 @@ public class CategoriesListActivity extends MenuActivity {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryHomes));
+                b.putInt(ARG_ID_CATEGORY, 4);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_houses);
                 in.putExtras(b);
                 startActivity(in);
@@ -117,6 +122,7 @@ public class CategoriesListActivity extends MenuActivity {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryTaxes));
+                b.putInt(ARG_ID_CATEGORY, 5);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_taxes);
                 in.putExtras(b);
                 startActivity(in);
@@ -135,6 +141,7 @@ public class CategoriesListActivity extends MenuActivity {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryCulture));
+                b.putInt(ARG_ID_CATEGORY, 6);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_culture);
                 in.putExtras(b);
                 startActivity(in);
@@ -153,6 +160,7 @@ public class CategoriesListActivity extends MenuActivity {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryOthers));
+                b.putInt(ARG_ID_CATEGORY, 7);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_others);
                 in.putExtras(b);
                 startActivity(in);

@@ -18,8 +18,6 @@ import com.example.zorbel.apptfg.programs.SectionViewerActivity;
 import com.example.zorbel.apptfg.proposals.CategorizedProposalsActivity;
 import com.example.zorbel.apptfg.proposals.NewProposalActivity;
 import com.example.zorbel.apptfg.proposals.ProposalViewerActivity;
-import com.example.zorbel.apptfg.views.PartyWidgetView;
-import com.example.zorbel.apptfg.views.TopHeaderItem;
 import com.example.zorbel.apptfg.views.TopItem;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.PoliticalParty;
@@ -27,7 +25,6 @@ import com.example.zorbel.data_structures.Proposal;
 import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service_connection.GetPoliticalParties;
 import com.example.zorbel.service_connection.GetProgramsData;
-import com.example.zorbel.service_connection.GetTopIndex;
 import com.example.zorbel.service_connection.GetTopProposals;
 import com.example.zorbel.service_connection.GetTopSections;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -41,6 +38,7 @@ public class TabPageFragment extends Fragment {
     public static final String ARG_PAGETAB = "ARG_TOPTYPE";
 
     public static final String ARG_CATEGORY = "ARG_CATEGORY";
+    public static final String ARG_ID_CATEGORY = "ARG_ID_CATEGORY";
     public static final String ARG_CATEGORYLOGO = "ARG_CATEGORYLOGO";
 
     private int infType;
@@ -296,6 +294,7 @@ public class TabPageFragment extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryHealth));
+                b.putInt(ARG_ID_CATEGORY, 1);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_health_cross);
                 in.putExtras(b);
                 startActivity(in);
@@ -314,6 +313,7 @@ public class TabPageFragment extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryEducation));
+                b.putInt(ARG_ID_CATEGORY, 2);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_education);
                 in.putExtras(b);
                 startActivity(in);
@@ -332,6 +332,7 @@ public class TabPageFragment extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryEmployment));
+                b.putInt(ARG_ID_CATEGORY, 3);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_employment);
                 in.putExtras(b);
                 startActivity(in);
@@ -350,6 +351,7 @@ public class TabPageFragment extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryHomes));
+                b.putInt(ARG_ID_CATEGORY, 4);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_houses);
                 in.putExtras(b);
                 startActivity(in);
@@ -368,6 +370,7 @@ public class TabPageFragment extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryTaxes));
+                b.putInt(ARG_ID_CATEGORY, 5);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_taxes);
                 in.putExtras(b);
                 startActivity(in);
@@ -386,6 +389,7 @@ public class TabPageFragment extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryCulture));
+                b.putInt(ARG_ID_CATEGORY, 6);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_culture);
                 in.putExtras(b);
                 startActivity(in);
@@ -404,6 +408,7 @@ public class TabPageFragment extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryOthers));
+                b.putInt(ARG_ID_CATEGORY, 7);
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_others);
                 in.putExtras(b);
                 startActivity(in);
