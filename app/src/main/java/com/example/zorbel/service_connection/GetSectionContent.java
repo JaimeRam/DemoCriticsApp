@@ -28,15 +28,15 @@ public class GetSectionContent extends ConnectionGet {
     private static final String TAG_SECTION_DISLIKES = "dislikes";
     private static final String TAG_SECTION_NUM_COMMENTS = "comments";
 
-    private int politicalProgramGroupIndex;
+    private int politicalProgramId;
 
     private Section currentSection;
 
     private ProgressDialog pDialog;
 
-    public GetSectionContent(Context mContext, View mRootView, int index) {
+    public GetSectionContent(Context mContext, View mRootView, int id) {
         super(mContext, mRootView);
-        this.politicalProgramGroupIndex = index;
+        this.politicalProgramId = id;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class GetSectionContent extends ConnectionGet {
 
                 int num_comments = s.getInt(TAG_SECTION_NUM_COMMENTS);
 
-                currentSection = PoliticalGroups.getInstance().getSection(politicalProgramGroupIndex, id_section);
+                currentSection = PoliticalGroups.getInstance().getSection(politicalProgramId, id_section);
 
                 currentSection.setmText(text);
                 currentSection.setNumLikes(likes);

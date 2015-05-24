@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -23,8 +24,8 @@ import java.util.List;
 public class NewProposalActivity extends MenuActivity {
 
     private Spinner spinnerCategory;
-    private Button mButtonSubmit;
-    private Button mButtonCancel;
+    private FloatingActionButton mButtonSubmit;
+    private FloatingActionButton mButtonCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class NewProposalActivity extends MenuActivity {
 
         super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00B800")));
 
-        mButtonSubmit = (Button) findViewById(R.id.addNewProposal);
+        mButtonSubmit = (FloatingActionButton) findViewById(R.id.addNewProposal);
         mButtonSubmit.setOnClickListener(new View.OnClickListener() {
             URL link;
 
@@ -47,7 +48,7 @@ public class NewProposalActivity extends MenuActivity {
                 try {
                     link = new URL(MainActivity.SERVER + "/proposal");
 
-                    //TODO: set the user for the comment
+                    //TODO: set the user for the proposal
 
                     ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("id_user", Integer.toString(1)));
@@ -64,7 +65,8 @@ public class NewProposalActivity extends MenuActivity {
                 }
             }
         });
-        mButtonSubmit = (Button) findViewById(R.id.CancelNewProposal);
+
+        mButtonCancel = (FloatingActionButton) findViewById(R.id.cancelNewProposal);
 
         spinnerCategory = (Spinner) findViewById(R.id.spinnerCategoryProposal);
 

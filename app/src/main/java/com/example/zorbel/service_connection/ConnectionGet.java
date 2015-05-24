@@ -45,7 +45,7 @@ public class ConnectionGet extends ConnectionURL {
                     builder.append(line);
                 }
             } else {
-                Log.e(GetPoliticalParties.class.toString(), "Failed to get JSON object");
+                Log.e(ConnectionGet.class.toString(), "Failed to get JSON object");
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();

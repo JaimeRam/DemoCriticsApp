@@ -25,13 +25,6 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/txtTextProposal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:lines="10"
-                    android:hint="Escribe aqui tu propuesta: " />
-
-                <EditText
                     android:id="@+id/txtTitleProposal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -52,6 +45,13 @@
                     android:ems="10"
                     android:prompt="@string/app_name"
                     android:id="@+id/spinnerCategoryProposal"/>
+
+                <EditText
+                    android:id="@+id/txtTextProposal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="10"
+                    android:hint="Escribe aqui tu propuesta: " />
 
                 <EditText
                     android:id="@+id/txtHowProposal"
@@ -83,7 +83,7 @@
                         android:layout_marginBottom="16dp"/>
 
                     <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/CancelNewProposal"
+                        android:id="@+id/cancelNewProposal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         fab:fab_icon="@mipmap/ic_action_accept"

@@ -23,8 +23,8 @@ public class PoliticalGroups {
         this.mlistOfPoliticalParties = mlistOfPoliticalParties;
     }
 
-    public Section getSection(int index_political_party, int section) {
-        PoliticalParty plp = mlistOfPoliticalParties.get(index_political_party);
+    public Section getSection(int idPol, int section) {
+        PoliticalParty plp = getPoliticalParty(idPol);
         Section root = plp.getmSectionRoot();
 
         Section sect = root.getlSections().get((section / 1000000) - 1); // Get section of level 1 (array starts in zero)
@@ -67,4 +67,6 @@ public class PoliticalGroups {
 
         return p;
     }
+
+
 }

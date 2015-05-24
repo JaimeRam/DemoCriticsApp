@@ -93,11 +93,11 @@ public class ProgramsFragment extends Fragment {
 
     }
 
-    private void getProgramSectionsData(int id, int index) {
+    private void getProgramSectionsData(int id) {
         URL link = null;
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
-            GetProgramsData task = new GetProgramsData(this.getActivity(), null, id, index);
+            GetProgramsData task = new GetProgramsData(this.getActivity(), null, id);
             task.execute(link);
 
         } catch (MalformedURLException e) {

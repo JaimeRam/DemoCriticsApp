@@ -42,9 +42,9 @@ public class PoliticalProgramIndexActivity extends MenuActivity {
 
         super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4775FF")));
 
-        final int polIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
+        final int polId = getIntent().getExtras().getInt("PoliticalPartyId");
 
-        polParty = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex);
+        polParty = PoliticalGroups.getInstance().getPoliticalParty(polId);
 
         ImageView logo = (ImageView) findViewById(R.id.partyLogoIndex);
         logo.setImageBitmap(polParty.getmLogo());
@@ -55,9 +55,9 @@ public class PoliticalProgramIndexActivity extends MenuActivity {
         mIndexListView = (ListView) findViewById(R.id.indexListView);
 
         if (polParty.getmSectionRoot() == null) {
-            getProgramSectionsData(polParty.getmId(), polIndex);
+            getProgramSectionsData(polParty.getmId());
         } else {
-            List<Section> index = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(polIndex).getmSectionRoot().getlSections();
+            List<Section> index = PoliticalGroups.getInstance().getPoliticalParty(polId).getmSectionRoot().getlSections();
 
             mIndexListView.setAdapter(new ListIndexAdapter(this, index));
         }
@@ -72,7 +72,7 @@ public class PoliticalProgramIndexActivity extends MenuActivity {
                 int section_id = sec.getmSection();
 
                 Bundle b = new Bundle();
-                b.putInt("PoliticalPartyIndex", polIndex);
+                b.putInt("PoliticalPartyId", polId);
                 b.putInt("SectionId", section_id);
 
                 in.putExtras(b);
@@ -97,11 +97,11 @@ public class PoliticalProgramIndexActivity extends MenuActivity {
         return true;
     }
 
-    private void getProgramSectionsData(int id, int index) {
+    private void getProgramSectionsData(int id) {
         URL link;
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
-            GetProgramsData task = new GetProgramsData(this, findViewById(R.id.activityPoliticalProgramIndexLayout), id, index);
+            GetProgramsData task = new GetProgramsData(this, findViewById(R.id.activityPoliticalProgramIndexLayout), id);
             task.execute(link);
 
         } catch (MalformedURLException e) {

@@ -22,15 +22,12 @@ public class GetProgramsData extends ConnectionGet {
 
     private static final String TAG_SECTION_TITLE = "title";
     private static final String TAG_SECTION_ID = "section";
-    private static final String TAG_SECTION_TEXT = "text";
 
-    private int politicalProgramId;
-    private int politicalProgramGroupIndex;
+    private int politicalPartyId;
 
-    public GetProgramsData(Context mContext, View mRootView, int id, int index) {
+    public GetProgramsData(Context mContext, View mRootView, int id) {
         super(mContext, mRootView);
-        this.politicalProgramId = id;
-        this.politicalProgramGroupIndex = index;
+        this.politicalPartyId = id;
     }
 
     @Override
@@ -38,7 +35,7 @@ public class GetProgramsData extends ConnectionGet {
 
         super.doInBackground(urls);
 
-        getPoliticalProgram(super.getJson(), politicalProgramId);
+        getPoliticalProgram(super.getJson(), politicalPartyId);
 
         return null;
     }
@@ -53,7 +50,7 @@ public class GetProgramsData extends ConnectionGet {
         super.onPostExecute(aVoid);
 
         if(super.getmRootView() != null) {
-            List<Section> index = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).getmSectionRoot().getlSections();
+            List<Section> index = PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId).getmSectionRoot().getlSections();
 
             ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
             mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), index));
@@ -91,7 +88,7 @@ public class GetProgramsData extends ConnectionGet {
 
         Section root = new Section(0, id, null, null, null);
         createIndex(root, al, 0);
-        PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalProgramGroupIndex).setmSectionRoot(root);
+        PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId).setmSectionRoot(root);
 
     }
 

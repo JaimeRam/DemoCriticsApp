@@ -65,7 +65,7 @@ public class SectionViewerActivity extends ActionBarActivity {
     private Button dislikeButton;
 
     private Section currentSection;
-    private int politicalPartyGroupIndex;
+    private int politicalPartyId;
     private int sectionId;
 
     @Override
@@ -83,12 +83,12 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         mIndexListView = (ListView) findViewById(R.id.indexListView);
 
-        politicalPartyGroupIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
+        politicalPartyId = getIntent().getExtras().getInt("PoliticalPartyId");
         sectionId = getIntent().getExtras().getInt("SectionId");
 
-        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyGroupIndex, sectionId);
+        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyId, sectionId);
 
-        getSectionContentData(currentSection.getmSection(), currentSection.getmPoliticalParty(), politicalPartyGroupIndex);
+        getSectionContentData(currentSection.getmSection(), currentSection.getmPoliticalParty());
 
         mIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,7 +100,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 int section_id = sec.getmSection();
 
                 Bundle b = new Bundle();
-                b.putInt("PoliticalPartyIndex", politicalPartyGroupIndex);
+                b.putInt("PoliticalPartyId", politicalPartyId);
                 b.putInt("SectionId", section_id);
 
                 in.putExtras(b);
@@ -113,7 +113,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 Intent i = new Intent(SectionViewerActivity.this, CommentsSectionActivity.class);
 
                 Bundle b = new Bundle();
-                b.putInt("PoliticalPartyIndex", politicalPartyGroupIndex);
+                b.putInt("PoliticalPartyId", politicalPartyId);
                 b.putInt("SectionId", sectionId);
 
                 i.putExtras(b);
@@ -244,7 +244,7 @@ public class SectionViewerActivity extends ActionBarActivity {
 
     public void createRightIndex() {
 
-        List<Section> headers = PoliticalGroups.getInstance().getMlistOfPoliticalParties().get(politicalPartyGroupIndex).getmSectionRoot().getlSections();
+        List<Section> headers = PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId).getmSectionRoot().getlSections();
         HashMap<Section, List<Section>> listDataChild = generateSubSections(headers);
 
         mRightIndexAdapter = new ExpandableIndexAdapter(this, headers, listDataChild);
@@ -261,7 +261,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 int section_id = sec.getmSection();
 
                 Bundle b = new Bundle();
-                b.putInt("PoliticalPartyIndex", politicalPartyGroupIndex);
+                b.putInt("PoliticalPartyId", politicalPartyId);
                 b.putInt("SectionId", section_id);
 
                 in.putExtras(b);
@@ -283,7 +283,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 int section_id = sec.getmSection();
 
                 Bundle b = new Bundle();
-                b.putInt("PoliticalPartyIndex", politicalPartyGroupIndex);
+                b.putInt("PoliticalPartyId", politicalPartyId);
                 b.putInt("SectionId", section_id);
 
                 in.putExtras(b);
@@ -419,7 +419,7 @@ public class SectionViewerActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(drawerListLeft);
     }
 
-    private void getSectionContentData(int id_section, int id_politicalParty, int index) {
+    private void getSectionContentData(int id_section, int id_politicalParty) {
         URL link = null;
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty/" + id_politicalParty + "/section/" + id_section);
@@ -427,7 +427,7 @@ public class SectionViewerActivity extends ActionBarActivity {
             //Prepare post arguments
             //String parameters = "section=" + URLEncoder.encode(Integer.toString(id_section), "UTF-8") + "&id_political_party=" + URLEncoder.encode(Integer.toString(id_politicalParty), "UTF-8");
 
-            GetSectionContent task = new GetSectionContent(this, findViewById(R.id.activitySectionViewerLayout), index);
+            GetSectionContent task = new GetSectionContent(this, findViewById(R.id.activitySectionViewerLayout), id_politicalParty);
             task.execute(link);
 
         } catch (MalformedURLException e) {

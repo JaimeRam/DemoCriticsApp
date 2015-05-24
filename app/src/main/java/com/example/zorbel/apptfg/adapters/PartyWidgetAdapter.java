@@ -28,7 +28,7 @@ public class PartyWidgetAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return mPartiesList.get(position);
     }
 
     @Override

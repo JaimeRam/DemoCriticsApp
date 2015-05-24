@@ -37,7 +37,7 @@ public class CommentsSectionActivity extends MenuActivity {
     private Button buttonSendComment;
 
     private int sectionId;
-    private int politicalPartyIndex;
+    private int politicalPartyId;
     private Section currentSection;
 
     @Override
@@ -54,10 +54,10 @@ public class CommentsSectionActivity extends MenuActivity {
         buttonSendComment = (Button) findViewById(R.id.buttonSendComment);
         buttonSendComment.setEnabled(false);
 
-        politicalPartyIndex = getIntent().getExtras().getInt("PoliticalPartyIndex");
+        politicalPartyId = getIntent().getExtras().getInt("PoliticalPartyId");
         sectionId = getIntent().getExtras().getInt("SectionId");
 
-        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyIndex, sectionId);
+        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyId, sectionId);
 
         final int politicalPartyId = currentSection.getmPoliticalParty();
 

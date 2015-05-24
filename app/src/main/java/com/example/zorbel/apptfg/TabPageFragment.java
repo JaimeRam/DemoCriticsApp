@@ -14,15 +14,19 @@ import android.widget.ListView;
 import com.example.zorbel.apptfg.adapters.PartyWidgetAdapter;
 import com.example.zorbel.apptfg.programs.CategorizedProgramsActivity;
 import com.example.zorbel.apptfg.programs.PoliticalProgramIndexActivity;
+import com.example.zorbel.apptfg.programs.SectionViewerActivity;
 import com.example.zorbel.apptfg.proposals.CategorizedProposalsActivity;
 import com.example.zorbel.apptfg.proposals.NewProposalActivity;
 import com.example.zorbel.apptfg.proposals.ProposalViewerActivity;
+import com.example.zorbel.apptfg.views.PartyWidgetView;
 import com.example.zorbel.apptfg.views.TopHeaderItem;
 import com.example.zorbel.apptfg.views.TopItem;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.PoliticalParty;
+import com.example.zorbel.data_structures.Proposal;
 import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service_connection.GetPoliticalParties;
+import com.example.zorbel.service_connection.GetProgramsData;
 import com.example.zorbel.service_connection.GetTopIndex;
 import com.example.zorbel.service_connection.GetTopProposals;
 import com.example.zorbel.service_connection.GetTopSections;
@@ -77,7 +81,7 @@ public class TabPageFragment extends Fragment {
 
                 view = inflater.inflate(R.layout.tab_page_political_parties, container, false);
 
-                GridView gridview = (GridView) view.findViewById(R.id.gridview);
+                final GridView gridview = (GridView) view.findViewById(R.id.gridview);
 
                 if (PoliticalGroups.getInstance().getMlistOfPoliticalParties() == null) {
 
@@ -94,11 +98,12 @@ public class TabPageFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View v,
                                             int position, long id) {
 
+                        PoliticalParty polParty = (PoliticalParty) gridview.getItemAtPosition(position);
 
                         Intent in = new Intent(getActivity(), PoliticalProgramIndexActivity.class);
                         Bundle b = new Bundle();
 
-                        b.putInt("PoliticalPartyIndex", position);
+                        b.putInt("PoliticalPartyId", polParty.getmId());
                         in.putExtras(b);
 
                         startActivity(in);
@@ -144,6 +149,8 @@ public class TabPageFragment extends Fragment {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
+
+                setListTopListeners(view);
             }
 
         } else if (infType == 2) { // PROPOSALS Activity
@@ -178,6 +185,9 @@ public class TabPageFragment extends Fragment {
                 String sLink = new String();
 
                 switch (pageTab) {
+                    case 1: // Date
+                        sLink = new String(MainActivity.SERVER + "/top/proposals/date/");
+                        break;
                     case 2: // Views
                         sLink = new String(MainActivity.SERVER + "/top/proposals/views/");
                         break;
@@ -251,6 +261,19 @@ public class TabPageFragment extends Fragment {
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty");
             GetPoliticalParties task = new GetPoliticalParties(getActivity(), v.findViewById(R.id.partiesLayout));
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void getProgramSectionsData(View v, int id) {
+        URL link;
+        try {
+            link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
+            GetProgramsData task = new GetProgramsData(getActivity(), null, id);
             task.execute(link);
 
         } catch (MalformedURLException e) {
@@ -523,13 +546,13 @@ public class TabPageFragment extends Fragment {
 
     }
 
-    private void setListListeners(View v) {
+    private void setListTopListeners(final View v) {
 
         //set more Views header
 
-        ListView topIndexListView = (ListView) v.findViewById(R.id.topTabPageListView);
+        ListView topListView = (ListView) v.findViewById(R.id.topTabPageListView);
 
-        topIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        topListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -546,20 +569,25 @@ public class TabPageFragment extends Fragment {
                         PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(sec.getmPoliticalParty());
 
                         if (pol.getmSectionRoot() == null) {
-                            //getProgramSectionsData();
+
+                            getProgramSectionsData(v, sec.getmPoliticalParty());
                         }
 
-                    } else {
-
-                        TopHeaderItem header = (TopHeaderItem) it;
-
-                        Intent in = new Intent(getActivity(), Top10Activity.class);
+                        Intent in = new Intent(getActivity(), SectionViewerActivity.class);
 
                         Bundle b = new Bundle();
-                        b.putString("TopURL", header.getHeaderType());
+                        b.putInt("PoliticalPartyId", pol.getmId());
+                        b.putInt("SectionId", sec.getmSection());
 
                         in.putExtras(b);
 
+                        startActivity(in);
+
+                    } else if (it.isProposal()) {
+
+                        Proposal prop = (Proposal) it;
+
+                        Intent in = new Intent(getActivity(), ProposalViewerActivity.class);
                         startActivity(in);
 
                     }
@@ -569,17 +597,4 @@ public class TabPageFragment extends Fragment {
 
     }
 
-    private void getTop3Ranking(View rootView) {
-        URL link;
-        try {
-            link = new URL(MainActivity.SERVER + "/top");
-
-            GetTopIndex task = new GetTopIndex(this.getActivity(), rootView);
-            task.execute(link);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-    }
 }
