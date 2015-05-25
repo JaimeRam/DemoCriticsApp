@@ -204,19 +204,6 @@ public class TabPageFragment extends Fragment {
                             break;
                     }
 
-                    URL link;
-
-                    try {
-                        link = new URL(sLink + limit);
-                        GetTopProposals task = new GetTopProposals(getActivity(), view);
-                        task.execute(link);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    setListTopListeners(view);
-
                 } else { // categorized tabs
 
                     view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
@@ -233,9 +220,42 @@ public class TabPageFragment extends Fragment {
                         }
                     });
 
-                    // TODO: set the categorized tops
+
+                    switch (pageTab) {
+                        case 1: // Date
+                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/date/");
+                            break;
+                        case 2: // Views
+                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/views/");
+                            break;
+                        case 3: // Like
+                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/likes/");
+                            break;
+                        case 4: // Comments
+                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/comments/");
+                            break;
+                        case 5: // Not understood
+                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/not_understood/");
+                            break;
+                        case 6: // Dislike
+                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/dislikes/");
+                            break;
+                    }
 
                 }
+
+                URL link;
+
+                try {
+                    link = new URL(sLink + limit);
+                    GetTopProposals task = new GetTopProposals(getActivity(), view);
+                    task.execute(link);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+
+                setListTopListeners(view);
 
 
             }

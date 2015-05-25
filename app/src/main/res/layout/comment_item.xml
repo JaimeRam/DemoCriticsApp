@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_margin="5dp"
         android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
         android:id="@+id/commentText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="20dp"
         android:layout_below="@id/commentUser" />
 
 </RelativeLayout>

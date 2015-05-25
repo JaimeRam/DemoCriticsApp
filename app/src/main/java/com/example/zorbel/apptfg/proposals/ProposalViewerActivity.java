@@ -10,9 +10,8 @@ import android.widget.Button;
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
-import com.example.zorbel.apptfg.programs.CommentsSectionActivity;
 import com.example.zorbel.service_connection.GetProposalContent;
-import com.example.zorbel.service_connection.GetSectionContent;
+import com.example.zorbel.service_connection.PutOpinion;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -50,8 +49,62 @@ public class ProposalViewerActivity extends MenuActivity {
         commentButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent i = new Intent(ProposalViewerActivity.this, CommentsProposalActivity.class);
-                startActivity(i);
+                Intent in = new Intent(ProposalViewerActivity.this, CommentsProposalActivity.class);
+
+                Bundle b = new Bundle();
+                b.putInt("ProposalId", proposalId);
+
+                in.putExtras(b);
+
+                startActivity(in);
+            }
+        });
+
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                URL link = null;
+
+                try {
+                    link = new URL(MainActivity.SERVER + "/proposal/" + proposalId + "/like");
+
+                    PutOpinion task = new PutOpinion(ProposalViewerActivity.this, findViewById(R.id.activityProposalViewerLayout));
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        dislikeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                URL link = null;
+
+                try {
+                    link = new URL(MainActivity.SERVER + "/proposal/" + proposalId + "/dislike");
+
+                    PutOpinion task = new PutOpinion(ProposalViewerActivity.this, findViewById(R.id.activityProposalViewerLayout));
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        notUnderstoodButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                URL link = null;
+
+                try {
+                    link = new URL(MainActivity.SERVER + "/proposal/" + proposalId +  "/notUnderstood");
+
+                    PutOpinion task = new PutOpinion(ProposalViewerActivity.this, findViewById(R.id.activityProposalViewerLayout));
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

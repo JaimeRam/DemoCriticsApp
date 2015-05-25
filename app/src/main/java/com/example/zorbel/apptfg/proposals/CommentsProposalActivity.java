@@ -37,6 +37,8 @@ public class CommentsProposalActivity extends MenuActivity {
     private EditText editTextComment;
     private Button buttonSendComment;
 
+    private int proposalId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +48,56 @@ public class CommentsProposalActivity extends MenuActivity {
 
         super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00B800")));
 
+        proposalId = getIntent().getExtras().getInt("ProposalId");
+
+        getProposalComments(proposalId);
+
         listViewComments = (ListView) findViewById(R.id.listViewComments);
         editTextComment = (EditText) findViewById(R.id.editTextComment);
         buttonSendComment = (Button) findViewById(R.id.buttonSendComment);
-        buttonSendComment.setEnabled(false);
+        //buttonSendComment.setEnabled(false);
 
         buttonSendComment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                URL link;
+
+                try {
+                    link = new URL(MainActivity.SERVER + "/proposal/" + proposalId + "/comment");
+
+                    //TODO: set the user for the comment
+
+                    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("id_user", Integer.toString(1)));
+                    params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
+
+                    PostComment task = new PostComment(CommentsProposalActivity.this, params, findViewById(R.id.activityCommentsLayout));
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+                editTextComment.setText("");
+                InputMethodManager imm = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editTextComment.getWindowToken(), 0);
+            }
+        });
+
+        editTextComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                enableSubmitIfReady();
             }
         });
 
@@ -66,6 +111,20 @@ public class CommentsProposalActivity extends MenuActivity {
             buttonSendComment.setEnabled(true);
         else
             buttonSendComment.setEnabled(false);
+    }
+
+    private void getProposalComments(int id_prop) {
+        URL link;
+        try {
+            link = new URL(MainActivity.SERVER + "/proposal/" + id_prop + "/comment");
+
+            GetComments task = new GetComments(this, findViewById(R.id.activityCommentsLayout));
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

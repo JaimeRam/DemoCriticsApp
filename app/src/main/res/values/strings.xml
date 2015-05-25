@@ -14,8 +14,10 @@
     <string name="drawer_open">Menu Abierto!</string>
     <string name="drawer_close">Menu Cerrado!</string>
 
+    <string name="anonymousUser">Anónimo</string>
+
     <string-array name="MenuEntries">
-        <item>Home</item>
+        <item>Inicio</item>
         <item>Programas</item>
         <item>Categorías</item>
         <item>Propuestas</item>
