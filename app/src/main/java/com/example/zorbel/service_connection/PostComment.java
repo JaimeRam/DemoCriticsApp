@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ListView;
 
-import com.example.zorbel.apptfg.adapters.CommentListAdapter;
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.apptfg.adapters.CommentListAdapter;
 import com.example.zorbel.data_structures.Comment;
 
 import org.apache.http.NameValuePair;
@@ -26,7 +26,6 @@ public class PostComment extends ConnectionPost {
     private List<Comment> listComments;
 
     public PostComment(Context mContext, ArrayList<NameValuePair> par, View mRootView) {
-
         super(mContext, mRootView, par);
     }
 

@@ -77,7 +77,6 @@ public class GetTopProposals extends ConnectionGet {
                 e.printStackTrace();
             }
         }
-
     }
 
     private void showTop() {

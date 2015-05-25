@@ -5,12 +5,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.service_connection.PostProposal;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import org.apache.http.NameValuePair;
@@ -26,6 +27,10 @@ public class NewProposalActivity extends MenuActivity {
     private Spinner spinnerCategory;
     private FloatingActionButton mButtonSubmit;
     private FloatingActionButton mButtonCancel;
+    private EditText mEditTextTitleProposal;
+    private EditText mEditTextTextProposal;
+    private EditText mEditTextHowProposal;
+    private EditText mEditTextCostProposal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,11 @@ public class NewProposalActivity extends MenuActivity {
         super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00B800")));
 
         mButtonSubmit = (FloatingActionButton) findViewById(R.id.addNewProposal);
+        mEditTextTitleProposal = (EditText) findViewById(R.id.txtTitleProposal);
+        mEditTextTextProposal = (EditText) findViewById(R.id.txtTextProposal);
+        mEditTextHowProposal = (EditText) findViewById(R.id.txtHowProposal);
+        mEditTextCostProposal = (EditText) findViewById(R.id.txtMoneyProposal);
+
         mButtonSubmit.setOnClickListener(new View.OnClickListener() {
             URL link;
 
@@ -52,13 +62,16 @@ public class NewProposalActivity extends MenuActivity {
 
                     ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("id_user", Integer.toString(1)));
-                    params.add(new BasicNameValuePair("text", ""));
-                    params.add(new BasicNameValuePair("how", ""));
-                    params.add(new BasicNameValuePair("cost", ""));
-                    params.add(new BasicNameValuePair("id_image", ""));
+                    params.add(new BasicNameValuePair("title", mEditTextTitleProposal.getText().toString()));
+                    params.add(new BasicNameValuePair("text", mEditTextTextProposal.getText().toString()));
+                    params.add(new BasicNameValuePair("how", mEditTextHowProposal.getText().toString()));
+                    params.add(new BasicNameValuePair("cost", mEditTextCostProposal.getText().toString()));
+                    params.add(new BasicNameValuePair("id_category", Integer.toString(spinnerCategory.getSelectedItemPosition())));
+                    int index = spinnerCategory.getSelectedItemPosition() + 1;
+                    params.add(new BasicNameValuePair("id_image", Integer.toString(index)));
 
-                    /*PostComment task = new PostComment(CommentsSectionActivity.this, params, findViewById(R.id.activityCommentsLayout));
-                    task.execute(link);*/
+                    PostProposal task = new PostProposal(NewProposalActivity.this, params, findViewById(R.id.addNewProposal));
+                    task.execute(link);
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -74,9 +87,9 @@ public class NewProposalActivity extends MenuActivity {
         list.add("#Sanidad");
         list.add("#Educación");
         list.add("#Empleo");
-        list.add("#Cultura");
-        list.add("#Impuestos");
         list.add("#Vivienda");
+        list.add("#Impuestos");
+        list.add("#Cultura");
         list.add("#Otros");
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -86,5 +99,4 @@ public class NewProposalActivity extends MenuActivity {
 
         spinnerCategory.setAdapter(dataAdapter);
     }
-
 }

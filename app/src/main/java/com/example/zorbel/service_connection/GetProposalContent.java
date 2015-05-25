@@ -12,7 +12,6 @@ import com.example.zorbel.data_structures.Proposal;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.net.URL;
 
@@ -58,12 +57,10 @@ public class GetProposalContent extends ConnectionGet {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-
         updateView();
     }
 
     protected void updateView() {
-
         ImageView proposalImage = (ImageView) super.getmRootView().findViewById(R.id.proposalImage);
 
         TextView proposalTitle = (TextView) super.getmRootView().findViewById(R.id.proposalTitle);
@@ -95,8 +92,6 @@ public class GetProposalContent extends ConnectionGet {
         dislikeButton.setText("(" + currentProposal.getNumDislikes() + ")");
         notUnderstoodButton.setText("(" + currentProposal.getNumNotUnderstoods() + ")");
         commentButton.setText(super.getmContext().getString(R.string.name_buttonComment) + "  (" + currentProposal.getNumComments() + ")");
-
-
     }
 
     protected void getProposalData(String jsonStr) {
