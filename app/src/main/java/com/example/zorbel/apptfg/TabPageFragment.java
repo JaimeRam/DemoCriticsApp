@@ -43,11 +43,13 @@ public class TabPageFragment extends Fragment {
 
     private int infType;
     private int pageTab;
+    private int categoryId;
 
-    public static TabPageFragment newInstance(int pageTop, int infType) {
+    public static TabPageFragment newInstance(int pageTop, int infType, int idCat) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGETAB, pageTop);
         args.putInt(ARG_INFOTYPE, infType);
+        args.putInt(ARG_ID_CATEGORY, idCat);
         TabPageFragment fragment = new TabPageFragment();
         fragment.setArguments(args);
         return fragment;
@@ -58,6 +60,7 @@ public class TabPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         pageTab = getArguments().getInt(ARG_PAGETAB);
         infType = getArguments().getInt(ARG_INFOTYPE);
+        categoryId = getArguments().getInt(ARG_ID_CATEGORY);
     }
 
     @Override
@@ -161,79 +164,103 @@ public class TabPageFragment extends Fragment {
 
             } else { //Top Tabs
 
-                view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
-
-                FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
-
-                addButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent in = new Intent(getActivity(), NewProposalActivity.class);
-                        startActivity(in);
-
-                    }
-                });
-
-                ListView lv = (ListView) view.findViewById(R.id.topTabPageListView);
-
-                //TODO: set the correct list
-
                 int limit = 10;
                 String sLink = new String();
 
-                switch (pageTab) {
-                    case 1: // Date
-                        sLink = new String(MainActivity.SERVER + "/top/proposals/date/");
-                        break;
-                    case 2: // Views
-                        sLink = new String(MainActivity.SERVER + "/top/proposals/views/");
-                        break;
-                    case 3: // Like
-                        sLink = new String(MainActivity.SERVER + "/top/proposals/likes/");
-                        break;
-                    case 4: // Comments
-                        sLink = new String(MainActivity.SERVER + "/top/proposals/comments/");
-                        break;
-                    case 5: // Not understood
-                        sLink = new String(MainActivity.SERVER + "/top/proposals/not_understood/");
-                        break;
-                    case 6: // Dislike
-                        sLink = new String(MainActivity.SERVER + "/top/proposals/dislikes/");
-                        break;
-                }
+                if (categoryId == 0) { //Not categorized tabs
 
-                URL link;
+                    view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
 
-                try {
-                    link = new URL(sLink + limit);
-                    GetTopProposals task = new GetTopProposals(getActivity(), view);
-                    task.execute(link);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                    FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
 
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    addButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        //TODO: set the correct listener
+                            Intent in = new Intent(getActivity(), NewProposalActivity.class);
+                            startActivity(in);
 
-                        Intent in = new Intent(getActivity(), ProposalViewerActivity.class);
-                        startActivity(in);
+                        }
+                    });
 
+                    switch (pageTab) {
+                        case 1: // Date
+                            sLink = new String(MainActivity.SERVER + "/top/proposals/date/");
+                            break;
+                        case 2: // Views
+                            sLink = new String(MainActivity.SERVER + "/top/proposals/views/");
+                            break;
+                        case 3: // Like
+                            sLink = new String(MainActivity.SERVER + "/top/proposals/likes/");
+                            break;
+                        case 4: // Comments
+                            sLink = new String(MainActivity.SERVER + "/top/proposals/comments/");
+                            break;
+                        case 5: // Not understood
+                            sLink = new String(MainActivity.SERVER + "/top/proposals/not_understood/");
+                            break;
+                        case 6: // Dislike
+                            sLink = new String(MainActivity.SERVER + "/top/proposals/dislikes/");
+                            break;
                     }
-                });
+
+                    URL link;
+
+                    try {
+                        link = new URL(sLink + limit);
+                        GetTopProposals task = new GetTopProposals(getActivity(), view);
+                        task.execute(link);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    setListTopListeners(view);
+
+                } else { // categorized tabs
+
+                    view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
+
+                    FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
+
+                    addButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent in = new Intent(getActivity(), NewProposalActivity.class);
+                            startActivity(in);
+
+                        }
+                    });
+
+                    // TODO: set the categorized tops
+
+                }
+
+
             }
         } else if (infType == 3) { // CATEGORIES Activity
 
             if(pageTab == 1) { //Sections Tab
 
-                //TODO: set the list
+                view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
+
+                FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
+
+                addButton.setVisibility(View.INVISIBLE);
+
+                getSectionsData(view, categoryId);
 
             } else { //Proposals Tab
 
-                //TODO: set the list
+                view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
+
+                FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
+
+                addButton.setVisibility(View.INVISIBLE);
+
+                getProposalsData(view, categoryId);
+
 
             }
 
@@ -278,6 +305,32 @@ public class TabPageFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    private void getSectionsData(View v, int id_category) {
+        int limit = 10;
+        URL link;
+
+        try {
+            link = new URL(MainActivity.SERVER + "/category/" + id_category + "/section/" + limit);
+            GetTopSections task = new GetTopSections(getActivity(), v.findViewById(R.id.layoutTabTop));
+            task.execute(link);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getProposalsData(View v, int id_category) {
+        int limit = 10;
+        URL link;
+
+        try {
+            link = new URL(MainActivity.SERVER + "/category/" + id_category + "/proposal/" + limit);
+            GetTopProposals task = new GetTopProposals(getActivity(), v.findViewById(R.id.layoutTabTop));
+            task.execute(link);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setCategoryProgramsButtonsListeners(View v) {
@@ -434,6 +487,7 @@ public class TabPageFragment extends Fragment {
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryHealth));
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_health_cross);
+                b.putInt(ARG_ID_CATEGORY, 1);
                 in.putExtras(b);
                 startActivity(in);
             }
@@ -452,6 +506,7 @@ public class TabPageFragment extends Fragment {
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryEducation));
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_education);
+                b.putInt(ARG_ID_CATEGORY, 2);
                 in.putExtras(b);
                 startActivity(in);
             }
@@ -470,6 +525,7 @@ public class TabPageFragment extends Fragment {
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryEmployment));
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_employment);
+                b.putInt(ARG_ID_CATEGORY, 3);
                 in.putExtras(b);
                 startActivity(in);
             }
@@ -488,6 +544,7 @@ public class TabPageFragment extends Fragment {
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryHomes));
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_houses);
+                b.putInt(ARG_ID_CATEGORY, 4);
                 in.putExtras(b);
                 startActivity(in);
             }
@@ -506,6 +563,7 @@ public class TabPageFragment extends Fragment {
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryTaxes));
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_taxes);
+                b.putInt(ARG_ID_CATEGORY, 5);
                 in.putExtras(b);
                 startActivity(in);
             }
@@ -524,6 +582,7 @@ public class TabPageFragment extends Fragment {
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryCulture));
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_culture);
+                b.putInt(ARG_ID_CATEGORY, 6);
                 in.putExtras(b);
                 startActivity(in);
             }
@@ -542,6 +601,7 @@ public class TabPageFragment extends Fragment {
 
                 b.putString(ARG_CATEGORY, getString(R.string.categoryOthers));
                 b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_others);
+                b.putInt(ARG_ID_CATEGORY, 7);
                 in.putExtras(b);
                 startActivity(in);
             }
@@ -555,7 +615,7 @@ public class TabPageFragment extends Fragment {
 
         //set more Views header
 
-        ListView topListView = (ListView) v.findViewById(R.id.topTabPageListView);
+        ListView topListView = (ListView) v.findViewById(R.id.topListView);
 
         topListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -593,6 +653,12 @@ public class TabPageFragment extends Fragment {
                         Proposal prop = (Proposal) it;
 
                         Intent in = new Intent(getActivity(), ProposalViewerActivity.class);
+
+                        Bundle b = new Bundle();
+
+                        b.putInt("ProposalId", prop.getPropId());
+                        in.putExtras(b);
+
                         startActivity(in);
 
                     }

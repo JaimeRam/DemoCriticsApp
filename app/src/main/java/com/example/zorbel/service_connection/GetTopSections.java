@@ -77,12 +77,8 @@ public class GetTopSections extends ConnectionGet {
 
     }
 
-    /**
-     * This method shows the Top10 list on the Top10Activity.
-     */
-
     private void showTop() {
-        ListView topTabPageListView = (ListView) super.getmRootView().findViewById(R.id.topTabPageListView);
+        ListView topTabPageListView = (ListView) super.getmRootView().findViewById(R.id.topListView);
         topTabPageListView.setAdapter(new TopItemAdapter(super.getmContext(), listTopSections));
     }
 

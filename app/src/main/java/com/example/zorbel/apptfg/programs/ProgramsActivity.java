@@ -36,7 +36,7 @@ public class ProgramsActivity extends MenuActivity {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(),
-                ProgramsActivity.this, tabTitles, numT, INFTYPE));
+                ProgramsActivity.this, tabTitles, numT, INFTYPE, 0));
 
         // Give the SlidingTabLayout the ViewPager
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);

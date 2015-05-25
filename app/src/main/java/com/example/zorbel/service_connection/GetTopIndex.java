@@ -215,7 +215,7 @@ public class GetTopIndex extends ConnectionGet {
 
     private void showTop() {
 
-        ListView topListView = (ListView) super.getmRootView().findViewById(R.id.topTabPageListView);
+        ListView topListView = (ListView) super.getmRootView().findViewById(R.id.topListView);
         topListView.setAdapter(new TopItemAdapter(super.getmContext(), listTop));
 
     }

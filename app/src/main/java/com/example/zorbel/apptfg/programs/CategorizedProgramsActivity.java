@@ -18,12 +18,11 @@ public class CategorizedProgramsActivity extends MenuActivity {
     public static final String ARG_CATEGORY = "ARG_CATEGORY";
     public static final String ARG_ID_CATEGORY = "ARG_ID_CATEGORY";
     public static final String ARG_CATEGORYLOGO = "ARG_CATEGORYLOGO";
-    private ListView categorizedSectionsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top10);
+        setContentView(R.layout.activity_categorized_programs);
 
         super.setMenus(findViewById(R.id.drawer_layout), 0);
 
@@ -49,7 +48,7 @@ public class CategorizedProgramsActivity extends MenuActivity {
 
         try {
             link = new URL(MainActivity.SERVER + "/category/" + id_category + "/section/" + limit);
-            GetTopSections task = new GetTopSections(this, findViewById(R.id.layoutTop10));
+            GetTopSections task = new GetTopSections(this, findViewById(R.id.layoutTopCategorizedSections));
             task.execute(link);
         } catch (MalformedURLException e) {
             e.printStackTrace();

@@ -32,8 +32,6 @@ public class GetSectionContent extends ConnectionGet {
 
     private Section currentSection;
 
-    private ProgressDialog pDialog;
-
     public GetSectionContent(Context mContext, View mRootView, int id) {
         super(mContext, mRootView);
         this.politicalProgramId = id;

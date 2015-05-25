@@ -13,9 +13,11 @@ import com.example.zorbel.tab_layout.SlidingTabLayout;
 public class CategorizedProposalsActivity extends MenuActivity {
 
     private final int INFTYPE = 2; //For proposals
+    private int categoryId;
 
     public static final String ARG_CATEGORY = "ARG_CATEGORY";
     public static final String ARG_CATEGORYLOGO = "ARG_CATEGORYLOGO";
+    public static final String ARG_ID_CATEGORY = "ARG_ID_CATEGORY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class CategorizedProposalsActivity extends MenuActivity {
 
         String title = getIntent().getExtras().getString(ARG_CATEGORY);
         int photoRes = getIntent().getExtras().getInt(ARG_CATEGORYLOGO);
+        categoryId = getIntent().getExtras().getInt(ARG_ID_CATEGORY);
 
         super.setMenus(findViewById(R.id.drawer_layout), 0);
 
@@ -48,7 +51,7 @@ public class CategorizedProposalsActivity extends MenuActivity {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(),
-                CategorizedProposalsActivity.this, tabTitles, numT, INFTYPE));
+                CategorizedProposalsActivity.this, tabTitles, numT, INFTYPE, categoryId));
 
         // Give the SlidingTabLayout the ViewPager
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);

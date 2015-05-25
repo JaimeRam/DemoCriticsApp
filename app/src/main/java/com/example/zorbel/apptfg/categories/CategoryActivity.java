@@ -25,7 +25,7 @@ public class CategoryActivity extends MenuActivity {
 
         String title = getIntent().getExtras().getString(ARG_CATEGORY);
         int photoRes = getIntent().getExtras().getInt(ARG_CATEGORYLOGO);
-        int id_category = getIntent().getExtras().getInt(ARG_CATEGORYLOGO);
+        int id_category = getIntent().getExtras().getInt(ARG_ID_CATEGORY);
 
         super.setMenus(findViewById(R.id.drawer_layout), 0);
 
@@ -50,7 +50,7 @@ public class CategoryActivity extends MenuActivity {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(),
-                CategoryActivity.this, tabTitles, numT, INFTYPE));
+                CategoryActivity.this, tabTitles, numT, INFTYPE, id_category));
 
         // Give the SlidingTabLayout the ViewPager
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);

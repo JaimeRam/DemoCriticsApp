@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"
-        android:id="@+id/activitySectionViewerLayout"
+        android:id="@+id/activityProposalViewerLayout"
         tools:context="com.example.zorbel.apptfg.programs.SectionViewerActivity">
 
         <LinearLayout
@@ -33,7 +33,6 @@
                 android:layout_height="fill_parent"
                 android:gravity="center"
                 android:layout_marginBottom="5dp"
-                android:text="Titulo de la Propuesta"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_weight="0.7"/>
@@ -55,8 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/layoutTitle"
             android:gravity="left"
-            android:layout_marginBottom="5dp"
-            android:text="#Sanidad"
+            android:layout_marginBottom="10dp"
             android:textStyle="bold" />
 
         <TextView
@@ -64,10 +62,18 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layoutTitle"
-            android:gravity="right"
-            android:layout_marginBottom="5dp"
-            android:text="Pepito_Perez"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/proposalDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutTitle"
+            android:gravity="right"
+            android:layout_marginBottom="10dp"
+            android:textStyle="italic|bold" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -97,6 +103,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/text_proposalsHow"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"/>
 
                 <ScrollView
@@ -114,6 +123,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/text_proposalsMoney"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"/>
 
                 <ScrollView

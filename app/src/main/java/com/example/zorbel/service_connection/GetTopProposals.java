@@ -17,13 +17,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jaime on 23/05/15.
- */
 public class GetTopProposals extends ConnectionGet {
 
     private static final String TAG_PROPOSAL_ID = "id";
-    private static final String TAG_SECTION_TITLE = "title";
+    private static final String TAG_PROPOSAL_TITLE = "title";
     private static final String TAG_ID_IMAGE = "id_image";
     private static final String TAG_VIEWS = "views";
     private static final String TAG_LIKES = "likes";
@@ -59,7 +56,7 @@ public class GetTopProposals extends ConnectionGet {
                     JSONObject ob = ar.getJSONObject(i);
 
                     int idProposal = ob.getInt(TAG_PROPOSAL_ID);
-                    String title = ob.getString(TAG_SECTION_TITLE);
+                    String title = ob.getString(TAG_PROPOSAL_TITLE);
                     String idImage = ob.getString(TAG_ID_IMAGE);
 
                     int numViews = ob.getInt(TAG_VIEWS);
@@ -84,7 +81,7 @@ public class GetTopProposals extends ConnectionGet {
     }
 
     private void showTop() {
-        ListView topTabPageListView = (ListView) super.getmRootView().findViewById(R.id.topTabPageListView);
+        ListView topTabPageListView = (ListView) super.getmRootView().findViewById(R.id.topListView);
         topTabPageListView.setAdapter(new TopItemAdapter(super.getmContext(), listTopProposals));
     }
 

@@ -11,15 +11,17 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private int pageCount;
     private int infType;
+    private int categoryId;
     private String[] tabTitles;
     private Context context;
 
-    public SampleFragmentPagerAdapter(FragmentManager fm, Context context, String[] tabTit, int numPag, int infType) {
+    public SampleFragmentPagerAdapter(FragmentManager fm, Context context, String[] tabTit, int numPag, int infType, int catId) {
         super(fm);
         this.context = context;
         this.tabTitles = tabTit;
         this.pageCount = numPag;
         this.infType = infType;
+        this.categoryId = catId;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TabPageFragment.newInstance(position + 1, infType);
+        return TabPageFragment.newInstance(position + 1, infType, categoryId);
     }
 
     @Override
