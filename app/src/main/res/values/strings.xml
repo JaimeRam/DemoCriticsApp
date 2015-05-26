@@ -25,6 +25,17 @@
         <item>Favoritos</item>
     </string-array>
 
+
+    <string-array name="CategoriesEntries">
+        <item>#Sanidad</item>
+        <item>#Educacion</item>
+        <item>#Empleo</item>
+        <item>#Vivienda</item>
+        <item>#Impuestos</item>
+        <item>#Cultura</item>
+        <item>#Otros</item>
+    </string-array>
+
     <string name="categoryHealth">Sanidad</string>
     <string name="categoryEducation">Educación</string>
     <string name="categoryEmployment">Empleo</string>

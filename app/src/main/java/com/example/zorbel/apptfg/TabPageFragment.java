@@ -271,6 +271,8 @@ public class TabPageFragment extends Fragment {
 
                 getSectionsData(view, categoryId);
 
+                setListTopListeners(view);
+
             } else { //Proposals Tab
 
                 view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
@@ -280,6 +282,8 @@ public class TabPageFragment extends Fragment {
                 addButton.setVisibility(View.INVISIBLE);
 
                 getProposalsData(view, categoryId);
+
+                setListTopListeners(view);
 
 
             }
@@ -314,7 +318,7 @@ public class TabPageFragment extends Fragment {
 
     }
 
-    private void getProgramSectionsData(View v, int id) {
+    private void getProgramSectionsData(int id) {
         URL link;
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
@@ -655,7 +659,7 @@ public class TabPageFragment extends Fragment {
 
                         if (pol.getmSectionRoot() == null) {
 
-                            getProgramSectionsData(v, sec.getmPoliticalParty());
+                            getProgramSectionsData(sec.getmPoliticalParty());
                         }
 
                         Intent in = new Intent(getActivity(), SectionViewerActivity.class);

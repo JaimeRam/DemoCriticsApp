@@ -161,14 +161,9 @@ public class NewProposalActivity extends MenuActivity {
 
         spinnerCategory = (Spinner) findViewById(R.id.spinnerCategoryProposal);
 
-        List<String> list = new ArrayList<String>();
-        list.add("#Sanidad");
-        list.add("#Educación");
-        list.add("#Empleo");
-        list.add("#Vivienda");
-        list.add("#Impuestos");
-        list.add("#Cultura");
-        list.add("#Otros");
+
+        String[] list = getResources().getStringArray(R.array.CategoriesEntries);
+
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
