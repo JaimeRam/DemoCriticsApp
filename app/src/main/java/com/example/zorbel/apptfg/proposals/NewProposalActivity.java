@@ -3,6 +3,8 @@ package com.example.zorbel.apptfg.proposals;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -45,10 +47,79 @@ public class NewProposalActivity extends MenuActivity {
         super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00B800")));
 
         mButtonSubmit = (FloatingActionButton) findViewById(R.id.addNewProposal);
+        mButtonSubmit.setEnabled(false);
         mEditTextTitleProposal = (EditText) findViewById(R.id.txtTitleProposal);
         mEditTextTextProposal = (EditText) findViewById(R.id.txtTextProposal);
         mEditTextHowProposal = (EditText) findViewById(R.id.txtHowProposal);
         mEditTextCostProposal = (EditText) findViewById(R.id.txtMoneyProposal);
+
+        mEditTextTitleProposal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                enableSubmitIfReady();
+            }
+        });
+
+        mEditTextTextProposal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                enableSubmitIfReady();
+            }
+        });
+
+        mEditTextHowProposal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                enableSubmitIfReady();
+            }
+        });
+
+        mEditTextCostProposal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                enableSubmitIfReady();
+            }
+        });
 
         mButtonSubmit.setOnClickListener(new View.OnClickListener() {
             URL link;
@@ -66,12 +137,13 @@ public class NewProposalActivity extends MenuActivity {
                     params.add(new BasicNameValuePair("text", mEditTextTextProposal.getText().toString()));
                     params.add(new BasicNameValuePair("how", mEditTextHowProposal.getText().toString()));
                     params.add(new BasicNameValuePair("cost", mEditTextCostProposal.getText().toString()));
-                    params.add(new BasicNameValuePair("id_category", Integer.toString(spinnerCategory.getSelectedItemPosition())));
                     int index = spinnerCategory.getSelectedItemPosition() + 1;
+                    params.add(new BasicNameValuePair("id_category", Integer.toString(index)));
                     params.add(new BasicNameValuePair("id_image", Integer.toString(index)));
 
                     PostProposal task = new PostProposal(NewProposalActivity.this, params, findViewById(R.id.addNewProposal));
                     task.execute(link);
+                    finish();
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -80,6 +152,12 @@ public class NewProposalActivity extends MenuActivity {
         });
 
         mButtonCancel = (FloatingActionButton) findViewById(R.id.cancelNewProposal);
+        mButtonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         spinnerCategory = (Spinner) findViewById(R.id.spinnerCategoryProposal);
 
@@ -98,5 +176,17 @@ public class NewProposalActivity extends MenuActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerCategory.setAdapter(dataAdapter);
+    }
+
+    private void enableSubmitIfReady() {
+
+        int minChars = 5;
+        boolean isReady = mEditTextCostProposal.getText().toString().length() > minChars && mEditTextHowProposal.getText().toString().length() > minChars
+                && mEditTextTextProposal.getText().toString().length() > minChars && mEditTextTitleProposal.getText().toString().length() > minChars;
+
+        if (isReady)
+            mButtonSubmit.setEnabled(true);
+        else
+            mButtonSubmit.setEnabled(false);
     }
 }
