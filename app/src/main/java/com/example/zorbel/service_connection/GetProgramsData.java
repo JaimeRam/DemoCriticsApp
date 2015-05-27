@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.adapters.ListIndexAdapter;
 import com.example.zorbel.data_structures.PoliticalGroups;
@@ -13,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +27,18 @@ public class GetProgramsData extends ConnectionGet {
 
     private int politicalPartyId;
 
+    private int currentSectionId;
+
     public GetProgramsData(Context mContext, View mRootView, int id) {
         super(mContext, mRootView);
         this.politicalPartyId = id;
+        this.currentSectionId = 0;
+    }
+
+    public GetProgramsData(Context mContext, View mRootView, int id_pol, int id_sec) {
+        super(mContext, mRootView);
+        this.politicalPartyId = id_pol;
+        this.currentSectionId = id_sec;
     }
 
     @Override
@@ -49,11 +60,19 @@ public class GetProgramsData extends ConnectionGet {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        if(super.getmRootView() != null) {
-            List<Section> index = PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId).getmSectionRoot().getlSections();
+        if (currentSectionId == 0) { //Show the political party program index
 
-            ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
-            mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), index));
+            if (super.getmRootView() != null) {
+                List<Section> index = PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId).getmSectionRoot().getlSections();
+
+                ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
+                mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), index));
+            }
+
+        } else { //Show the specific section info
+
+            getSectionContentData(currentSectionId, politicalPartyId);
+
         }
 
         //TODO: Set info section data
@@ -137,6 +156,23 @@ public class GetProgramsData extends ConnectionGet {
             level = 1;
 
         return level;
+    }
+
+    private void getSectionContentData(int id_section, int id_politicalParty) {
+        URL link = null;
+        try {
+            link = new URL(MainActivity.SERVER + "/politicalParty/" + id_politicalParty + "/section/" + id_section);
+
+            //Prepare post arguments
+            //String parameters = "section=" + URLEncoder.encode(Integer.toString(id_section), "UTF-8") + "&id_political_party=" + URLEncoder.encode(Integer.toString(id_politicalParty), "UTF-8");
+
+            GetSectionContent task = new GetSectionContent(getmContext(), super.getmRootView(), id_politicalParty);
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -90,12 +90,18 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId);
 
-        if (pol.getmSectionRoot() == null)
-            getProgramSectionsData(politicalPartyId);
+        if (pol.getmSectionRoot() == null) {
 
-        getSectionContentData(sectionId, politicalPartyId);
+            getProgramSectionsData(politicalPartyId, sectionId);
 
-        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyId, sectionId);
+        } else {
+
+            getSectionContentData(sectionId, politicalPartyId);
+        }
+
+
+
+        //currentSection = PoliticalGroups.getInstance().getSection(politicalPartyId, sectionId);
 
         mIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -178,7 +184,7 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         setMenus();
 
-        createRightIndex();
+        //createRightIndex();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -340,7 +346,7 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         MenuItem itemParty = menu.add("");
         itemParty.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); // ShowAsAction
-        itemParty.setIcon(new BitmapDrawable(getResources(), PoliticalGroups.getInstance().getPoliticalParty(currentSection.getmPoliticalParty()).getmLogo())); // Icon
+        //itemParty.setIcon(new BitmapDrawable(getResources(), PoliticalGroups.getInstance().getPoliticalParty(currentSection.getmPoliticalParty()).getmLogo())); // Icon
         itemParty.setEnabled(false);
 
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -443,11 +449,11 @@ public class SectionViewerActivity extends ActionBarActivity {
 
     }
 
-    private void getProgramSectionsData(int id) {
+    private void getProgramSectionsData(int id_pol, int id_sec) {
         URL link;
         try {
-            link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
-            GetProgramsData task = new GetProgramsData(this, null, id);
+            link = new URL(MainActivity.SERVER + "/politicalParty/" + id_pol + "/section");
+            GetProgramsData task = new GetProgramsData(this, findViewById(R.id.activitySectionViewerLayout), id_pol, id_sec);
             task.execute(link);
 
         } catch (MalformedURLException e) {

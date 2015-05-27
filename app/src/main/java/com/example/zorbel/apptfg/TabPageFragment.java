@@ -642,10 +642,6 @@ public class TabPageFragment extends Fragment {
 
                         PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(sec.getmPoliticalParty());
 
-                        /*if (pol.getmSectionRoot() == null)
-                            getProgramSectionsData(sec.getmPoliticalParty());*/
-
-
                         Intent in = new Intent(getActivity(), SectionViewerActivity.class);
 
                         Bundle b = new Bundle();

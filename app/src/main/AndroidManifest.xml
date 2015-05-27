@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name="org.swellrt.android.service.SwellRTService"></service>
         <activity
             android:name=".programs.PartiesActivity"
             android:label="@string/title_activity_parties" />
