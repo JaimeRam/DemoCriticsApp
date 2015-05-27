@@ -90,6 +90,8 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId);
 
+        setMenus();
+
         if (pol.getmSectionRoot() == null) {
 
             getProgramSectionsData(politicalPartyId, sectionId);
@@ -97,6 +99,7 @@ public class SectionViewerActivity extends ActionBarActivity {
         } else {
 
             getSectionContentData(sectionId, politicalPartyId);
+            createRightIndex();
         }
 
 
@@ -181,10 +184,6 @@ public class SectionViewerActivity extends ActionBarActivity {
                 }
             }
         });
-
-        setMenus();
-
-        //createRightIndex();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -346,7 +345,7 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         MenuItem itemParty = menu.add("");
         itemParty.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); // ShowAsAction
-        //itemParty.setIcon(new BitmapDrawable(getResources(), PoliticalGroups.getInstance().getPoliticalParty(currentSection.getmPoliticalParty()).getmLogo())); // Icon
+        itemParty.setIcon(new BitmapDrawable(getResources(), PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId).getmLogo())); // Icon
         itemParty.setEnabled(false);
 
         // Inflate the menu; this adds items to the action bar if it is present.
