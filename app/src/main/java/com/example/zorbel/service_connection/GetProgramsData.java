@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ListView;
 
-import com.example.zorbel.apptfg.adapters.ListIndexAdapter;
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.apptfg.adapters.ListIndexAdapter;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 
@@ -55,6 +55,8 @@ public class GetProgramsData extends ConnectionGet {
             ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
             mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), index));
         }
+
+        //TODO: Set info section data
 
     }
 

@@ -24,7 +24,6 @@ import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Proposal;
 import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service_connection.GetPoliticalParties;
-import com.example.zorbel.service_connection.GetProgramsData;
 import com.example.zorbel.service_connection.GetTopProposals;
 import com.example.zorbel.service_connection.GetTopSections;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -309,19 +308,6 @@ public class TabPageFragment extends Fragment {
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty");
             GetPoliticalParties task = new GetPoliticalParties(getActivity(), v.findViewById(R.id.partiesLayout));
-            task.execute(link);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void getProgramSectionsData(int id) {
-        URL link;
-        try {
-            link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
-            GetProgramsData task = new GetProgramsData(getActivity(), null, id);
             task.execute(link);
 
         } catch (MalformedURLException e) {
@@ -656,8 +642,9 @@ public class TabPageFragment extends Fragment {
 
                         PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(sec.getmPoliticalParty());
 
-                        if (pol.getmSectionRoot() == null)
-                            getProgramSectionsData(sec.getmPoliticalParty());
+                        /*if (pol.getmSectionRoot() == null)
+                            getProgramSectionsData(sec.getmPoliticalParty());*/
+
 
                         Intent in = new Intent(getActivity(), SectionViewerActivity.class);
 

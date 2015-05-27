@@ -29,7 +29,9 @@ import com.example.zorbel.apptfg.polls.PollsActivity;
 import com.example.zorbel.apptfg.proposals.ProposalsActivity;
 import com.example.zorbel.apptfg.views.MenuLeftItem;
 import com.example.zorbel.data_structures.PoliticalGroups;
+import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Section;
+import com.example.zorbel.service_connection.GetProgramsData;
 import com.example.zorbel.service_connection.GetSectionContent;
 import com.example.zorbel.service_connection.PutOpinion;
 
@@ -86,9 +88,14 @@ public class SectionViewerActivity extends ActionBarActivity {
         politicalPartyId = getIntent().getExtras().getInt("PoliticalPartyId");
         sectionId = getIntent().getExtras().getInt("SectionId");
 
-        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyId, sectionId);
+        PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId);
 
-        getSectionContentData(currentSection.getmSection(), currentSection.getmPoliticalParty());
+        if (pol.getmSectionRoot() == null)
+            getProgramSectionsData(politicalPartyId);
+
+        getSectionContentData(sectionId, politicalPartyId);
+
+        currentSection = PoliticalGroups.getInstance().getSection(politicalPartyId, sectionId);
 
         mIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -436,11 +443,22 @@ public class SectionViewerActivity extends ActionBarActivity {
 
     }
 
+    private void getProgramSectionsData(int id) {
+        URL link;
+        try {
+            link = new URL(MainActivity.SERVER + "/politicalParty/" + id + "/section");
+            GetProgramsData task = new GetProgramsData(this, null, id);
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
     }
-
 }
