@@ -1,5 +1,6 @@
 package com.example.zorbel.apptfg.proposals;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ import org.apache.http.message.BasicNameValuePair;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class NewProposalActivity extends MenuActivity {
 
@@ -131,7 +131,7 @@ public class NewProposalActivity extends MenuActivity {
 
                     //TODO: set the user for the proposal
 
-                    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+                    ArrayList<NameValuePair> params = new ArrayList<>();
                     params.add(new BasicNameValuePair("id_user", Integer.toString(1)));
                     params.add(new BasicNameValuePair("title", mEditTextTitleProposal.getText().toString()));
                     params.add(new BasicNameValuePair("text", mEditTextTextProposal.getText().toString()));
@@ -144,6 +144,7 @@ public class NewProposalActivity extends MenuActivity {
                     PostProposal task = new PostProposal(NewProposalActivity.this, params, findViewById(R.id.addNewProposal));
                     task.execute(link);
                     finish();
+                    goToMyProposals();
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -165,7 +166,7 @@ public class NewProposalActivity extends MenuActivity {
         String[] list = getResources().getStringArray(R.array.CategoriesEntries);
 
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -175,7 +176,7 @@ public class NewProposalActivity extends MenuActivity {
 
     private void enableSubmitIfReady() {
 
-        int minChars = 5;
+        int minChars = 3; // Minimal characters that every TextView must have.
         boolean isReady = mEditTextCostProposal.getText().toString().length() > minChars && mEditTextHowProposal.getText().toString().length() > minChars
                 && mEditTextTextProposal.getText().toString().length() > minChars && mEditTextTitleProposal.getText().toString().length() > minChars;
 
@@ -183,5 +184,21 @@ public class NewProposalActivity extends MenuActivity {
             mButtonSubmit.setEnabled(true);
         else
             mButtonSubmit.setEnabled(false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+        Intent in = new Intent(NewProposalActivity.this, ProposalsActivity.class);
+        in.putExtra("FocusTab", 2);
+        startActivity(in);
+    }
+
+    private void goToMyProposals() {
+        this.finish();
+        Intent in = new Intent(NewProposalActivity.this, ProposalsActivity.class);
+        in.putExtra("FocusTab", 0);
+        startActivity(in);
     }
 }

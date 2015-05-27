@@ -2,8 +2,8 @@ package com.example.zorbel.apptfg.proposals;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
@@ -12,7 +12,8 @@ import com.example.zorbel.tab_layout.SlidingTabLayout;
 
 public class ProposalsActivity extends MenuActivity {
 
-    final int INFTYPE = 2; //For proposals
+    public static final String ARG_FOCUS_TAB = "ARG_FOCUS_TAB";
+    public final int INFTYPE = 2; //For proposals
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class ProposalsActivity extends MenuActivity {
         // Center the tabs in the layout
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
+
+        int focusTab = getIntent().getExtras().getInt("FocusTab");
+        viewPager.setCurrentItem(focusTab); // Lastest Proposals Tab
     }
 
 }

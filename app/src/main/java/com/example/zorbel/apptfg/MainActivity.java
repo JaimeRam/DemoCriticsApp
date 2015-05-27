@@ -24,6 +24,7 @@ import java.net.URL;
 
 public class MainActivity extends MenuActivity {
 
+    public static final int USER_ID = 1;
     public static String SERVER = "https://apptfg-servicerest.rhcloud.com";
     String a = "kk";
     private ListView topIndexListView;
@@ -72,6 +73,7 @@ public class MainActivity extends MenuActivity {
             public void onClick(View v) {
 
                 Intent in = new Intent(MainActivity.this, ProposalsActivity.class);
+                in.putExtra("FocusTab", 2);
                 startActivity(in);
             }
         });
@@ -135,7 +137,7 @@ public class MainActivity extends MenuActivity {
     }
 
     private void getPoliticalPartiesData() {
-        URL link = null;
+        URL link;
         try {
             link = new URL (SERVER + "/politicalParty");
             GetPoliticalParties task = new GetPoliticalParties(this, findViewById(R.id.activityPartiesLayout));

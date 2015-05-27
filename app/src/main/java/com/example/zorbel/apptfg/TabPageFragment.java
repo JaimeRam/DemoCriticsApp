@@ -112,7 +112,7 @@ public class TabPageFragment extends Fragment {
                     }
                 });
 
-            } else { //Top tab
+            } else { //Top tab sections
 
                 view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
 
@@ -121,23 +121,23 @@ public class TabPageFragment extends Fragment {
                 addButton.setVisibility(View.INVISIBLE);
 
                 int limit = 10;
-                String sLink = new String();
+                String sLink = "";
 
                 switch (pageTab) {
                     case 2: // Views
-                        sLink = new String(MainActivity.SERVER + "/top/sections/views/");
+                        sLink = MainActivity.SERVER + "/top/sections/views/";
                         break;
                     case 3: // Like
-                        sLink = new String(MainActivity.SERVER + "/top/sections/likes/");
+                        sLink = MainActivity.SERVER + "/top/sections/likes/";
                         break;
                     case 4: // Comments
-                        sLink = new String(MainActivity.SERVER + "/top/sections/comments/");
+                        sLink = MainActivity.SERVER + "/top/sections/comments/";
                         break;
                     case 5: // Not understood
-                        sLink = new String(MainActivity.SERVER + "/top/sections/not_understood/");
+                        sLink = MainActivity.SERVER + "/top/sections/not_understood/";
                         break;
                     case 6: // Dislike
-                        sLink = new String(MainActivity.SERVER + "/top/sections/dislikes/");
+                        sLink = MainActivity.SERVER + "/top/sections/dislikes/";
                         break;
                 }
 
@@ -156,7 +156,7 @@ public class TabPageFragment extends Fragment {
 
         } else if (infType == 2) { // PROPOSALS Activity
 
-            if (pageTab == 7) { //Categories Tab
+            if (pageTab == 2) { //Categories Tab
 
                 view = inflater.inflate(R.layout.tab_page_categories, container, false);
 
@@ -165,7 +165,7 @@ public class TabPageFragment extends Fragment {
             } else { //Top Tabs
 
                 int limit = 10;
-                String sLink = new String();
+                String sLink = "";
 
                 if (categoryId == 0) { //Not categorized tabs
 
@@ -176,31 +176,33 @@ public class TabPageFragment extends Fragment {
                     addButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            getActivity().finish();
                             Intent in = new Intent(getActivity(), NewProposalActivity.class);
                             startActivity(in);
-
                         }
                     });
 
                     switch (pageTab) {
-                        case 1: // Date
-                            sLink = new String(MainActivity.SERVER + "/top/proposals/date/");
+                        case 1: // My Proposals
+                            sLink = MainActivity.SERVER + "/proposal/user/" + MainActivity.USER_ID;
                             break;
-                        case 2: // Views
-                            sLink = new String(MainActivity.SERVER + "/top/proposals/views/");
+                        case 3: // Date
+                            sLink = MainActivity.SERVER + "/top/proposals/date/" + limit;
                             break;
-                        case 3: // Like
-                            sLink = new String(MainActivity.SERVER + "/top/proposals/likes/");
+                        case 4: // Views
+                            sLink = MainActivity.SERVER + "/top/proposals/views/" + limit;
                             break;
-                        case 4: // Comments
-                            sLink = new String(MainActivity.SERVER + "/top/proposals/comments/");
+                        case 5: // Like
+                            sLink = MainActivity.SERVER + "/top/proposals/likes/" + limit;
                             break;
-                        case 5: // Not understood
-                            sLink = new String(MainActivity.SERVER + "/top/proposals/not_understood/");
+                        case 6: // Comments
+                            sLink = MainActivity.SERVER + "/top/proposals/comments/" + limit;
                             break;
-                        case 6: // Dislike
-                            sLink = new String(MainActivity.SERVER + "/top/proposals/dislikes/");
+                        case 7: // Not understood
+                            sLink = MainActivity.SERVER + "/top/proposals/not_understood/" + limit;
+                            break;
+                        case 8: // Dislike
+                            sLink = MainActivity.SERVER + "/top/proposals/dislikes/" + limit;
                             break;
                     }
 
@@ -220,25 +222,24 @@ public class TabPageFragment extends Fragment {
                         }
                     });
 
-
                     switch (pageTab) {
                         case 1: // Date
-                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/date/");
+                            sLink = MainActivity.SERVER + "/category/" + categoryId + "/proposal/date/" + limit;
                             break;
                         case 2: // Views
-                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/views/");
+                            sLink = MainActivity.SERVER + "/category/" + categoryId + "/proposal/views/" + limit;
                             break;
                         case 3: // Like
-                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/likes/");
+                            sLink = MainActivity.SERVER + "/category/" + categoryId + "/proposal/likes/" + limit;
                             break;
                         case 4: // Comments
-                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/comments/");
+                            sLink = MainActivity.SERVER + "/category/" + categoryId + "/proposal/comments/" + limit;
                             break;
                         case 5: // Not understood
-                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/not_understood/");
+                            sLink = MainActivity.SERVER + "/category/" + categoryId + "/proposal/not_understood/" + limit;
                             break;
                         case 6: // Dislike
-                            sLink = new String(MainActivity.SERVER + "/category/" + categoryId + "/proposal/dislikes/");
+                            sLink = MainActivity.SERVER + "/category/" + categoryId + "/proposal/dislikes/" + limit;
                             break;
                     }
 
@@ -247,18 +248,16 @@ public class TabPageFragment extends Fragment {
                 URL link;
 
                 try {
-                    link = new URL(sLink + limit);
+                    link = new URL(sLink);
                     GetTopProposals task = new GetTopProposals(getActivity(), view);
                     task.execute(link);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
 
-
                 setListTopListeners(view);
-
-
             }
+
         } else if (infType == 3) { // CATEGORIES Activity
 
             if(pageTab == 1) { //Sections Tab
@@ -306,7 +305,7 @@ public class TabPageFragment extends Fragment {
     }
 
     private void getPoliticalPartiesData(View v) { //For downloading Pol Parties data in proper Programs Tab
-        URL link = null;
+        URL link;
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty");
             GetPoliticalParties task = new GetPoliticalParties(getActivity(), v.findViewById(R.id.partiesLayout));
@@ -657,10 +656,8 @@ public class TabPageFragment extends Fragment {
 
                         PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(sec.getmPoliticalParty());
 
-                        if (pol.getmSectionRoot() == null) {
-
+                        if (pol.getmSectionRoot() == null)
                             getProgramSectionsData(sec.getmPoliticalParty());
-                        }
 
                         Intent in = new Intent(getActivity(), SectionViewerActivity.class);
 

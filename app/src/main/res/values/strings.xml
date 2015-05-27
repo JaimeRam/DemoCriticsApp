@@ -69,13 +69,14 @@
 
 
     <string-array name="TabsProposalsEntries">
+        <item>Mis Propuestas</item>
+        <item>Por Categorías</item>
         <item>Últimas</item>
         <item>Más Vistas</item>
         <item>Mejor Valoradas</item>
         <item>Más Comentadas</item>
         <item>Incomprendidas</item>
         <item>Peor Valoradas</item>
-        <item>Por Categorías</item>
     </string-array>
 
     <string-array name="TabsCategorizedProposalsEntries">
