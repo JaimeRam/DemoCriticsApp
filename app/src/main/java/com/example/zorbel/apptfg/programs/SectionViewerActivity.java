@@ -88,6 +88,7 @@ public class SectionViewerActivity extends ActionBarActivity {
         politicalPartyId = getIntent().getExtras().getInt("PoliticalPartyId");
         sectionId = getIntent().getExtras().getInt("SectionId");
 
+
         PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(politicalPartyId);
 
         setMenus();
