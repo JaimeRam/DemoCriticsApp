@@ -73,7 +73,7 @@ public class CommentsSectionActivity extends MenuActivity {
                     //TODO: set the user for the comment
 
                     ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("id_user", Integer.toString(1)));
+                    params.add(new BasicNameValuePair("id_user", MainActivity.USER_ID));
                     params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
 
                     PostComment task = new PostComment(CommentsSectionActivity.this, params, findViewById(R.id.activityCommentsLayout));

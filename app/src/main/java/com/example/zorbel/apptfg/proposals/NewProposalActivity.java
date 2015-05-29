@@ -132,7 +132,7 @@ public class NewProposalActivity extends MenuActivity {
                     //TODO: set the user for the proposal
 
                     ArrayList<NameValuePair> params = new ArrayList<>();
-                    params.add(new BasicNameValuePair("id_user", Integer.toString(1)));
+                    params.add(new BasicNameValuePair("id_user", MainActivity.USER_ID));
                     params.add(new BasicNameValuePair("title", mEditTextTitleProposal.getText().toString()));
                     params.add(new BasicNameValuePair("text", mEditTextTextProposal.getText().toString()));
                     params.add(new BasicNameValuePair("how", mEditTextHowProposal.getText().toString()));

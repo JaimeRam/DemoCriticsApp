@@ -2,6 +2,7 @@ package com.example.zorbel.apptfg;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,9 +25,8 @@ import java.net.URL;
 
 public class MainActivity extends MenuActivity {
 
-    public static final int USER_ID = 1;
+    public static String USER_ID;
     public static String SERVER = "https://apptfg-servicerest.rhcloud.com";
-    String a = "kk";
     private ListView topIndexListView;
     private Button btnPrograms;
     private Button btnComparatives;
@@ -37,6 +37,8 @@ public class MainActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
+
+        USER_ID = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
 
         super.setMenus(findViewById(R.id.drawer_layout), 1);
 

@@ -2,14 +2,10 @@ package com.example.zorbel.apptfg.proposals;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -19,8 +15,6 @@ import android.widget.ListView;
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
-import com.example.zorbel.data_structures.PoliticalGroups;
-import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service_connection.GetComments;
 import com.example.zorbel.service_connection.PostComment;
 
@@ -67,7 +61,7 @@ public class CommentsProposalActivity extends MenuActivity {
                     //TODO: set the user for the comment
 
                     ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("id_user", Integer.toString(1)));
+                    params.add(new BasicNameValuePair("id_user", MainActivity.USER_ID));
                     params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
 
                     PostComment task = new PostComment(CommentsProposalActivity.this, params, findViewById(R.id.activityCommentsLayout));
