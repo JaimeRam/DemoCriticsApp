@@ -9,53 +9,58 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
         android:id="@+id/layoutHome">
 
-        <TableLayout
-            android:id="@+id/table_layout"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*">
+            android:layout_height="match_parent">
 
-            <TableRow>
-                <Button
-                    android:id="@+id/btn_Programs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:padding="20dp"
-                    android:drawableTop="@mipmap/ic_programs"
-                    android:text="@string/btnPrograms"/>
+            <TableLayout
+                android:id="@+id/table_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
 
-                <Button
-                    android:id="@+id/btn_Comparatives"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_margin="10dp"
-                    android:padding="20dp"
-                    android:drawableTop="@mipmap/ic_topics"
-                    android:text="@string/btnTopics"/>
-            </TableRow>
+                <TableRow>
+                    <Button
+                        android:id="@+id/btn_Programs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:padding="20dp"
+                        android:drawableTop="@mipmap/ic_programs"
+                        android:text="@string/btnPrograms"/>
 
-            <TableRow>
-                <Button
-                    android:id="@+id/btn_Proposals"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:padding="20dp"
-                    android:drawableTop="@mipmap/ic_proposals"
-                    android:text="@string/btnProposals"/>
+                    <Button
+                        android:id="@+id/btn_Comparatives"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_margin="10dp"
+                        android:padding="20dp"
+                        android:drawableTop="@mipmap/ic_topics"
+                        android:text="@string/btnTopics"/>
+                </TableRow>
 
-                <Button
-                    android:id="@+id/btn_Polls"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_margin="10dp"
-                    android:padding="20dp"
-                    android:drawableTop="@mipmap/ic_polls"
-                    android:text="@string/btnPolls"/>
-            </TableRow>
+                <TableRow>
+                    <Button
+                        android:id="@+id/btn_Proposals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:padding="20dp"
+                        android:drawableTop="@mipmap/ic_proposals"
+                        android:text="@string/btnProposals"/>
 
-        </TableLayout>
+                    <Button
+                        android:id="@+id/btn_Polls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_margin="10dp"
+                        android:padding="20dp"
+                        android:drawableTop="@mipmap/ic_polls"
+                        android:text="@string/btnPolls"/>
+                </TableRow>
+
+            </TableLayout>
+        </ScrollView>
 
     </RelativeLayout>
 

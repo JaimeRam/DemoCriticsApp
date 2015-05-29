@@ -27,7 +27,6 @@ public class MainActivity extends MenuActivity {
 
     public static String USER_ID;
     public static String SERVER = "https://apptfg-servicerest.rhcloud.com";
-    private ListView topIndexListView;
     private Button btnPrograms;
     private Button btnComparatives;
     private Button btnProposals;
@@ -44,10 +43,6 @@ public class MainActivity extends MenuActivity {
 
         if (PoliticalGroups.getInstance().getMlistOfPoliticalParties() == null)
             getPoliticalPartiesData();
-
-        //setListListeners();
-
-        //getTop3Ranking();
 
         btnPrograms = (Button) findViewById(R.id.btn_Programs);
         btnPrograms.setOnClickListener(new View.OnClickListener() {
@@ -92,51 +87,7 @@ public class MainActivity extends MenuActivity {
 
     }
 
-    private void setListListeners() {
 
-        //set more Views header
-
-        topIndexListView = (ListView) findViewById(R.id.topIndexListView);
-
-        topIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                TopItem it = (TopItem) parent.getItemAtPosition(position);
-
-                if (it != null) {
-
-                    if (it.isSection()) {
-
-                        // TODO: launch the SectionViewerActivity
-
-                        Section sec = (Section) it;
-
-                        PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(sec.getmPoliticalParty());
-
-                        if (pol.getmSectionRoot() == null) {
-                            //getProgramSectionsData();
-                        }
-
-                    } else {
-
-                        TopHeaderItem header = (TopHeaderItem) it;
-
-                        Intent in = new Intent(MainActivity.this, Top10Activity.class);
-
-                        Bundle b = new Bundle();
-                        b.putString("TopURL", header.getHeaderType());
-
-                        in.putExtras(b);
-
-                        startActivity(in);
-
-                    }
-                }
-            }
-        });
-
-    }
 
     private void getPoliticalPartiesData() {
         URL link;
@@ -150,20 +101,5 @@ public class MainActivity extends MenuActivity {
         }
 
     }
-
-    private void getTop3Ranking() {
-        URL link;
-        try {
-            link = new URL(MainActivity.SERVER + "/top");
-
-            GetTopIndex task = new GetTopIndex(MainActivity.this, findViewById(R.id.layoutHome));
-            task.execute(link);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
 }

@@ -143,7 +143,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 URL link = null;
 
                 try {
-                    link = new URL(MainActivity.SERVER + "/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/like");
+                    link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/like");
 
                     PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
                     task.execute(link);
@@ -159,7 +159,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 URL link = null;
 
                 try {
-                    link = new URL(MainActivity.SERVER + "/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/dislike");
+                    link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/dislike");
 
                     PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
                     task.execute(link);
@@ -175,7 +175,7 @@ public class SectionViewerActivity extends ActionBarActivity {
                 URL link = null;
 
                 try {
-                    link = new URL(MainActivity.SERVER + "/politicalParty/" + currentSection.getmPoliticalParty() + "/section/" + currentSection.getmSection() + "/notUnderstood");
+                    link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/notUnderstood");
 
                     PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
                     task.execute(link);
