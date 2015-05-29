@@ -24,6 +24,7 @@ import com.example.zorbel.apptfg.polls.PollsActivity;
 import com.example.zorbel.apptfg.programs.ProgramsActivity;
 import com.example.zorbel.apptfg.proposals.ProposalsActivity;
 import com.example.zorbel.apptfg.views.MenuLeftItem;
+import com.example.zorbel.data_structures.User;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -113,6 +114,7 @@ public class MenuActivity extends ActionBarActivity {
         drawerLayout.setDrawerListener(drawerToggle);
 
         userName = (TextView) headerView.findViewById(R.id.userNameMenu);
+        userName.setText(User.NICKNAME);
 
         userButton = (FloatingActionButton) headerView.findViewById(R.id.userButtonMenu);
 
