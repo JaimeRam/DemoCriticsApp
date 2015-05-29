@@ -23,6 +23,7 @@ import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Proposal;
 import com.example.zorbel.data_structures.Section;
+import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.GetPoliticalParties;
 import com.example.zorbel.service_connection.GetTopProposals;
 import com.example.zorbel.service_connection.GetTopSections;
@@ -183,7 +184,7 @@ public class TabPageFragment extends Fragment {
 
                     switch (pageTab) {
                         case 1: // My Proposals
-                            sLink = MainActivity.SERVER + "/proposal/user/" + MainActivity.USER_ID;
+                            sLink = MainActivity.SERVER + "/proposal/user/" + User.ID_USER;
                             break;
                         case 3: // Date
                             sLink = MainActivity.SERVER + "/top/proposals/date/" + limit;

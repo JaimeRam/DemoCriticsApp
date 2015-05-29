@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.GetComments;
 import com.example.zorbel.service_connection.PostComment;
 
@@ -61,7 +62,7 @@ public class CommentsProposalActivity extends MenuActivity {
                     //TODO: set the user for the comment
 
                     ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("id_user", MainActivity.USER_ID));
+                    params.add(new BasicNameValuePair("id_user", User.ID_USER));
                     params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
 
                     PostComment task = new PostComment(CommentsProposalActivity.this, params, findViewById(R.id.activityCommentsLayout));

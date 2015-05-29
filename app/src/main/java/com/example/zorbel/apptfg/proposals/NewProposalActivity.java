@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.PostProposal;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -132,7 +133,7 @@ public class NewProposalActivity extends MenuActivity {
                     //TODO: set the user for the proposal
 
                     ArrayList<NameValuePair> params = new ArrayList<>();
-                    params.add(new BasicNameValuePair("id_user", MainActivity.USER_ID));
+                    params.add(new BasicNameValuePair("id_user", User.ID_USER));
                     params.add(new BasicNameValuePair("title", mEditTextTitleProposal.getText().toString()));
                     params.add(new BasicNameValuePair("text", mEditTextTextProposal.getText().toString()));
                     params.add(new BasicNameValuePair("how", mEditTextHowProposal.getText().toString()));
