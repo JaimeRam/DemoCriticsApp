@@ -2,7 +2,9 @@ package com.example.zorbel.service_connection;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.TextView;
 
+import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.User;
 
 import org.json.JSONArray;
@@ -15,6 +17,11 @@ import java.net.URL;
  * Created by jaime on 29/05/15.
  */
 public class GetUser extends ConnectionGet {
+
+    private String nick;
+    private String email;
+    private String id;
+
     public GetUser(Context mContext, View mRootView) {
         super(mContext, mRootView);
     }
@@ -33,9 +40,9 @@ public class GetUser extends ConnectionGet {
 
                 JSONObject s = ar.getJSONObject(0);
 
-                User.ID_USER = s.getString("id");
-                User.EMAIL = s.getString("email");
-                User.NICKNAME = s.getString("nickname");
+                id = s.getString("id");
+                email = s.getString("email");
+                nick = s.getString("nickname");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -56,5 +63,12 @@ public class GetUser extends ConnectionGet {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+
+        TextView txt = (TextView) super.getmRootView().findViewById(R.id.userNameMenu);
+        txt.setText(nick);
+
+        User.ID_USER = id;
+        User.EMAIL = email;
+        User.NICKNAME = nick;
     }
 }

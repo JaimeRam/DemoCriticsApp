@@ -99,7 +99,7 @@ public class MainActivity extends MenuActivity {
         URL link;
         try {
             link = new URL(SERVER + "/user/" + User.ID_USER);
-            GetUser task = new GetUser(this, null);
+            GetUser task = new GetUser(this, findViewById(R.id.drawer_layout));
             task.execute(link);
 
         } catch (MalformedURLException e) {
