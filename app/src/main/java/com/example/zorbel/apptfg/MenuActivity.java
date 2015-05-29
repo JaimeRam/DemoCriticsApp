@@ -1,16 +1,22 @@
 package com.example.zorbel.apptfg;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.zorbel.apptfg.adapters.MenuLeftListAdapter;
 import com.example.zorbel.apptfg.categories.CategoriesListActivity;
@@ -18,6 +24,7 @@ import com.example.zorbel.apptfg.polls.PollsActivity;
 import com.example.zorbel.apptfg.programs.ProgramsActivity;
 import com.example.zorbel.apptfg.proposals.ProposalsActivity;
 import com.example.zorbel.apptfg.views.MenuLeftItem;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -30,6 +37,10 @@ public class MenuActivity extends ActionBarActivity {
     //Nav Drawer menus
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+
+    private View headerView;
+    private FloatingActionButton userButton;
+    private TextView userName;
 
     private int currentMenuPosition;
 
@@ -55,8 +66,8 @@ public class MenuActivity extends ActionBarActivity {
         drawerListLeft = (ListView) v.findViewById(R.id.left_drawer);
 
         //ListView Header
-        View header = getLayoutInflater().inflate(R.layout.menu_left_header, drawerListLeft, false);
-        drawerListLeft.addHeaderView(header);
+        headerView = getLayoutInflater().inflate(R.layout.menu_left_header, drawerListLeft, false);
+        drawerListLeft.addHeaderView(headerView);
 
         //New list of drawer items
         ArrayList<MenuLeftItem> items = new ArrayList<MenuLeftItem>();
@@ -100,6 +111,18 @@ public class MenuActivity extends ActionBarActivity {
 
 
         drawerLayout.setDrawerListener(drawerToggle);
+
+        userName = (TextView) headerView.findViewById(R.id.userNameMenu);
+
+        userButton = (FloatingActionButton) headerView.findViewById(R.id.userButtonMenu);
+
+        userButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showUserDialog();
+            }
+        });
 
     }
 
@@ -198,6 +221,34 @@ public class MenuActivity extends ActionBarActivity {
 
         drawerListLeft.setItemChecked(position, true);
         drawerLayout.closeDrawer(drawerListLeft);
+    }
+
+    private void showUserDialog() {
+
+        // Set an EditText view to get user input
+        final EditText userInput = new EditText(this);
+        userInput.setTextColor(Color.WHITE);
+        userInput.setGravity(Gravity.CENTER);
+
+        AlertDialog dialog = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                .setTitle(getResources().getString(R.string.userDialogTitle))
+                .setMessage(getResources().getString(R.string.userDialogText))
+                .setView(userInput)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO: set the user name
+                        userName.setText(userInput.getText());
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(R.mipmap.ic_action_person)
+                .show();
+
+
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
