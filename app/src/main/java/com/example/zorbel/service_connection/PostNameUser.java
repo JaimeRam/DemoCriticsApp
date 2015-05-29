@@ -8,9 +8,11 @@ import org.apache.http.NameValuePair;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class PostProposal extends ConnectionPost {
-
-    public PostProposal(Context mContext, ArrayList<NameValuePair> par, View mRootView) {
+/**
+ * Created by jaime on 29/05/15.
+ */
+public class PostNameUser extends ConnectionPost {
+    public PostNameUser(Context mContext, View mRootView, ArrayList<NameValuePair> par) {
         super(mContext, mRootView, par);
     }
 

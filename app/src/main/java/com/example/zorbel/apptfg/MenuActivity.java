@@ -25,8 +25,14 @@ import com.example.zorbel.apptfg.programs.ProgramsActivity;
 import com.example.zorbel.apptfg.proposals.ProposalsActivity;
 import com.example.zorbel.apptfg.views.MenuLeftItem;
 import com.example.zorbel.data_structures.User;
+import com.example.zorbel.service_connection.PostNameUser;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MenuActivity extends ActionBarActivity {
@@ -238,8 +244,9 @@ public class MenuActivity extends ActionBarActivity {
                 .setView(userInput)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //TODO: set the user name
-                        userName.setText(userInput.getText());
+                        User.NICKNAME = userInput.getText().toString();
+                        userName.setText(User.NICKNAME);
+                        setUserName();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -251,6 +258,23 @@ public class MenuActivity extends ActionBarActivity {
                 .show();
 
 
+    }
+
+    private void setUserName() {
+        URL link;
+
+        ArrayList<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("id_user", User.ID_USER));
+        params.add(new BasicNameValuePair("new_nickname", User.NICKNAME));
+
+        try {
+            link = new URL(MainActivity.SERVER + "/user");
+            PostNameUser task = new PostNameUser(this, null, params);
+            task.execute(link);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
