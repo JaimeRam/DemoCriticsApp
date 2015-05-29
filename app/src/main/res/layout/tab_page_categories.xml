@@ -22,7 +22,9 @@
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_health_cross"
                     android:padding="20dp"
-                    android:text="@string/categoryHealth"/>
+                    android:text="@string/categoryHealth"
+                    android:textColor="#4c4c4c"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_Education"
@@ -32,7 +34,9 @@
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_education"
                     android:padding="20dp"
-                    android:text="@string/categoryEducation"/>
+                    android:text="@string/categoryEducation"
+                    android:textColor="#4c4c4c"
+                    android:textStyle="bold" />
             </TableRow>
 
             <TableRow>
@@ -44,7 +48,9 @@
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_employment"
                     android:padding="20dp"
-                    android:text="@string/categoryEmployment"/>
+                    android:text="@string/categoryEmployment"
+                    android:textColor="#4c4c4c"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_Homes"
@@ -54,7 +60,9 @@
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_houses"
                     android:padding="20dp"
-                    android:text="@string/categoryHomes"/>
+                    android:text="@string/categoryHomes"
+                    android:textColor="#4c4c4c"
+                    android:textStyle="bold" />
             </TableRow>
 
             <TableRow>
@@ -66,7 +74,9 @@
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_taxes"
                     android:padding="20dp"
-                    android:text="@string/categoryTaxes"/>
+                    android:text="@string/categoryTaxes"
+                    android:textColor="#4c4c4c"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_Culture"
@@ -76,7 +86,9 @@
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_culture"
                     android:padding="20dp"
-                    android:text="@string/categoryCulture"/>
+                    android:text="@string/categoryCulture"
+                    android:textColor="#4c4c4c"
+                    android:textStyle="bold" />
             </TableRow>
 
 
@@ -88,7 +100,9 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/ic_others"
                 android:padding="20dp"
-                android:text="@string/categoryOthers"/>
+                android:text="@string/categoryOthers"
+                android:textColor="#4c4c4c"
+                android:textStyle="bold" />
 
 
         </TableLayout>
