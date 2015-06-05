@@ -83,22 +83,11 @@ public class GetSectionContent extends ConnectionGet {
             notUnderstoodButton.setText("(" + currentSection.getNumNotUnderstoods() + ")");
             commentButton.setText(super.getmContext().getString(R.string.name_buttonComment) + "  (" + currentSection.getNumComments() + ")");
         } else {
-         /*
-         * Esto sirve para eliminar los botones cuando la sección no contiene texto.
-         * Funciona perfectamente, pero el layout no se adapta bien cuando eliminas los elementos.
-         * Habrá que cambiar las propiedades del ListView.
 
-            RelativeLayout rl = (RelativeLayout) mRootView.findViewById(R.id.activitySectionViewerLayout);
-            rl.removeView(likeButton);
-            rl.removeView(dislikeButton);
-            rl.removeView(notUnderstoodButton);
-            rl.removeView(commentButton);
-            */
-
-            likeButton.setEnabled(false);
-            dislikeButton.setEnabled(false);
-            notUnderstoodButton.setEnabled(false);
-            commentButton.setEnabled(false);
+            likeButton.setVisibility(View.GONE);
+            dislikeButton.setVisibility(View.GONE);
+            notUnderstoodButton.setVisibility(View.GONE);
+            commentButton.setVisibility(View.GONE);
         }
 
         if (currentSection.getlSections() != null) { //Check if Section doesn't have subsections

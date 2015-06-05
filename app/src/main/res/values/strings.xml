@@ -6,10 +6,13 @@
     <string name="titleIndex">Indice</string>
     <string name="titleMenu">Menu</string>
 
+    <string name="title_dialogNoConnection">No hay conexión a Internet.</string>
+    <string name="text_dialogNoConnection">Es necesaria una conexión a Internet. \n\nCompruebe su conexión. </string>
+
     <string name="btnPrograms">Programas\nPolíticos</string>
     <string name="btnTopics">Categorías</string>
     <string name="btnProposals">Propuestas\nCiudadanas</string>
-    <string name="btnPolls">Encuestas</string>
+    <string name="btnPolls">Colabora</string>
 
     <string name="drawer_open">Menu Abierto!</string>
     <string name="drawer_close">Menu Cerrado!</string>
@@ -24,7 +27,7 @@
         <item>Programas</item>
         <item>Categorías</item>
         <item>Propuestas</item>
-        <item>Encuestas</item>
+        <item>Colabora</item>
         <item>Favoritos</item>
     </string-array>
 
@@ -47,9 +50,31 @@
     <string name="categoryCulture">Cultura</string>
     <string name="categoryOthers">Otros...</string>
 
+    <string name="hint_newProposalsTitle">Título de tu propuesta: (Obligatorio)</string>
+    <string name="hint_newProposalsCategory">Selecciona una categoría (Obligatorio)</string>
+    <string name="hint_newProposalsProposal">Escribe aqui tu propuesta: \n (Obligatorio)</string>
+    <string name="hint_newProposalsHow">¿Cómo lo harias?: \nSi no lo sabes puedes dejarlo en blanco
+        y otros usuarios te ayudarán en este punto.</string>
+    <string name="hint_newProposalsMoney">¿Cómo lo financiarias?: \nSi no lo sabes puedes dejarlo en blanco
+        y otros usuarios te ayudarán en este punto.</string>
 
+    <string name="text_proposalsProposal">¿Qué propongo?</string>
     <string name="text_proposalsHow">¿Cómo lo haría?</string>
     <string name="text_proposalsMoney">¿Cómo lo financiaría?</string>
+    <string name="text_proposalsOpinion">Da tu opinion: </string>
+
+    <string name="text_dialogProposalTitle">Debe escribir un Título para su Propuesta.</string>
+    <string name="text_dialogProposalText">Debe escribir el enunciado de su Propuesta.</string>
+    <string name="title_dialogProposalText">¿Quieres que otros usuarios te ayuden?</string>
+    <string name="text_dialogCollaborativeProposal">Si dejas el campo de ¿Cómo lo harías? o de ¿Cómo lo financiarías? sin rellenar
+        (quizás porque no lo tienes muy claro) se creará una Propuesta Colaborativa y otros usuarios podrán echarte una mano redactando
+        esta parte de tu propuesta. \n\nMaś adelante, una vez que estés de acuerdo con lo que se haya escrito, tu y solo tu podrás cerrar la
+        propuesta para hacerla definitiva. ¿Estás de acuerdo?</string>
+
+
+    <string name="text_helpProposal">Esta parte de la propuesta se encuentra en edicion. El usuario necesita ayuda para redactarla
+        ¿Quieres echarle una mano? </string>
+    <string name="name_buttonEditWave">Ayudar en su elaboración ></string>
 
     <string name="text_dialog_downloading">Descargando datos... Espere por favor...</string>
     <string name="text_dialog_uploading">Cargando datos... Espere por favor...</string>
@@ -106,6 +131,12 @@
         <item>Por Categorías</item>
     </string-array>
 
+    <string-array name="TabsCollaborateEntries">
+        <item>Mis Propuestas</item>
+        <item>Pendientes de Cómo</item>
+        <item>Pendientes de Coste</item>
+    </string-array>
+
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_proposals">Propuestas</string>
     <string name="title_activity_comparatives">Categorías</string>
@@ -116,12 +147,14 @@
     <string name="title_activity_proposal_viewer">Propuesta</string>
     <string name="title_activity_favorites">Tus Favoritos</string>
     <string name="title_activity_categorized_programs"> </string>
-    <string name="title_activity_polls">Encuestas</string>
+    <string name="title_activity_collaborate">Prop.Colaborativas</string>
     <string name="title_activity_comments_proposal">Comentarios</string>
     <string name="title_activity_top10">Top10Activity</string>
     <string name="title_activity_parties">Partidos Políticos</string>
     <string name="title_activity_political_program_index">Indice del Programa</string>
     <string name="title_activity_section_viewer">Sección</string>
     <string name="title_activity_comments_section">Comentarios</string>
+    <string name="title_activity_collaborative_proposal_viewer">Propuesta Colaborativa</string>
+    <string name="title_activity_edit_wave">Editando Propuesta</string>
 
 </resources>

@@ -1,10 +1,15 @@
 package com.example.zorbel.apptfg.programs;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -25,7 +30,7 @@ import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.adapters.ExpandableIndexAdapter;
 import com.example.zorbel.apptfg.adapters.MenuLeftListAdapter;
 import com.example.zorbel.apptfg.categories.CategoriesListActivity;
-import com.example.zorbel.apptfg.polls.PollsActivity;
+import com.example.zorbel.apptfg.collaborate.CollaborativeProposalsActivity;
 import com.example.zorbel.apptfg.proposals.ProposalsActivity;
 import com.example.zorbel.apptfg.views.MenuLeftItem;
 import com.example.zorbel.data_structures.PoliticalGroups;
@@ -95,17 +100,16 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         if (pol.getmSectionRoot() == null) {
 
-            getProgramSectionsData(politicalPartyId, sectionId);
+            if(isNetworkAvailable())
+                getProgramSectionsData(politicalPartyId, sectionId);
 
         } else {
 
-            getSectionContentData(sectionId, politicalPartyId);
-            createRightIndex();
+            if(isNetworkAvailable()) {
+                getSectionContentData(sectionId, politicalPartyId);
+                createRightIndex();
+            }
         }
-
-
-
-        //currentSection = PoliticalGroups.getInstance().getSection(politicalPartyId, sectionId);
 
         mIndexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -140,49 +144,26 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                URL link = null;
 
-                try {
-                    link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/like");
-
-                    PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
-                    task.execute(link);
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                String url = "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/like";
+                putOpinion(url);
             }
         });
 
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                URL link = null;
 
-                try {
-                    link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/dislike");
-
-                    PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
-                    task.execute(link);
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                String url = "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/dislike";
+                putOpinion(url);
             }
         });
 
         notUnderstoodButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                URL link = null;
 
-                try {
-                    link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/notUnderstood");
+                String url =  "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/notUnderstood";
+                putOpinion(url);
 
-                    PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
-                    task.execute(link);
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -417,7 +398,7 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         } else if (position == 5) {  //Polls Menu Option
 
-            Intent in = new Intent(this, PollsActivity.class);
+            Intent in = new Intent(this, CollaborativeProposalsActivity.class);
             startActivity(in);
 
         } else if (position == 6) {  //Favourites Menu Option
@@ -461,10 +442,52 @@ public class SectionViewerActivity extends ActionBarActivity {
         }
     }
 
+    private void putOpinion(String url) {
+
+        URL link = null;
+
+        if(isNetworkAvailable()) {
+            try {
+                link = new URL(MainActivity.SERVER + url);
+
+                PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
+                task.execute(link);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+
+    public boolean isNetworkAvailable() {
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        if (netInfo == null || !netInfo.isConnectedOrConnecting()) {
+
+            AlertDialog dialog = new AlertDialog.Builder(SectionViewerActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                    .setTitle(getResources().getString(R.string.title_dialogNoConnection))
+                    .setMessage(getResources().getString(R.string.text_dialogNoConnection))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setIcon(R.mipmap.ic_action_person)
+                    .show();
+
+        }
+
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+
     }
 }

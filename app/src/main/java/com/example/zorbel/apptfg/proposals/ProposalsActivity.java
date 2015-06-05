@@ -45,7 +45,7 @@ public class ProposalsActivity extends MenuActivity {
         slidingTabLayout.setViewPager(viewPager);
 
         int focusTab = getIntent().getExtras().getInt("FocusTab");
-        viewPager.setCurrentItem(focusTab); // Lastest Proposals Tab
+        viewPager.setCurrentItem(focusTab); // Latest Proposals Tab
     }
 
 }

@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="5dp"
+                android:ellipsize="end"
                 android:layout_weight="0.7"
                 android:gravity="center"
                 android:textSize="20sp"
@@ -74,119 +75,139 @@
             android:gravity="right"
             android:textStyle="italic|bold" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_below="@id/proposalUser"
-            android:orientation="vertical">
+            android:layout_below="@id/proposalUser">
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
                 android:orientation="vertical">
 
-                <ScrollView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="0.7">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/text_proposalsProposal"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textProposal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/text_proposalsHow"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/howProposal"
+                            android:text="@string/text_helpProposal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <Button
+                            android:id="@+id/buttonEditPropHow"
+                            android:text="@string/name_buttonEditWave"
+                            android:layout_width="fill_parent"
+                            android:layout_height="80dp" />
+
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/text_proposalsMoney"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/moneyProposal"
+                            android:text="@string/text_helpProposal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <Button
+                            android:id="@+id/buttonEditPropCost"
+                            android:text="@string/name_buttonEditWave"
+                            android:layout_width="fill_parent"
+                            android:layout_height="80dp" />
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textProposal"
+                        android:id="@+id/textLabelOpinion"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/text_proposalsOpinion"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                </ScrollView>
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/text_proposalsHow"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ScrollView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/howProposal"
+                    <TableLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:stretchColumns="*">
 
-                </ScrollView>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/text_proposalsMoney"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                            <Button
+                                android:id="@+id/buttonLike"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:drawableLeft="@mipmap/ic_greenlike" />
 
-                <ScrollView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                            <Button
+                                android:id="@+id/buttonNotUnderstood"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:drawableLeft="@mipmap/ic_bluenotunderstood" />
 
-                    <TextView
-                        android:id="@+id/moneyProposal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"/>
+                            <Button
+                                android:id="@+id/buttonDislike"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:drawableLeft="@mipmap/ic_reddislike" />
 
-                </ScrollView>
+                            <Button
+                                android:id="@+id/buttonComment"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:drawableLeft="@mipmap/ic_commentwhite"/>
 
+                        </TableRow>
+
+                    </TableLayout>
 
             </LinearLayout>
 
-            <TableLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:stretchColumns="*">
-
-                <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/buttonLike"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:drawableLeft="@mipmap/ic_greenlike" />
-
-                    <Button
-                        android:id="@+id/buttonNotUnderstood"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:drawableLeft="@mipmap/ic_bluenotunderstood" />
-
-                    <Button
-                        android:id="@+id/buttonDislike"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:drawableLeft="@mipmap/ic_reddislike" />
-
-                </TableRow>
-
-
-                <Button
-                    android:id="@+id/buttonComment"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@mipmap/ic_commentwhite"
-                    android:text="@string/name_buttonComment" />
-
-            </TableLayout>
-
-        </LinearLayout>
+        </ScrollView>
 
     </RelativeLayout>
 

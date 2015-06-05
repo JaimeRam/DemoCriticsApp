@@ -6,6 +6,9 @@ import com.example.zorbel.apptfg.views.TopItem;
 public class Proposal implements TopItem {
 
     private int propId;
+
+    private boolean isEditable;
+
     private String titleProp;
     private String category; //ID
     private String date;
@@ -22,10 +25,11 @@ public class Proposal implements TopItem {
     private int numViews;
 
 
-    public Proposal(int propId, String titleProp, String category, String date, String user,
+    public Proposal(int propId, boolean editable, String titleProp, String category, String date, String user,
                     String resLogo, String textProp, String howProp, String moneyProp, int numLikes,
                     int numDislikes, int numComments, int numNotUnderstoods, int numViews) {
         this.propId = propId;
+        this.isEditable = editable;
         this.titleProp = titleProp;
         this.category = category;
         this.date = date;
@@ -87,6 +91,14 @@ public class Proposal implements TopItem {
 
     public void setPropId(int propId) {
         this.propId = propId;
+    }
+
+    public boolean isEditable() {
+        return isEditable;
+    }
+
+    public void setIsEditable(boolean isEditable) {
+        this.isEditable = isEditable;
     }
 
     public String getTitleProp() {

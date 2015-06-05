@@ -28,6 +28,7 @@ public class ConnectionURL extends AsyncTask<URL, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
         pDialog = new ProgressDialog(mContext);
         pDialog.setMessage(mContext.getString(R.string.text_dialog_downloading));
         pDialog.show();

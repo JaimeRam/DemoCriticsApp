@@ -59,10 +59,10 @@ public class PutOpinion extends ConnectionPut {
         Button dislikeButton = (Button) super.getmRootView().findViewById(R.id.buttonDislike);
         Button commentButton = (Button) super.getmRootView().findViewById(R.id.buttonComment);
 
-        likeButton.setText("(" + mListCounters[0] + ")");
-        notUnderstoodButton.setText("(" + mListCounters[1] + ")");
-        dislikeButton.setText("(" + mListCounters[2] + ")");
-        commentButton.setText(super.getmContext().getString(R.string.name_buttonComment) + "  (" + mListCounters[3] + ")");
+        likeButton.setText(" " + mListCounters[0] + " ");
+        notUnderstoodButton.setText(" " + mListCounters[1] + " ");
+        dislikeButton.setText(" " + mListCounters[2] + " ");
+        commentButton.setText(" " + mListCounters[3] + " ");
     }
 
     @Override

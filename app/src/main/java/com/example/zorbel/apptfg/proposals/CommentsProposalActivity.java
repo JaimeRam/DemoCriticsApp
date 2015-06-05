@@ -45,7 +45,8 @@ public class CommentsProposalActivity extends MenuActivity {
 
         proposalId = getIntent().getExtras().getInt("ProposalId");
 
-        getProposalComments(proposalId);
+        if(super.isNetworkAvailable())
+            getProposalComments(proposalId);
 
         listViewComments = (ListView) findViewById(R.id.listViewComments);
         editTextComment = (EditText) findViewById(R.id.editTextComment);
@@ -54,23 +55,8 @@ public class CommentsProposalActivity extends MenuActivity {
 
         buttonSendComment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                URL link;
 
-                try {
-                    link = new URL(MainActivity.SERVER + "/proposal/" + proposalId + "/comment");
-
-                    //TODO: set the user for the comment
-
-                    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("id_user", User.ID_USER));
-                    params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
-
-                    PostComment task = new PostComment(CommentsProposalActivity.this, params, findViewById(R.id.activityCommentsLayout));
-                    task.execute(link);
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                postComment();
 
                 editTextComment.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(
@@ -106,6 +92,30 @@ public class CommentsProposalActivity extends MenuActivity {
             buttonSendComment.setEnabled(true);
         else
             buttonSendComment.setEnabled(false);
+    }
+
+    private void postComment() {
+
+        URL link;
+
+        if(super.isNetworkAvailable()) {
+            try {
+                link = new URL(MainActivity.SERVER + "/proposal/" + proposalId + "/comment");
+
+                //TODO: set the user for the comment
+
+                ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("id_user", User.ID_USER));
+                params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
+
+                PostComment task = new PostComment(CommentsProposalActivity.this, params, findViewById(R.id.activityCommentsLayout));
+                task.execute(link);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private void getProposalComments(int id_prop) {

@@ -1,5 +1,7 @@
 package com.example.zorbel.apptfg;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
@@ -7,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.zorbel.apptfg.categories.CategoriesListActivity;
-import com.example.zorbel.apptfg.polls.PollsActivity;
+import com.example.zorbel.apptfg.collaborate.CollaborativeProposalsActivity;
 import com.example.zorbel.apptfg.programs.ProgramsActivity;
 import com.example.zorbel.apptfg.proposals.ProposalsActivity;
 import com.example.zorbel.data_structures.PoliticalGroups;
@@ -31,12 +33,14 @@ public class MainActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
 
-        this.getUserData();
+        if(super.isNetworkAvailable()) {
+            this.getUserData();
+            if (PoliticalGroups.getInstance().getMlistOfPoliticalParties() == null)
+                getPoliticalPartiesData();
+        }
 
         super.setMenus(findViewById(R.id.drawer_layout), 1);
 
-        if (PoliticalGroups.getInstance().getMlistOfPoliticalParties() == null)
-            getPoliticalPartiesData();
 
         btnPrograms = (Button) findViewById(R.id.btn_Programs);
         btnPrograms.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +78,8 @@ public class MainActivity extends MenuActivity {
             @Override
             public void onClick(View v) {
 
-                Intent in = new Intent(MainActivity.this, PollsActivity.class);
+                Intent in = new Intent(MainActivity.this, CollaborativeProposalsActivity.class);
+                in.putExtra("FocusTab", 0);
                 startActivity(in);
             }
         });
@@ -82,18 +87,21 @@ public class MainActivity extends MenuActivity {
     }
 
     private void getPoliticalPartiesData() {
+
         URL link;
         try {
-            link = new URL (SERVER + "/politicalParty");
+            link = new URL(SERVER + "/politicalParty");
             GetPoliticalParties task = new GetPoliticalParties(this, findViewById(R.id.activityPartiesLayout));
             task.execute(link);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
     }
 
     private void getUserData() {
+
         User.ID_USER = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
 
         URL link;
@@ -105,6 +113,7 @@ public class MainActivity extends MenuActivity {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
     }
 
 }

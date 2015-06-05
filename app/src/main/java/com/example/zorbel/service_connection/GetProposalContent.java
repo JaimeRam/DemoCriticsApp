@@ -88,10 +88,17 @@ public class GetProposalContent extends ConnectionGet {
         proposalHow.setText(currentProposal.getHowProp());
         proposalMoney.setText(currentProposal.getMoneyProp());
 
-        likeButton.setText("(" + currentProposal.getNumLikes() + ")");
-        dislikeButton.setText("(" + currentProposal.getNumDislikes() + ")");
-        notUnderstoodButton.setText("(" + currentProposal.getNumNotUnderstoods() + ")");
-        commentButton.setText(super.getmContext().getString(R.string.name_buttonComment) + "  (" + currentProposal.getNumComments() + ")");
+        likeButton.setText(" " + currentProposal.getNumLikes() + " ");
+        dislikeButton.setText(" " + currentProposal.getNumDislikes() + " ");
+        notUnderstoodButton.setText(" " + currentProposal.getNumNotUnderstoods() + " ");
+        commentButton.setText(" " + currentProposal.getNumComments() + " ");
+
+        //REMOVE COLLABORATIVE PROPOSAL BUTTON
+        Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
+        Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+
+        editPropHowButton.setVisibility(View.GONE);
+        editPropCostButton.setVisibility(View.GONE);
     }
 
     protected void getProposalData(String jsonStr) {
@@ -121,7 +128,7 @@ public class GetProposalContent extends ConnectionGet {
 
                 int num_comments = s.getInt(TAG_PROPOSAL_NUM_COMMENTS);
 
-                currentProposal = new Proposal(id_prop, title, category, date, user, image, text, how, cost, likes, dislikes, num_comments, not_understood, views);
+                currentProposal = new Proposal(id_prop, false, title, category, date, user, image, text, how, cost, likes, dislikes, num_comments, not_understood, views);
 
             } catch (JSONException e) {
                 e.printStackTrace();

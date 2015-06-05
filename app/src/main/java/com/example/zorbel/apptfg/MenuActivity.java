@@ -1,10 +1,13 @@
 package com.example.zorbel.apptfg;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -20,7 +23,7 @@ import android.widget.TextView;
 
 import com.example.zorbel.apptfg.adapters.MenuLeftListAdapter;
 import com.example.zorbel.apptfg.categories.CategoriesListActivity;
-import com.example.zorbel.apptfg.polls.PollsActivity;
+import com.example.zorbel.apptfg.collaborate.CollaborativeProposalsActivity;
 import com.example.zorbel.apptfg.programs.ProgramsActivity;
 import com.example.zorbel.apptfg.proposals.ProposalsActivity;
 import com.example.zorbel.apptfg.views.MenuLeftItem;
@@ -214,9 +217,10 @@ public class MenuActivity extends ActionBarActivity {
                 Intent in = new Intent(this, ProposalsActivity.class);
                 startActivity(in);
 
-            } else if (position == 5) {  //Polls Menu Option
+            } else if (position == 5) {  //Colaborative Proposals Menu Option
 
-                Intent in = new Intent(this, PollsActivity.class);
+                Intent in = new Intent(this, CollaborativeProposalsActivity.class);
+                in.putExtra("FocusTab", 0);
                 startActivity(in);
 
             } else if (position == 6) {  //Favourites Menu Option
@@ -282,6 +286,30 @@ public class MenuActivity extends ActionBarActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+
+    public boolean isNetworkAvailable() {
+
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+            if (netInfo == null || !netInfo.isConnectedOrConnecting()) {
+
+                AlertDialog dialog = new AlertDialog.Builder(MenuActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                        .setTitle(getResources().getString(R.string.title_dialogNoConnection))
+                        .setMessage(getResources().getString(R.string.text_dialogNoConnection))
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(R.mipmap.ic_action_person)
+                        .show();
+
+            }
+
+            return netInfo != null && netInfo.isConnectedOrConnecting();
+
     }
 
 }

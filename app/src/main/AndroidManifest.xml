@@ -5,6 +5,7 @@
     <uses-sdk android:targetSdkVersion="20" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -20,10 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="org.swellrt.android.service.SwellRTService"></service>
-        <activity
-            android:name=".programs.PartiesActivity"
-            android:label="@string/title_activity_parties" />
+
         <activity
             android:name=".programs.PoliticalProgramIndexActivity"
             android:label="@string/title_activity_political_program_index" />
@@ -36,10 +34,6 @@
         <activity
             android:name=".programs.CommentsSectionActivity"
             android:label="@string/title_activity_comments_section" />
-        <activity
-            android:name=".Top10Activity"
-            android:label="@string/title_activity_top10" >
-        </activity>
         <activity
             android:name=".proposals.ProposalsActivity"
             android:label="@string/title_activity_proposals" >
@@ -77,12 +71,16 @@
             android:label="@string/title_activity_categorized_programs" >
         </activity>
         <activity
-            android:name=".polls.PollsActivity"
-            android:label="@string/title_activity_polls" >
+            android:name=".collaborate.CollaborativeProposalsActivity"
+            android:label="@string/title_activity_collaborate" >
         </activity>
         <activity
             android:name=".proposals.CommentsProposalActivity"
             android:label="@string/title_activity_comments_proposal" >
+        </activity>
+        <activity
+            android:name=".collaborate.EditWaveActivity"
+            android:label="@string/title_activity_edit_wave" >
         </activity>
     </application>
 

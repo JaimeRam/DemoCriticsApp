@@ -69,7 +69,7 @@ public class GetTopProposals extends ConnectionGet {
                     int numComments = ob.getInt(TAG_COMMENTS);
 
 
-                    Proposal prop = new Proposal(idProposal, title, null, date, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews);
+                    Proposal prop = new Proposal(idProposal, false, title, null, date, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews);
                     listTopProposals.add(prop);
                 }
 

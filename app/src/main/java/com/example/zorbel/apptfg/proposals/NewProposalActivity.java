@@ -1,5 +1,7 @@
 package com.example.zorbel.apptfg.proposals;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +16,7 @@ import android.widget.Spinner;
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.apptfg.collaborate.CollaborativeProposalsActivity;
 import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.PostProposal;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -88,67 +91,42 @@ public class NewProposalActivity extends MenuActivity {
             }
         });
 
-        mEditTextHowProposal.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                enableSubmitIfReady();
-            }
-        });
-
-        mEditTextCostProposal.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                enableSubmitIfReady();
-            }
-        });
-
         mButtonSubmit.setOnClickListener(new View.OnClickListener() {
             URL link;
 
             @Override
             public void onClick(View view) {
-                try {
-                    link = new URL(MainActivity.SERVER + "/proposal");
 
-                    //TODO: set the user for the proposal
+                String title = mEditTextTitleProposal.getText().toString();
+                String text = mEditTextTextProposal.getText().toString();
+                String how = mEditTextHowProposal.getText().toString();
+                String cost = mEditTextCostProposal.getText().toString();
 
-                    ArrayList<NameValuePair> params = new ArrayList<>();
-                    params.add(new BasicNameValuePair("id_user", User.ID_USER));
-                    params.add(new BasicNameValuePair("title", mEditTextTitleProposal.getText().toString()));
-                    params.add(new BasicNameValuePair("text", mEditTextTextProposal.getText().toString()));
-                    params.add(new BasicNameValuePair("how", mEditTextHowProposal.getText().toString()));
-                    params.add(new BasicNameValuePair("cost", mEditTextCostProposal.getText().toString()));
-                    int index = spinnerCategory.getSelectedItemPosition() + 1;
-                    params.add(new BasicNameValuePair("id_category", Integer.toString(index)));
-                    params.add(new BasicNameValuePair("id_image", Integer.toString(index)));
+                if (how.isEmpty() || cost.isEmpty()) {
 
-                    PostProposal task = new PostProposal(NewProposalActivity.this, params, findViewById(R.id.addNewProposal));
-                    task.execute(link);
-                    finish();
-                    goToMyProposals();
+                    AlertDialog dialog = new AlertDialog.Builder(NewProposalActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                            .setTitle(getResources().getString(R.string.title_dialogProposalText))
+                            .setMessage(getResources().getString(R.string.text_dialogCollaborativeProposal))
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
 
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                                    //TODO: create collaborative proposal and go to CollaborateActivity
+
+                                    goToMyCollaborativeProposals();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(R.mipmap.ic_action_person)
+                            .show();
+
+                } else {
+
+                    postProposal();
+
                 }
             }
         });
@@ -178,8 +156,7 @@ public class NewProposalActivity extends MenuActivity {
     private void enableSubmitIfReady() {
 
         int minChars = 3; // Minimal characters that every TextView must have.
-        boolean isReady = mEditTextCostProposal.getText().toString().length() > minChars && mEditTextHowProposal.getText().toString().length() > minChars
-                && mEditTextTextProposal.getText().toString().length() > minChars && mEditTextTitleProposal.getText().toString().length() > minChars;
+        boolean isReady = mEditTextTextProposal.getText().toString().length() > minChars && mEditTextTitleProposal.getText().toString().length() > minChars;
 
         if (isReady)
             mButtonSubmit.setEnabled(true);
@@ -201,5 +178,43 @@ public class NewProposalActivity extends MenuActivity {
         Intent in = new Intent(NewProposalActivity.this, ProposalsActivity.class);
         in.putExtra("FocusTab", 0);
         startActivity(in);
+    }
+
+    private void goToMyCollaborativeProposals() {
+        this.finish();
+        Intent in = new Intent(NewProposalActivity.this, CollaborativeProposalsActivity.class);
+        in.putExtra("FocusTab", 0);
+        startActivity(in);
+    }
+
+
+    private void postProposal() {
+
+        URL link;
+
+        if(super.isNetworkAvailable()) {
+            try {
+                link = new URL(MainActivity.SERVER + "/proposal");
+
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("id_user", User.ID_USER));
+                params.add(new BasicNameValuePair("title", mEditTextTitleProposal.getText().toString()));
+                params.add(new BasicNameValuePair("text", mEditTextTextProposal.getText().toString()));
+                params.add(new BasicNameValuePair("how", mEditTextHowProposal.getText().toString()));
+                params.add(new BasicNameValuePair("cost", mEditTextCostProposal.getText().toString()));
+                int index = spinnerCategory.getSelectedItemPosition() + 1;
+                params.add(new BasicNameValuePair("id_category", Integer.toString(index)));
+                params.add(new BasicNameValuePair("id_image", Integer.toString(index)));
+
+                PostProposal task = new PostProposal(NewProposalActivity.this, params, findViewById(R.id.addNewProposal));
+                task.execute(link);
+                finish();
+                goToMyProposals();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

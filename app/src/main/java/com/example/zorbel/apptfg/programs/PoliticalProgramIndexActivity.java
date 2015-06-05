@@ -55,7 +55,8 @@ public class PoliticalProgramIndexActivity extends MenuActivity {
         mIndexListView = (ListView) findViewById(R.id.indexListView);
 
         if (polParty.getmSectionRoot() == null) {
-            getProgramSectionsData(polParty.getmId());
+            if(super.isNetworkAvailable())
+                getProgramSectionsData(polParty.getmId());
         } else {
             List<Section> index = PoliticalGroups.getInstance().getPoliticalParty(polId).getmSectionRoot().getlSections();
 

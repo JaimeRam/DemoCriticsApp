@@ -1,5 +1,6 @@
 package com.example.zorbel.apptfg.programs;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,19 +40,22 @@ public class CategorizedProgramsActivity extends MenuActivity {
         //Set the title category for the action bar
         super.getSupportActionBar().setTitle(title);
 
-        getSectionsData(id_category);
+        if(super.isNetworkAvailable())
+            getSectionsData(id_category);
     }
 
     private void getSectionsData(int id_category) {
-        int limit = 10;
-        URL link;
 
-        try {
-            link = new URL(MainActivity.SERVER + "/category/" + id_category + "/section/" + limit);
-            GetTopSections task = new GetTopSections(this, findViewById(R.id.layoutTopCategorizedSections));
-            task.execute(link);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+            int limit = 10;
+            URL link;
+
+            try {
+                link = new URL(MainActivity.SERVER + "/category/" + id_category + "/section/" + limit);
+                GetTopSections task = new GetTopSections(this, findViewById(R.id.layoutTopCategorizedSections));
+                task.execute(link);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
     }
 }

@@ -62,27 +62,13 @@ public class CommentsSectionActivity extends MenuActivity {
 
         final int politicalPartyId = currentSection.getmPoliticalParty();
 
-        getSectionComments(sectionId, politicalPartyId);
+        if(super.isNetworkAvailable())
+            getSectionComments(sectionId, politicalPartyId);
 
         buttonSendComment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                URL link;
 
-                try {
-                    link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/comment");
-
-                    //TODO: set the user for the comment
-
-                    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("id_user", User.ID_USER));
-                    params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
-
-                    PostComment task = new PostComment(CommentsSectionActivity.this, params, findViewById(R.id.activityCommentsLayout));
-                    task.execute(link);
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                postComment();
 
                 editTextComment.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(
@@ -131,6 +117,26 @@ public class CommentsSectionActivity extends MenuActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_political_program_index, menu);
         return true;
+    }
+
+    private void postComment() {
+        URL link;
+
+        if(super.isNetworkAvailable()) {
+            try {
+                link = new URL(MainActivity.SERVER + "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/comment");
+
+                ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("id_user", User.ID_USER));
+                params.add(new BasicNameValuePair("text", editTextComment.getText().toString()));
+
+                PostComment task = new PostComment(CommentsSectionActivity.this, params, findViewById(R.id.activityCommentsLayout));
+                task.execute(link);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void getSectionComments(int id_section, int id_politicalParty) {

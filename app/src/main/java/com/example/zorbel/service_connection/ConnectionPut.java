@@ -28,47 +28,47 @@ public class ConnectionPut extends ConnectionURL {
     @Override
     protected Void doInBackground(URL... urls) {
 
-        StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
 
-        try {
-            // Establecer la conexión
-            con = (HttpURLConnection) urls[0].openConnection();
-            con.setDoOutput(true);
-            con.setRequestMethod("PUT");
-            OutputStreamWriter out = new OutputStreamWriter(
-                    con.getOutputStream());
-            out.write("Resource content");
-            out.close();
-            con.getInputStream();
+            try {
+                // Establecer la conexión
+                con = (HttpURLConnection) urls[0].openConnection();
+                con.setDoOutput(true);
+                con.setRequestMethod("PUT");
+                OutputStreamWriter out = new OutputStreamWriter(
+                        con.getOutputStream());
+                out.write("Resource content");
+                out.close();
+                con.getInputStream();
 
-            int statusCode = con.getResponseCode();
+                int statusCode = con.getResponseCode();
 
-            if (statusCode == 200) {
-                InputStream in = new BufferedInputStream(con.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
+                if (statusCode == 200) {
+                    InputStream in = new BufferedInputStream(con.getInputStream());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line);
+                    }
+                } else {
+                    Log.e(GetSectionContent.class.toString(), "Failed to get JSON object");
                 }
-            } else {
-                Log.e(GetSectionContent.class.toString(), "Failed to get JSON object");
+
+                con.connect();
+
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (con != null) {
+                    con.disconnect();
+                }
             }
 
-            con.connect();
+            json = builder.toString();
 
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (con != null) {
-                con.disconnect();
-            }
-        }
-
-        json = builder.toString();
-
-        return null;
+            return null;
     }
 
     @Override

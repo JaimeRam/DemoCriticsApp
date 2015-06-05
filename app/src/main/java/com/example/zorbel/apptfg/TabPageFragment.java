@@ -1,6 +1,11 @@
 package com.example.zorbel.apptfg;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.zorbel.apptfg.adapters.PartyWidgetAdapter;
+import com.example.zorbel.apptfg.adapters.TopItemAdapter;
 import com.example.zorbel.apptfg.programs.CategorizedProgramsActivity;
 import com.example.zorbel.apptfg.programs.PoliticalProgramIndexActivity;
 import com.example.zorbel.apptfg.programs.SectionViewerActivity;
@@ -31,10 +37,11 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class TabPageFragment extends Fragment {
 
-    public static final String ARG_INFOTYPE = "ARG_INFOTYPE"; // Could be 1 for programs or 2 for proposals or 3 for categories or 4 for favorites
+    public static final String ARG_INFOTYPE = "ARG_INFOTYPE"; // Could be 1 for programs or 2 for proposals or 3 for categories or 4 for collaborative proposals or 5 for favorites
     public static final String ARG_PAGETAB = "ARG_TOPTYPE";
 
     public static final String ARG_CATEGORY = "ARG_CATEGORY";
@@ -86,7 +93,8 @@ public class TabPageFragment extends Fragment {
 
                 if (PoliticalGroups.getInstance().getMlistOfPoliticalParties() == null) {
 
-                    getPoliticalPartiesData(view);
+                    if(isNetworkAvailable())
+                        getPoliticalPartiesData(view);
 
                 } else {
 
@@ -143,12 +151,14 @@ public class TabPageFragment extends Fragment {
 
                 URL link;
 
-                try {
-                    link = new URL(sLink + limit);
-                    GetTopSections task = new GetTopSections(getActivity(), view);
-                    task.execute(link);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                if(isNetworkAvailable()) {
+                    try {
+                        link = new URL(sLink + limit);
+                        GetTopSections task = new GetTopSections(getActivity(), view);
+                        task.execute(link);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 setListTopListeners(view);
@@ -156,7 +166,7 @@ public class TabPageFragment extends Fragment {
 
         } else if (infType == 2) { // PROPOSALS Activity
 
-            if (pageTab == 2) { //Categories Tab
+            if (pageTab == 2 && categoryId == 0) { //Categories Tab (Only in not categorized activity)
 
                 view = inflater.inflate(R.layout.tab_page_categories, container, false);
 
@@ -246,13 +256,14 @@ public class TabPageFragment extends Fragment {
                 }
 
                 URL link;
-
-                try {
-                    link = new URL(sLink);
-                    GetTopProposals task = new GetTopProposals(getActivity(), view);
-                    task.execute(link);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                if(isNetworkAvailable()) {
+                    try {
+                        link = new URL(sLink);
+                        GetTopProposals task = new GetTopProposals(getActivity(), view);
+                        task.execute(link);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 setListTopListeners(view);
@@ -268,7 +279,8 @@ public class TabPageFragment extends Fragment {
 
                 addButton.setVisibility(View.INVISIBLE);
 
-                getSectionsData(view, categoryId);
+                if(isNetworkAvailable())
+                    getSectionsData(view, categoryId);
 
                 setListTopListeners(view);
 
@@ -280,14 +292,42 @@ public class TabPageFragment extends Fragment {
 
                 addButton.setVisibility(View.INVISIBLE);
 
-                getProposalsData(view, categoryId);
+                if(isNetworkAvailable())
+                    getProposalsData(view, categoryId);
 
                 setListTopListeners(view);
 
 
             }
 
-        } else if (infType == 4) { // FAVORITES Activity
+        } else if (infType == 4) { // COLLABORATIVE PROPOSALS Activity
+
+            view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
+
+            if(pageTab == 1) { //My Proposals Tab
+
+                //TODO: set the list
+
+                Proposal p = new Proposal(57, true, "Prueba Colaborativa", "#Sanidad", "Hola", "Pepito", "ic_health",
+                        "texto de la Propuesta", null, null, 10, 2, 23, 2, 9);
+
+                ArrayList<TopItem> listTopProposals = new ArrayList<TopItem>();
+                listTopProposals.add(p);
+                ListView topTabPageListView = (ListView) view.findViewById(R.id.topListView);
+                topTabPageListView.setAdapter(new TopItemAdapter(getActivity(), listTopProposals));
+
+                setListTopListeners(view);
+
+            } else  if(pageTab == 2) { //Proposals How Tab
+
+                //TODO: set the list
+
+            } else { // Proposals Cost Tab
+
+                //TODO: set the list
+            }
+
+        } else if (infType == 5) { // FAVORITES Activity
 
             if(pageTab == 1) { //Sections Tab
 
@@ -621,6 +661,30 @@ public class TabPageFragment extends Fragment {
 
     }
 
+    public boolean isNetworkAvailable() {
+
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        if (netInfo == null || !netInfo.isConnectedOrConnecting()) {
+
+            AlertDialog dialog = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                    .setTitle(getResources().getString(R.string.title_dialogNoConnection))
+                    .setMessage(getResources().getString(R.string.text_dialogNoConnection))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setIcon(R.mipmap.ic_action_person)
+                    .show();
+
+        }
+
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+
+    }
+
     private void setListTopListeners(final View v) {
 
         //set more Views header
@@ -662,6 +726,7 @@ public class TabPageFragment extends Fragment {
                         Bundle b = new Bundle();
 
                         b.putInt("ProposalId", prop.getPropId());
+                        b.putBoolean("isEditable", prop.isEditable());
                         in.putExtras(b);
 
                         startActivity(in);
