@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -99,7 +100,6 @@ public class TabPageFragment extends Fragment {
                 } else {
 
                     gridview.setAdapter(new PartyWidgetAdapter(getActivity(), PoliticalGroups.getInstance().getMlistOfPoliticalParties()));
-
                 }
 
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -303,6 +303,11 @@ public class TabPageFragment extends Fragment {
         } else if (infType == 4) { // COLLABORATIVE PROPOSALS Activity
 
             view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
+
+            FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
+
+            addButton.setColorNormal(Color.parseColor("#FF1919"));
+            addButton.setColorPressed(Color.parseColor("#FF7171"));
 
             if(pageTab == 1) { //My Proposals Tab
 

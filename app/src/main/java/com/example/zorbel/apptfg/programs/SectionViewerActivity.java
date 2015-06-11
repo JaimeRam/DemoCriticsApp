@@ -196,7 +196,7 @@ public class SectionViewerActivity extends ActionBarActivity {
         items.add(new MenuLeftItem(tagTitles[1], getResources().getDrawable(R.mipmap.ic_programs)));
         items.add(new MenuLeftItem(tagTitles[2], getResources().getDrawable(R.mipmap.ic_topics)));
         items.add(new MenuLeftItem(tagTitles[3], getResources().getDrawable(R.mipmap.ic_proposals)));
-        items.add(new MenuLeftItem(tagTitles[4], getResources().getDrawable(R.mipmap.ic_polls)));
+        items.add(new MenuLeftItem(tagTitles[4], getResources().getDrawable(R.mipmap.ic_collaborate)));
         items.add(new MenuLeftItem(tagTitles[5], getResources().getDrawable(R.mipmap.ic_starfav_yellow)));
 
 

@@ -21,7 +21,7 @@ public class CollaborativeProposalsActivity extends MenuActivity {
 
         super.setMenus(findViewById(R.id.drawer_layout), 5);
 
-        super.getSupportActionBar().setIcon(R.mipmap.ic_polls);
+        super.getSupportActionBar().setIcon(R.mipmap.ic_collaborate);
         super.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF1919")));

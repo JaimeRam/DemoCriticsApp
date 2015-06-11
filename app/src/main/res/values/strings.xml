@@ -12,7 +12,7 @@
     <string name="btnPrograms">Programas\nPolíticos</string>
     <string name="btnTopics">Categorías</string>
     <string name="btnProposals">Propuestas\nCiudadanas</string>
-    <string name="btnPolls">Colabora</string>
+    <string name="btnCollaborate">Propuestas\nColaborativas</string>
 
     <string name="drawer_open">Menu Abierto!</string>
     <string name="drawer_close">Menu Cerrado!</string>
@@ -26,8 +26,8 @@
         <item>Inicio</item>
         <item>Programas</item>
         <item>Categorías</item>
-        <item>Propuestas</item>
-        <item>Colabora</item>
+        <item>Propuestas\nciudadanas</item>
+        <item>Propuestas\ncolaborativas</item>
         <item>Favoritos</item>
     </string-array>
 
@@ -147,7 +147,7 @@
     <string name="title_activity_proposal_viewer">Propuesta</string>
     <string name="title_activity_favorites">Tus Favoritos</string>
     <string name="title_activity_categorized_programs"> </string>
-    <string name="title_activity_collaborate">Prop.Colaborativas</string>
+    <string name="title_activity_collaborate">Prop. Colaborativas</string>
     <string name="title_activity_comments_proposal">Comentarios</string>
     <string name="title_activity_top10">Top10Activity</string>
     <string name="title_activity_parties">Partidos Políticos</string>

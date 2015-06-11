@@ -52,7 +52,7 @@ public class MenuActivity extends ActionBarActivity {
     private FloatingActionButton userButton;
     private TextView userName;
 
-    private int currentMenuPosition;
+    private int currentMenuPosition; //current section of the application, so if the user presses it the app doesn't reloads the same activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class MenuActivity extends ActionBarActivity {
         items.add(new MenuLeftItem(tagTitles[1], v.getResources().getDrawable(R.mipmap.ic_programs)));
         items.add(new MenuLeftItem(tagTitles[2], v.getResources().getDrawable(R.mipmap.ic_topics)));
         items.add(new MenuLeftItem(tagTitles[3], v.getResources().getDrawable(R.mipmap.ic_proposals)));
-        items.add(new MenuLeftItem(tagTitles[4], v.getResources().getDrawable(R.mipmap.ic_polls)));
+        items.add(new MenuLeftItem(tagTitles[4], v.getResources().getDrawable(R.mipmap.ic_collaborate)));
         items.add(new MenuLeftItem(tagTitles[5], v.getResources().getDrawable(R.mipmap.ic_starfav_yellow)));
 
 
