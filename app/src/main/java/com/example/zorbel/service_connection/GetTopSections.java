@@ -84,12 +84,12 @@ public class GetTopSections extends ConnectionGet {
 
     @Override
     protected void onPreExecute() {
-        super.onPreExecute();
+
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
+
         showTop();
     }
 }

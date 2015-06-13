@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.zorbel.apptfg.MainActivity;
@@ -21,7 +22,7 @@ import java.net.URL;
 
 public class ProposalViewerActivity extends MenuActivity {
 
-    private FloatingActionButton favButton;
+    private ImageButton favButton;
 
     private Button commentButton;
     private Button likeButton;
@@ -47,7 +48,7 @@ public class ProposalViewerActivity extends MenuActivity {
         likeButton = (Button) findViewById(R.id.buttonLike);
         notUnderstoodButton = (Button) findViewById(R.id.buttonNotUnderstood);
         dislikeButton = (Button) findViewById(R.id.buttonDislike);
-        favButton = (FloatingActionButton) findViewById(R.id.buttonFav);
+        favButton = (ImageButton) findViewById(R.id.buttonFav);
 
 
         if(!isEditable) { //The proposal is not editable

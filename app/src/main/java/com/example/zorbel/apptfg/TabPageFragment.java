@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import com.example.zorbel.apptfg.adapters.PartyWidgetAdapter;
 import com.example.zorbel.apptfg.adapters.TopItemAdapter;
+import com.example.zorbel.apptfg.collaborate.CategorizedCollaborativeProposalsActivity;
 import com.example.zorbel.apptfg.programs.CategorizedProgramsActivity;
 import com.example.zorbel.apptfg.programs.PoliticalProgramIndexActivity;
 import com.example.zorbel.apptfg.programs.SectionViewerActivity;
@@ -302,34 +303,116 @@ public class TabPageFragment extends Fragment {
 
         } else if (infType == 4) { // COLLABORATIVE PROPOSALS Activity
 
-            view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
+            if(categoryId == 0) { //Not categorized
 
-            FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
+                view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
 
-            addButton.setColorNormal(Color.parseColor("#FF1919"));
-            addButton.setColorPressed(Color.parseColor("#FF7171"));
+                FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
 
-            if(pageTab == 1) { //My Proposals Tab
+                addButton.setColorNormal(Color.parseColor("#FF1919"));
+                addButton.setColorPressed(Color.parseColor("#FF7171"));
 
-                //TODO: set the list
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                Proposal p = new Proposal(57, true, "Prueba Colaborativa", "#Sanidad", "Hola", "Pepito", "ic_health",
-                        "texto de la Propuesta", null, null, 10, 2, 23, 2, 9);
+                        Intent in = new Intent(getActivity(), NewProposalActivity.class);
+                        startActivity(in);
 
-                ArrayList<TopItem> listTopProposals = new ArrayList<TopItem>();
-                listTopProposals.add(p);
-                ListView topTabPageListView = (ListView) view.findViewById(R.id.topListView);
-                topTabPageListView.setAdapter(new TopItemAdapter(getActivity(), listTopProposals));
+                    }
+                });
 
-                setListTopListeners(view);
+                switch(pageTab) {
 
-            } else  if(pageTab == 2) { //Proposals How Tab
+                    case 1: //My Proposals Tab
 
-                //TODO: set the list
+                        //TODO: set the list
+                        break;
 
-            } else { // Proposals Cost Tab
 
-                //TODO: set the list
+                    case 2:  //Collaborative Proposals Categories Tab
+
+                        view = inflater.inflate(R.layout.tab_page_categories, container, false);
+
+                        setCategoryCollaborativeProposalsButtonsListeners(view);
+                        break;
+
+                    case 3: //Last Collaborative Proposals Tab
+                        //TODO: set the list
+
+                        Proposal p = new Proposal(57, true, "Prueba Colaborativa", "#Sanidad", "Hola", "Pepito", "ic_health",
+                                "texto de la Propuesta", null, null, 10, 2, 23, 2, 9);
+
+                        ArrayList<TopItem> listTopProposals = new ArrayList<TopItem>();
+                        listTopProposals.add(p);
+                        ListView topTabPageListView = (ListView) view.findViewById(R.id.topListView);
+                        topTabPageListView.setAdapter(new TopItemAdapter(getActivity(), listTopProposals));
+
+                        setListTopListeners(view);
+
+                        break;
+
+                    case 4: //How Collaborative Proposals Tab
+                        //TODO: set the list
+                        break;
+
+                    case 5: //Cost Collaborative Proposals Tab
+                        //TODO: set the list
+                        break;
+
+                    default:
+                        break;
+                }
+
+
+            } else { // categorized collaborative proposals
+
+                view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
+
+                FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
+
+                addButton.setColorNormal(Color.parseColor("#FF1919"));
+                addButton.setColorPressed(Color.parseColor("#FF7171"));
+
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent in = new Intent(getActivity(), NewProposalActivity.class);
+                        startActivity(in);
+
+                    }
+                });
+
+                switch(pageTab) {
+
+                    case 1: //Last Proposals Tab
+                        //TODO: set the list
+
+                        Proposal p = new Proposal(57, true, "Prueba Colaborativa", "#Sanidad", "Hola", "Pepito", "ic_health",
+                                "texto de la Propuesta", null, null, 10, 2, 23, 2, 9);
+
+                        ArrayList<TopItem> listTopProposals = new ArrayList<TopItem>();
+                        listTopProposals.add(p);
+                        ListView topTabPageListView = (ListView) view.findViewById(R.id.topListView);
+                        topTabPageListView.setAdapter(new TopItemAdapter(getActivity(), listTopProposals));
+
+                        setListTopListeners(view);
+                        break;
+
+                    case 2: //Collaborative Proposals How Tab
+                        //TODO: set the list
+                        break;
+
+                    case 3: //Collaborative Proposals Cost Tab
+                        //TODO: set the list
+                        break;
+
+                    default:
+                        break;
+                }
+
+
             }
 
         } else if (infType == 5) { // FAVORITES Activity
@@ -651,6 +734,145 @@ public class TabPageFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent in = new Intent(getActivity(), CategorizedProposalsActivity.class);
+
+                Bundle b = new Bundle();
+
+                b.putString(ARG_CATEGORY, getString(R.string.categoryOthers));
+                b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_others);
+                b.putInt(ARG_ID_CATEGORY, 7);
+                in.putExtras(b);
+                startActivity(in);
+            }
+        });
+
+
+
+    }
+
+    private void setCategoryCollaborativeProposalsButtonsListeners(View v) {
+
+        // SET BUTTON HEALTH LISTENER
+        Button btnHealth = (Button) v.findViewById(R.id.btn_Health);
+
+        btnHealth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(getActivity(), CategorizedCollaborativeProposalsActivity.class);
+
+                Bundle b = new Bundle();
+
+                b.putString(ARG_CATEGORY, getString(R.string.categoryHealth));
+                b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_health_cross);
+                b.putInt(ARG_ID_CATEGORY, 1);
+                in.putExtras(b);
+                startActivity(in);
+            }
+        });
+
+        // SET BUTTON EDUCATION LISTENER
+        Button btnEducation = (Button) v.findViewById(R.id.btn_Education);
+
+        btnEducation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(getActivity(), CategorizedCollaborativeProposalsActivity.class);
+
+                Bundle b = new Bundle();
+
+                b.putString(ARG_CATEGORY, getString(R.string.categoryEducation));
+                b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_education);
+                b.putInt(ARG_ID_CATEGORY, 2);
+                in.putExtras(b);
+                startActivity(in);
+            }
+        });
+
+        // SET BUTTON EMPLOYMENT LISTENER
+        Button btnEmployment = (Button) v.findViewById(R.id.btn_Employment);
+
+        btnEmployment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(getActivity(), CategorizedCollaborativeProposalsActivity.class);
+
+                Bundle b = new Bundle();
+
+                b.putString(ARG_CATEGORY, getString(R.string.categoryEmployment));
+                b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_employment);
+                b.putInt(ARG_ID_CATEGORY, 3);
+                in.putExtras(b);
+                startActivity(in);
+            }
+        });
+
+        // SET BUTTON HOMES LISTENER
+        Button btnHomes = (Button) v.findViewById(R.id.btn_Homes);
+
+        btnHomes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(getActivity(), CategorizedCollaborativeProposalsActivity.class);
+
+                Bundle b = new Bundle();
+
+                b.putString(ARG_CATEGORY, getString(R.string.categoryHomes));
+                b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_houses);
+                b.putInt(ARG_ID_CATEGORY, 4);
+                in.putExtras(b);
+                startActivity(in);
+            }
+        });
+
+        // SET BUTTON TAXES LISTENER
+        Button btnTaxes = (Button) v.findViewById(R.id.btn_Taxes);
+
+        btnTaxes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(getActivity(), CategorizedCollaborativeProposalsActivity.class);
+
+                Bundle b = new Bundle();
+
+                b.putString(ARG_CATEGORY, getString(R.string.categoryTaxes));
+                b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_taxes);
+                b.putInt(ARG_ID_CATEGORY, 5);
+                in.putExtras(b);
+                startActivity(in);
+            }
+        });
+
+        // SET BUTTON CULTURE LISTENER
+        Button btnCulture = (Button) v.findViewById(R.id.btn_Culture);
+
+        btnCulture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(getActivity(), CategorizedCollaborativeProposalsActivity.class);
+
+                Bundle b = new Bundle();
+
+                b.putString(ARG_CATEGORY, getString(R.string.categoryCulture));
+                b.putInt(ARG_CATEGORYLOGO, R.drawable.ic_culture);
+                b.putInt(ARG_ID_CATEGORY, 6);
+                in.putExtras(b);
+                startActivity(in);
+            }
+        });
+
+        // SET BUTTON OTHERS LISTENER
+        Button btnOthers = (Button) v.findViewById(R.id.btn_Others);
+
+        btnOthers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(getActivity(), CategorizedCollaborativeProposalsActivity.class);
 
                 Bundle b = new Bundle();
 

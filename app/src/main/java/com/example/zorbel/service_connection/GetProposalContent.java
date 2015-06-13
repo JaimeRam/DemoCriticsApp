@@ -52,6 +52,12 @@ public class GetProposalContent extends ConnectionGet {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        //REMOVE COLLABORATIVE PROPOSAL BUTTON
+        Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
+        Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+
+        editPropHowButton.setVisibility(View.GONE);
+        editPropCostButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -93,12 +99,7 @@ public class GetProposalContent extends ConnectionGet {
         notUnderstoodButton.setText(" " + currentProposal.getNumNotUnderstoods() + " ");
         commentButton.setText(" " + currentProposal.getNumComments() + " ");
 
-        //REMOVE COLLABORATIVE PROPOSAL BUTTON
-        Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
-        Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
 
-        editPropHowButton.setVisibility(View.GONE);
-        editPropCostButton.setVisibility(View.GONE);
     }
 
     protected void getProposalData(String jsonStr) {

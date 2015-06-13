@@ -35,15 +35,15 @@
                 android:id="@+id/editTextComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_toLeftOf="@id/buttonSendComment"
+                android:layout_alignParentLeft="true"
                 android:hint="@string/text_comment"/>
 
             <Button
                 android:id="@+id/buttonSendComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextComment"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentRight="true"
                 android:text="@string/text_buttonDoComment" />
 
         </RelativeLayout>

@@ -6,210 +6,215 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activityProposalViewerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        tools:context="com.example.zorbel.apptfg.programs.SectionViewerActivity">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
-        <LinearLayout
-            android:id="@+id/layoutTitle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/proposalImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"/>
-
-            <TextView
-                android:id="@+id/proposalTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="5dp"
-                android:ellipsize="end"
-                android:layout_weight="0.7"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/buttonFav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/white_pressed"
-                fab:fab_icon="@mipmap/ic_starfav_yellow"
-                fab:fab_size="mini" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/proposalCategory"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutTitle"
-            android:layout_marginBottom="10dp"
-            android:gravity="left"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/proposalUser"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutTitle"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/proposalDate"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutTitle"
-            android:layout_marginBottom="10dp"
-            android:gravity="right"
-            android:textStyle="italic|bold" />
-
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/proposalUser">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/activityProposalViewerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            tools:context="com.example.zorbel.apptfg.programs.SectionViewerActivity">
 
             <LinearLayout
+                android:id="@+id/layoutTitle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="0.7">
+                <ImageView
+                    android:id="@+id/proposalImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
 
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/text_proposalsProposal"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/proposalTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="5dp"
+                    android:ellipsize="end"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/textProposal"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/text_proposalsHow"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/howProposal"
-                            android:text="@string/text_helpProposal"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/buttonEditPropHow"
-                            android:text="@string/name_buttonEditWave"
-                            android:layout_width="fill_parent"
-                            android:layout_height="80dp" />
-
-
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/text_proposalsMoney"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/moneyProposal"
-                            android:text="@string/text_helpProposal"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/buttonEditPropCost"
-                            android:text="@string/name_buttonEditWave"
-                            android:layout_width="fill_parent"
-                            android:layout_height="80dp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/textLabelOpinion"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="@string/text_proposalsOpinion"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TableLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:stretchColumns="*">
-
-                        <TableRow
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/buttonLike"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:drawableLeft="@mipmap/ic_greenlike" />
-
-                            <Button
-                                android:id="@+id/buttonNotUnderstood"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:drawableLeft="@mipmap/ic_bluenotunderstood" />
-
-                            <Button
-                                android:id="@+id/buttonDislike"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:drawableLeft="@mipmap/ic_reddislike" />
-
-                            <Button
-                                android:id="@+id/buttonComment"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:drawableLeft="@mipmap/ic_commentwhite"/>
-
-                        </TableRow>
-
-                    </TableLayout>
+                <ImageButton
+                    android:id="@+id/buttonFav"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@android:color/transparent"
+                    android:src="@mipmap/ic_starfav_black" />
 
             </LinearLayout>
 
-        </ScrollView>
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/proposalCategory"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layoutTitle"
+                android:layout_marginBottom="10dp"
+                android:gravity="left"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/proposalUser"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layoutTitle"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/proposalDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layoutTitle"
+                android:layout_marginBottom="10dp"
+                android:gravity="right"
+                android:textStyle="italic|bold" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@id/proposalCategory">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.7">
+
+                            <View
+                                android:layout_width="fill_parent"
+                                android:layout_height="1dp"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/darker_gray"/>
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/text_proposalsProposal"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/textProposal"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/text_proposalsHow"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/howProposal"
+                                android:text="@string/text_helpProposal"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <Button
+                                android:id="@+id/buttonEditPropHow"
+                                android:text="@string/name_buttonEditWave"
+                                android:layout_width="fill_parent"
+                                android:layout_height="80dp" />
+
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/text_proposalsMoney"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/moneyProposal"
+                                android:text="@string/text_helpProposal"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <Button
+                                android:id="@+id/buttonEditPropCost"
+                                android:text="@string/name_buttonEditWave"
+                                android:layout_width="fill_parent"
+                                android:layout_height="80dp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/textLabelOpinion"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="@string/text_proposalsOpinion"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TableLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:stretchColumns="*">
+
+                            <TableRow
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/buttonLike"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@android:color/transparent"
+                                    android:drawableLeft="@mipmap/ic_greenlike" />
+
+                                <Button
+                                    android:id="@+id/buttonNotUnderstood"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@android:color/transparent"
+                                    android:drawableLeft="@mipmap/ic_bluenotunderstood" />
+
+                                <Button
+                                    android:id="@+id/buttonDislike"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@android:color/transparent"
+                                    android:drawableLeft="@mipmap/ic_reddislike" />
+
+                                <Button
+                                    android:id="@+id/buttonComment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@android:color/transparent"
+                                    android:drawableLeft="@mipmap/ic_commentwhite"/>
+
+                            </TableRow>
+
+                        </TableLayout>
+
+                </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <ListView
         android:id="@+id/left_drawer"

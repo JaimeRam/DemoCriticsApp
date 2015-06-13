@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -65,6 +66,8 @@ public class SectionViewerActivity extends ActionBarActivity {
 
     private TextView sectionTitle;
     private TextView sectionText;
+
+    private ImageButton favButton;
 
     private Button commentButton;
     private Button likeButton;
@@ -394,11 +397,13 @@ public class SectionViewerActivity extends ActionBarActivity {
         } else if (position == 4) {  //Proposals Menu Option
 
             Intent in = new Intent(this, ProposalsActivity.class);
+            in.putExtra("FocusTab", 2);
             startActivity(in);
 
-        } else if (position == 5) {  //Polls Menu Option
+        } else if (position == 5) {  //Collaborative Proposals Menu Option
 
             Intent in = new Intent(this, CollaborativeProposalsActivity.class);
+            in.putExtra("FocusTab", 2);
             startActivity(in);
 
         } else if (position == 6) {  //Favourites Menu Option

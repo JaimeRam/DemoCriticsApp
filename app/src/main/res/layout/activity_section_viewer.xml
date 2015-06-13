@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activitySectionViewerLayout"
@@ -30,14 +31,12 @@
                 android:textSize="23dp"
                 android:textStyle="bold" />
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
+            <ImageButton
                 android:id="@+id/buttonFav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/white_pressed"
-                fab:fab_icon="@mipmap/ic_starfav_yellow"
-                fab:fab_size="mini" />
+                android:background="@android:color/transparent"
+                android:src="@mipmap/ic_starfav_black" />
 
 
         </LinearLayout>
@@ -108,22 +107,21 @@
                         android:background="@android:color/transparent"
                         android:drawableLeft="@mipmap/ic_reddislike" />
 
+                    <Button
+                        android:id="@+id/buttonComment"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:drawableLeft="@mipmap/ic_commentwhite" />
+
                 </TableRow>
-
-
-                <Button
-                    android:id="@+id/buttonComment"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@mipmap/ic_commentwhite"
-                    android:text="@string/name_buttonComment" />
 
             </TableLayout>
 
         </LinearLayout>
 
     </RelativeLayout>
+
 
     <ListView
         android:id="@+id/left_drawer"

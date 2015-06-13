@@ -61,7 +61,7 @@
     <string name="text_proposalsProposal">¿Qué propongo?</string>
     <string name="text_proposalsHow">¿Cómo lo haría?</string>
     <string name="text_proposalsMoney">¿Cómo lo financiaría?</string>
-    <string name="text_proposalsOpinion">Da tu opinion: </string>
+    <string name="text_proposalsOpinion">¿Qué opinas? </string>
 
     <string name="text_dialogProposalTitle">Debe escribir un Título para su Propuesta.</string>
     <string name="text_dialogProposalText">Debe escribir el enunciado de su Propuesta.</string>
@@ -133,8 +133,16 @@
 
     <string-array name="TabsCollaborateEntries">
         <item>Mis Propuestas</item>
-        <item>Pendientes de Cómo</item>
-        <item>Pendientes de Coste</item>
+        <item>Por categorías</item>
+        <item>Últimas</item>
+        <item>¿Cómo?</item>
+        <item>¿Por cuánto?</item>
+    </string-array>
+
+    <string-array name="TabsCategorizedCollaborativeProposalsEntries">
+        <item>Últimas</item>
+        <item>¿Cómo?</item>
+        <item>¿Por cuánto?</item>
     </string-array>
 
     <string name="hello_world">Hello world!</string>
@@ -156,5 +164,6 @@
     <string name="title_activity_comments_section">Comentarios</string>
     <string name="title_activity_collaborative_proposal_viewer">Propuesta Colaborativa</string>
     <string name="title_activity_edit_wave">Editando Propuesta</string>
+    <string name="title_activity_categorized_collaborative_proposals"> </string>
 
 </resources>

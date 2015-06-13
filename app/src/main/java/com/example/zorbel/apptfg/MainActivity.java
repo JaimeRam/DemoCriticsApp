@@ -26,7 +26,7 @@ public class MainActivity extends MenuActivity {
     private Button btnPrograms;
     private Button btnComparatives;
     private Button btnProposals;
-    private Button btnPolls;
+    private Button btnCollaborate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +73,13 @@ public class MainActivity extends MenuActivity {
             }
         });
 
-        btnPolls = (Button) findViewById(R.id.btn_Polls);
-        btnPolls.setOnClickListener(new View.OnClickListener() {
+        btnCollaborate = (Button) findViewById(R.id.btn_collaborate);
+        btnCollaborate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent in = new Intent(MainActivity.this, CollaborativeProposalsActivity.class);
-                in.putExtra("FocusTab", 0);
+                in.putExtra("FocusTab", 2);
                 startActivity(in);
             }
         });

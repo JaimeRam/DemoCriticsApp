@@ -78,10 +78,10 @@ public class GetSectionContent extends ConnectionGet {
         sectionText.setText(currentSection.getmText());
 
         if (sectionText.getText().toString().length() > 0) {
-            likeButton.setText("(" + currentSection.getNumLikes() + ")");
-            dislikeButton.setText("(" + currentSection.getNumDislikes() + ")");
-            notUnderstoodButton.setText("(" + currentSection.getNumNotUnderstoods() + ")");
-            commentButton.setText(super.getmContext().getString(R.string.name_buttonComment) + "  (" + currentSection.getNumComments() + ")");
+            likeButton.setText(" " + currentSection.getNumLikes() + " ");
+            dislikeButton.setText(" " + currentSection.getNumDislikes() + " ");
+            notUnderstoodButton.setText(" " + currentSection.getNumNotUnderstoods() + " ");
+            commentButton.setText(" " + currentSection.getNumComments() + " ");
         } else {
 
             likeButton.setVisibility(View.GONE);
