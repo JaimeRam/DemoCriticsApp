@@ -13,12 +13,16 @@ import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.collaborate.EditWaveActivity;
+import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.GetProposalContent;
 import com.example.zorbel.service_connection.PutOpinion;
-import com.getbase.floatingactionbutton.FloatingActionButton;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class ProposalViewerActivity extends MenuActivity {
 
@@ -103,42 +107,39 @@ public class ProposalViewerActivity extends MenuActivity {
 
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                String url = "/proposal/" + proposalId + "/like";
-                putProposalOpinion(url);
+                putProposalOpinion("like");
             }
         });
 
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                String url = "/proposal/" + proposalId + "/dislike";
-                putProposalOpinion(url);
+                putProposalOpinion("dislike");
 
             }
         });
 
         notUnderstoodButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                String url = "/proposal/" + proposalId +  "/notUnderstood";
-                putProposalOpinion(url);
-
-
+                putProposalOpinion("not_understood");
             }
         });
 
         setEditProposalButtonListeners();
     }
 
-    private void putProposalOpinion (String url) {
+    private void putProposalOpinion(String sOpinon) {
 
-        URL link = null;
+        URL link;
         if (super.isNetworkAvailable()) {
             try {
-                link = new URL(MainActivity.SERVER + url);
+                link = new URL(MainActivity.SERVER + "/proposal");
 
-                PutOpinion task = new PutOpinion(ProposalViewerActivity.this, findViewById(R.id.activityProposalViewerLayout));
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("id_user", User.ID_USER));
+                params.add(new BasicNameValuePair("id_proposal", Integer.toString(proposalId)));
+                params.add(new BasicNameValuePair("opinion", sOpinon));
+
+                PutOpinion task = new PutOpinion(ProposalViewerActivity.this, params, findViewById(R.id.activityProposalViewerLayout));
                 task.execute(link);
 
             } catch (MalformedURLException e) {
@@ -149,7 +150,7 @@ public class ProposalViewerActivity extends MenuActivity {
     }
 
     private void getProposalData(int id_proposal) {
-        URL link = null;
+        URL link;
         try {
             link = new URL(MainActivity.SERVER + "/proposal/" + id_proposal);
 
@@ -189,6 +190,5 @@ public class ProposalViewerActivity extends MenuActivity {
         });
 
     }
-
 
 }

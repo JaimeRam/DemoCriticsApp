@@ -6,11 +6,13 @@ import android.widget.Button;
 
 import com.example.zorbel.apptfg.R;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class PutOpinion extends ConnectionPut {
 
@@ -21,8 +23,8 @@ public class PutOpinion extends ConnectionPut {
 
     private int mListCounters[];
 
-    public PutOpinion(Context mContext, View mRootView) {
-        super(mContext, mRootView);
+    public PutOpinion(Context mContext, ArrayList<NameValuePair> par, View mRootView) {
+        super(mContext, par, mRootView);
         this.mListCounters = new int[4];
     }
 

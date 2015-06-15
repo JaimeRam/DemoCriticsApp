@@ -455,7 +455,7 @@ public class SectionViewerActivity extends ActionBarActivity {
             try {
                 link = new URL(MainActivity.SERVER + url);
 
-                PutOpinion task = new PutOpinion(SectionViewerActivity.this, findViewById(R.id.activitySectionViewerLayout));
+                PutOpinion task = new PutOpinion(SectionViewerActivity.this, null, findViewById(R.id.activitySectionViewerLayout));
                 task.execute(link);
 
             } catch (MalformedURLException e) {

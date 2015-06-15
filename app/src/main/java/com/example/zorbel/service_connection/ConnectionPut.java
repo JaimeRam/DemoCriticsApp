@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 
 import java.io.BufferedInputStream;
@@ -12,17 +13,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConnectionPut extends ConnectionURL {
 
     private HttpURLConnection con;
 
     private String json;
+    private List<NameValuePair> params;
 
-    public ConnectionPut(Context mContext, View mRootView) {
+    public ConnectionPut(Context mContext, ArrayList<NameValuePair> par, View mRootView) {
         super(mContext, mRootView);
+        this.params = par;
     }
 
     @Override
@@ -37,7 +44,8 @@ public class ConnectionPut extends ConnectionURL {
                 con.setRequestMethod("PUT");
                 OutputStreamWriter out = new OutputStreamWriter(
                         con.getOutputStream());
-                out.write("Resource content");
+                out.write(getQuery(params));
+                //out.write("Resource content");
                 out.close();
                 con.getInputStream();
 
@@ -85,5 +93,22 @@ public class ConnectionPut extends ConnectionURL {
         return json;
     }
 
+    protected String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        for (NameValuePair pair : params) {
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+        }
+
+        return result.toString();
+    }
 
 }
