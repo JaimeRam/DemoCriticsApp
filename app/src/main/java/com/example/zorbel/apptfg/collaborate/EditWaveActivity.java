@@ -41,8 +41,6 @@ public class EditWaveActivity extends SwellRTActivity {
 
         //super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF1919")));
 
-        doStartSession();
-
 
     }
 
@@ -65,7 +63,9 @@ public class EditWaveActivity extends SwellRTActivity {
     @Override
     public void onConnect() {
 
-        // Here startSession, open/create the model for the Pad, get a reference to the Pad's TextType oject
+        // Here startSession, open/create the model for the Pad, get a reference to the Pad's TextType object
+
+        doStartSession();
 
         // An example guessing you have already open a session and open the model in another activity
         // We receive the modelId to use in the intent
@@ -78,7 +78,7 @@ public class EditWaveActivity extends SwellRTActivity {
         mModel = getService().getModel(mModelId);
 
         //Add actual participant
-        mModel.addParticipant("democritics-" + User.ID_USER + "@local.net");
+        mModel.addParticipant("" + User.ID_USER + "@local.net");
 
         // Get the text document supporting the Pad from the Model
         Type instance = mModel.getRoot().get(padName);

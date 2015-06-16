@@ -149,8 +149,8 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    //TODO: create collaborative proposal and go to CollaborateActivity
-                                    doStartSession();
+                                    // Crear una wave/model que irá asociada a la propuesta
+                                    mSwellRT.createModel();
 
                                 }
                             })
@@ -298,7 +298,7 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
                 PostProposal task = new PostProposal(NewProposalActivity.this, params, findViewById(R.id.addNewProposal));
                 task.execute(link);
                 finish();
-                goToMyProposals();
+                goToMyCollaborativeProposals();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -329,6 +329,7 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         mSwellRT = ((SwellRTService.SwellRTBinder) service).getService(this);
+        doStartSession();
         Log.d(this.getClass().getSimpleName(), "SwellRT Service Bound");
 
     }
@@ -346,8 +347,6 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
 
     public void onStartSessionSuccess(String session) {
 
-        // Crear una wave/model que irá asociada a la propuesta
-        mSwellRT.createModel();
 
     }
 
@@ -356,10 +355,16 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
     public void onCreate(Model model) {
 
         // Obtener el Id de la wave/model a guardar en la BBDD asociada a la propuesta
-        WaveId id = model.getWaveId();
+        WaveId idW = model.getWaveId();
+
+        String idWave = idW.toString();
+
+        String id = "";
+
+        id = idWave.substring(8, idWave.length() - 1);
 
         //TODO: store in the bbdd
-        postCollaborativeProposal(id.toString());
+        postCollaborativeProposal(id);
 
         // Crear un documento de texto para cada Pad
         TextType padHow = model.createText("¿Cómo lo harías?");
@@ -373,7 +378,7 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
             model.getRoot().put("padCost", padCost);
 
         // Permitir que el usuario actual lea y escriba el texto del Pad
-        model.addParticipant("democritics-" + User.ID_USER + "@local.net");
+        model.addParticipant("" + User.ID_USER + "@local.net");
 
 
     }
