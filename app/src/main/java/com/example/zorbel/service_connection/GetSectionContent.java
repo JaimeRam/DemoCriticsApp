@@ -3,6 +3,7 @@ package com.example.zorbel.service_connection;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -62,7 +63,7 @@ public class GetSectionContent extends ConnectionGet {
     protected void updateView() {
 
         TextView sectionTitle = (TextView) super.getmRootView().findViewById(R.id.sectionTitle);
-        TextView sectionText = (TextView) super.getmRootView().findViewById(R.id.textSection);
+        WebView sectionText = (WebView) super.getmRootView().findViewById(R.id.textSection);
 
         Button commentButton = (Button) super.getmRootView().findViewById(R.id.buttonComment);
         Button likeButton = (Button) super.getmRootView().findViewById(R.id.buttonLike);
@@ -75,9 +76,11 @@ public class GetSectionContent extends ConnectionGet {
             sectionTitle.setText(currentSection.getmTitle());
         }
 
-        sectionText.setText(currentSection.getmText());
+        String text = "<html><body style=\"text-align:justify\"> " + currentSection.getmText()  + "</body></Html>";
 
-        if (sectionText.getText().toString().length() > 0) {
+        sectionText.loadDataWithBaseURL(null, text, "text/html", "UTF-8", null);
+
+        if (currentSection.getmText().toString().length() > 0) {
             likeButton.setText(" " + currentSection.getNumLikes() + " ");
             dislikeButton.setText(" " + currentSection.getNumDislikes() + " ");
             notUnderstoodButton.setText(" " + currentSection.getNumNotUnderstoods() + " ");

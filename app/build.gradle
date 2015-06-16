@@ -10,6 +10,8 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -22,4 +24,18 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.getbase:floatingactionbutton:1.9.0'
+
+    compile 'com.android.support:multidex:1.0.0'
+
+    compile files('libs/async-http-client-1.8.14.jar')
+    compile files('libs/grizzly-framework-2.3.18.jar')
+    compile files('libs/grizzly-http-2.3.18.jar')
+    compile files('libs/grizzly-websockets-2.3.18.jar')
+    compile files('libs/gson-2.2.4.jar')
+    compile files('libs/guava-15.0-sliced.jar')
+    compile files('libs/jsr305-2.0.1.jar')
+    compile files('libs/protobuf-java-2.5.0.jar')
+    compile files('libs/slf4j-android-1.6.1-RC1.jar')
+    compile files('libs/swellrt-android-0.1.jar')
+    compile files('libs/wasync-1.4.3.jar')
 }

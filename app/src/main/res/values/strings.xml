@@ -133,16 +133,12 @@
 
     <string-array name="TabsCollaborateEntries">
         <item>Mis Propuestas</item>
-        <item>Por categorías</item>
         <item>Últimas</item>
-        <item>¿Cómo?</item>
-        <item>¿Por cuánto?</item>
+        <item>Por categorías</item>
     </string-array>
 
     <string-array name="TabsCategorizedCollaborativeProposalsEntries">
         <item>Últimas</item>
-        <item>¿Cómo?</item>
-        <item>¿Por cuánto?</item>
     </string-array>
 
     <string name="hello_world">Hello world!</string>

@@ -14,11 +14,17 @@ import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.collaborate.EditWaveActivity;
 import com.example.zorbel.data_structures.User;
+import com.example.zorbel.data_structures.Proposal;
+import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.GetProposalContent;
 import com.example.zorbel.service_connection.PutOpinion;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+
+import org.swellrt.android.service.SwellRTService;
+import org.waveprotocol.wave.model.wave.InvalidParticipantAddress;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,7 +42,7 @@ public class ProposalViewerActivity extends MenuActivity {
     private Button editHowButton;
     private Button editCostButton;
 
-    private boolean isEditable;
+    private boolean isCollaborative;
 
     private int proposalId;
 
@@ -46,7 +52,7 @@ public class ProposalViewerActivity extends MenuActivity {
         setContentView(R.layout.activity_proposal_viewer);
 
         proposalId = getIntent().getExtras().getInt("ProposalId");
-        isEditable = getIntent().getExtras().getBoolean("isEditable");
+        isCollaborative = getIntent().getExtras().getBoolean("isEditable");
 
         commentButton = (Button) findViewById(R.id.buttonComment);
         likeButton = (Button) findViewById(R.id.buttonLike);
@@ -54,8 +60,10 @@ public class ProposalViewerActivity extends MenuActivity {
         dislikeButton = (Button) findViewById(R.id.buttonDislike);
         favButton = (ImageButton) findViewById(R.id.buttonFav);
 
+        editHowButton = (Button) findViewById(R.id.buttonEditPropHow);
+        editCostButton = (Button) findViewById(R.id.buttonEditPropCost);
 
-        if(!isEditable) { //The proposal is not editable
+        if(!isCollaborative) { //The proposal is not editable
 
             if(super.isNetworkAvailable()) {
                 getProposalData(proposalId);
@@ -68,10 +76,7 @@ public class ProposalViewerActivity extends MenuActivity {
 
         } else { //The proposal is collaborative and editable
 
-           // TODO: get editable proposal info
-
-
-            super.getSupportActionBar().setIcon(R.mipmap.ic_polls);
+            super.getSupportActionBar().setIcon(R.mipmap.ic_collaborate);
             super.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
             super.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF1919")));
@@ -85,6 +90,12 @@ public class ProposalViewerActivity extends MenuActivity {
             likeButton.setVisibility(View.GONE);
             notUnderstoodButton.setVisibility(View.GONE);
             dislikeButton.setVisibility(View.GONE);
+
+            if(super.isNetworkAvailable()) {
+                getProposalData(proposalId);
+            }
+
+
         }
 
         super.setMenus(findViewById(R.id.drawer_layout), 0);
@@ -115,6 +126,9 @@ public class ProposalViewerActivity extends MenuActivity {
             public void onClick(View v) {
                 putProposalOpinion("dislike");
 
+                String url = "/proposal/" + proposalId + "/dislike";
+                putProposalOpinion(url);
+
             }
         });
 
@@ -124,7 +138,7 @@ public class ProposalViewerActivity extends MenuActivity {
             }
         });
 
-        setEditProposalButtonListeners();
+
     }
 
     private void putProposalOpinion(String sOpinon) {
@@ -150,11 +164,11 @@ public class ProposalViewerActivity extends MenuActivity {
     }
 
     private void getProposalData(int id_proposal) {
-        URL link;
+        URL link = null;
         try {
             link = new URL(MainActivity.SERVER + "/proposal/" + id_proposal);
 
-            GetProposalContent task = new GetProposalContent(this, findViewById(R.id.activityProposalViewerLayout));
+            GetProposalContent task = new GetProposalContent(this, findViewById(R.id.activityProposalViewerLayout), isCollaborative);
             task.execute(link);
 
         } catch (MalformedURLException e) {
@@ -162,33 +176,5 @@ public class ProposalViewerActivity extends MenuActivity {
         }
 
     }
-
-    public void setEditProposalButtonListeners() {
-
-        editHowButton = (Button) findViewById(R.id.buttonEditPropHow);
-        editCostButton = (Button) findViewById(R.id.buttonEditPropCost);
-
-        editHowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent in = new Intent(ProposalViewerActivity.this, EditWaveActivity.class);
-                startActivity(in);
-
-            }
-        });
-
-
-        editCostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent in = new Intent(ProposalViewerActivity.this, EditWaveActivity.class);
-                startActivity(in);
-
-            }
-        });
-
-    }
-
+    
 }

@@ -18,6 +18,8 @@ public class Proposal implements TopItem {
     private String howProp;
     private String moneyProp;
 
+    private String idWave;
+
     private int numLikes;
     private int numDislikes;
     private int numNotUnderstoods;
@@ -27,7 +29,7 @@ public class Proposal implements TopItem {
 
     public Proposal(int propId, boolean editable, String titleProp, String category, String date, String user,
                     String resLogo, String textProp, String howProp, String moneyProp, int numLikes,
-                    int numDislikes, int numComments, int numNotUnderstoods, int numViews) {
+                    int numDislikes, int numComments, int numNotUnderstoods, int numViews, String idWave) {
         this.propId = propId;
         this.isEditable = editable;
         this.titleProp = titleProp;
@@ -43,6 +45,8 @@ public class Proposal implements TopItem {
         this.numComments = numComments;
         this.numNotUnderstoods = numNotUnderstoods;
         this.numViews = numViews;
+
+        this.idWave = idWave;
     }
 
     public static int getImage(String id_image) {
@@ -83,6 +87,14 @@ public class Proposal implements TopItem {
     @Override
     public boolean isProposal() {
         return true;
+    }
+
+    public String getIdWave() {
+        return idWave;
+    }
+
+    public void setIdWave(String idWave) {
+        this.idWave = idWave;
     }
 
     public int getPropId() {

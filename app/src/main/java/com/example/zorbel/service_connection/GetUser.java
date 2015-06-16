@@ -1,8 +1,10 @@
 package com.example.zorbel.service_connection;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.User;
@@ -71,4 +73,5 @@ public class GetUser extends ConnectionGet {
         User.EMAIL = email;
         User.NICKNAME = nick;
     }
+
 }

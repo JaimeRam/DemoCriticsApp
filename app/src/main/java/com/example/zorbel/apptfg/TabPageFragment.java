@@ -303,6 +303,9 @@ public class TabPageFragment extends Fragment {
 
         } else if (infType == 4) { // COLLABORATIVE PROPOSALS Activity
 
+            int limit = 10;
+            String sLink = "";
+
             if(categoryId == 0) { //Not categorized
 
                 view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
@@ -322,48 +325,45 @@ public class TabPageFragment extends Fragment {
                     }
                 });
 
-                switch(pageTab) {
+                if(pageTab == 3) { //Collaborative Proposals Categories Tab
 
-                    case 1: //My Proposals Tab
+                    view = inflater.inflate(R.layout.tab_page_categories, container, false);
 
-                        //TODO: set the list
-                        break;
+                    setCategoryCollaborativeProposalsButtonsListeners(view);
 
+                } else {
 
-                    case 2:  //Collaborative Proposals Categories Tab
+                    switch (pageTab) {
 
-                        view = inflater.inflate(R.layout.tab_page_categories, container, false);
+                        case 1: //My Proposals Tab
 
-                        setCategoryCollaborativeProposalsButtonsListeners(view);
-                        break;
+                            //TODO: set the list
+                            sLink = MainActivity.SERVER + "/proposal/colaborative/user/" + User.ID_USER;
+                            break;
 
-                    case 3: //Last Collaborative Proposals Tab
-                        //TODO: set the list
+                        case 2: //Last Collaborative Proposals Tab
+                            //TODO: set the list
+                            sLink = MainActivity.SERVER + "/top/proposals/colaborative/" + limit;
+                            break;
 
-                        Proposal p = new Proposal(57, true, "Prueba Colaborativa", "#Sanidad", "Hola", "Pepito", "ic_health",
-                                "texto de la Propuesta", null, null, 10, 2, 23, 2, 9);
+                        default:
+                            break;
+                    }
 
-                        ArrayList<TopItem> listTopProposals = new ArrayList<TopItem>();
-                        listTopProposals.add(p);
-                        ListView topTabPageListView = (ListView) view.findViewById(R.id.topListView);
-                        topTabPageListView.setAdapter(new TopItemAdapter(getActivity(), listTopProposals));
+                    URL link;
+                    if(isNetworkAvailable()) {
+                        try {
+                            link = new URL(sLink);
+                            GetTopProposals task = new GetTopProposals(getActivity(), view);
+                            task.execute(link);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-                        setListTopListeners(view);
+                    setListTopListeners(view);
 
-                        break;
-
-                    case 4: //How Collaborative Proposals Tab
-                        //TODO: set the list
-                        break;
-
-                    case 5: //Cost Collaborative Proposals Tab
-                        //TODO: set the list
-                        break;
-
-                    default:
-                        break;
                 }
-
 
             } else { // categorized collaborative proposals
 
@@ -388,32 +388,31 @@ public class TabPageFragment extends Fragment {
 
                     case 1: //Last Proposals Tab
                         //TODO: set the list
-
-                        Proposal p = new Proposal(57, true, "Prueba Colaborativa", "#Sanidad", "Hola", "Pepito", "ic_health",
-                                "texto de la Propuesta", null, null, 10, 2, 23, 2, 9);
-
-                        ArrayList<TopItem> listTopProposals = new ArrayList<TopItem>();
-                        listTopProposals.add(p);
-                        ListView topTabPageListView = (ListView) view.findViewById(R.id.topListView);
-                        topTabPageListView.setAdapter(new TopItemAdapter(getActivity(), listTopProposals));
-
+                        sLink = MainActivity.SERVER + "/category/" + categoryId + "/proposal/colaborative/" + limit;
                         setListTopListeners(view);
-                        break;
-
-                    case 2: //Collaborative Proposals How Tab
-                        //TODO: set the list
-                        break;
-
-                    case 3: //Collaborative Proposals Cost Tab
-                        //TODO: set the list
                         break;
 
                     default:
                         break;
                 }
 
+                URL link;
+                if(isNetworkAvailable()) {
+                    try {
+                        link = new URL(sLink);
+                        GetTopProposals task = new GetTopProposals(getActivity(), view);
+                        task.execute(link);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                setListTopListeners(view);
+
 
             }
+
+
 
         } else if (infType == 5) { // FAVORITES Activity
 

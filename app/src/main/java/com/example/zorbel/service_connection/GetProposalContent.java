@@ -1,12 +1,14 @@
 package com.example.zorbel.service_connection;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.apptfg.collaborate.EditWaveActivity;
 import com.example.zorbel.data_structures.Proposal;
 
 import org.json.JSONArray;
@@ -27,16 +29,20 @@ public class GetProposalContent extends ConnectionGet {
     private static final String TAG_PROPOSAL_CATEGORY = "category";
     private static final String TAG_PROPOSAL_USER = "user";
 
+    private static final String TAG_PROPOSAL_WAVE = "id_wave";
+
     private static final String TAG_PROPOSAL_VIEWS = "views";
     private static final String TAG_PROPOSAL_LIKES = "likes";
     private static final String TAG_PROPOSAL_NOT_UNDERSTOOD= "not_understood";
     private static final String TAG_PROPOSAL_DISLIKES = "dislikes";
     private static final String TAG_PROPOSAL_NUM_COMMENTS = "comments";
 
+    private boolean isCollaborative;
     private Proposal currentProposal;
 
-    public GetProposalContent(Context mContext, View mRootView) {
+    public GetProposalContent(Context mContext, View mRootView, boolean isCollaborative) {
         super(mContext, mRootView);
+        this.isCollaborative = isCollaborative;
     }
 
     @Override
@@ -52,12 +58,16 @@ public class GetProposalContent extends ConnectionGet {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        //REMOVE COLLABORATIVE PROPOSAL BUTTON
-        Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
-        Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
 
-        editPropHowButton.setVisibility(View.GONE);
-        editPropCostButton.setVisibility(View.GONE);
+        if(!isCollaborative) {
+            //REMOVE COLLABORATIVE PROPOSAL BUTTON
+            Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
+            Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+
+            editPropHowButton.setVisibility(View.GONE);
+            editPropCostButton.setVisibility(View.GONE);
+
+        }
     }
 
     @Override
@@ -75,13 +85,6 @@ public class GetProposalContent extends ConnectionGet {
         TextView proposalDate = (TextView) super.getmRootView().findViewById(R.id.proposalDate);
 
         TextView proposalText = (TextView) super.getmRootView().findViewById(R.id.textProposal);
-        TextView proposalHow = (TextView) super.getmRootView().findViewById(R.id.howProposal);
-        TextView proposalMoney = (TextView) super.getmRootView().findViewById(R.id.moneyProposal);
-
-        Button commentButton = (Button) super.getmRootView().findViewById(R.id.buttonComment);
-        Button likeButton = (Button) super.getmRootView().findViewById(R.id.buttonLike);
-        Button notUnderstoodButton = (Button) super.getmRootView().findViewById(R.id.buttonNotUnderstood);
-        Button dislikeButton = (Button) super.getmRootView().findViewById(R.id.buttonDislike);
 
         proposalImage.setImageResource(Proposal.getImage(currentProposal.getResLogo()));
 
@@ -91,14 +94,67 @@ public class GetProposalContent extends ConnectionGet {
         proposalDate.setText(currentProposal.getDate());
 
         proposalText.setText(currentProposal.getTextProp());
-        proposalHow.setText(currentProposal.getHowProp());
-        proposalMoney.setText(currentProposal.getMoneyProp());
 
-        likeButton.setText(" " + currentProposal.getNumLikes() + " ");
-        dislikeButton.setText(" " + currentProposal.getNumDislikes() + " ");
-        notUnderstoodButton.setText(" " + currentProposal.getNumNotUnderstoods() + " ");
-        commentButton.setText(" " + currentProposal.getNumComments() + " ");
+        if(!isCollaborative) {
+            TextView proposalHow = (TextView) super.getmRootView().findViewById(R.id.howProposal);
+            TextView proposalMoney = (TextView) super.getmRootView().findViewById(R.id.moneyProposal);
 
+            Button commentButton = (Button) super.getmRootView().findViewById(R.id.buttonComment);
+            Button likeButton = (Button) super.getmRootView().findViewById(R.id.buttonLike);
+            Button notUnderstoodButton = (Button) super.getmRootView().findViewById(R.id.buttonNotUnderstood);
+            Button dislikeButton = (Button) super.getmRootView().findViewById(R.id.buttonDislike);
+
+            proposalHow.setText(currentProposal.getHowProp());
+            proposalMoney.setText(currentProposal.getMoneyProp());
+
+            likeButton.setText(" " + currentProposal.getNumLikes() + " ");
+            dislikeButton.setText(" " + currentProposal.getNumDislikes() + " ");
+            notUnderstoodButton.setText(" " + currentProposal.getNumNotUnderstoods() + " ");
+            commentButton.setText(" " + currentProposal.getNumComments() + " ");
+
+        } else {
+
+            TextView proposalHow = (TextView) super.getmRootView().findViewById(R.id.howProposal);
+            TextView proposalMoney = (TextView) super.getmRootView().findViewById(R.id.moneyProposal);
+
+            Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
+            Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+
+            editPropHowButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent in = new Intent(GetProposalContent.super.getmContext(), EditWaveActivity.class);
+
+                    in.putExtra("MODEL_ID", currentProposal.getIdWave());
+                    in.putExtra("PAD_NAME", "padHow");
+                    GetProposalContent.super.getmContext().startActivity(in);
+                }
+            });
+
+            editPropCostButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent in = new Intent(GetProposalContent.super.getmContext(), EditWaveActivity.class);
+
+                    in.putExtra("MODEL_ID", currentProposal.getIdWave());
+                    in.putExtra("PAD_NAME", "padCost");
+                    GetProposalContent.super.getmContext().startActivity(in);
+                }
+            });
+
+            if(!currentProposal.getHowProp().toString().equalsIgnoreCase("null")) {
+                proposalHow.setText(currentProposal.getHowProp());
+                editPropHowButton.setVisibility(View.GONE);
+            }
+
+            if(!currentProposal.getMoneyProp().toString().equalsIgnoreCase("null")){
+                proposalMoney.setText(currentProposal.getMoneyProp());
+                editPropCostButton.setVisibility(View.GONE);
+            }
+
+        }
 
     }
 
@@ -129,7 +185,11 @@ public class GetProposalContent extends ConnectionGet {
 
                 int num_comments = s.getInt(TAG_PROPOSAL_NUM_COMMENTS);
 
-                currentProposal = new Proposal(id_prop, false, title, category, date, user, image, text, how, cost, likes, dislikes, num_comments, not_understood, views);
+                String idWave = s.getString(TAG_PROPOSAL_WAVE);
+
+                boolean isCollaborative = (idWave.length() > 0);
+
+                currentProposal = new Proposal(id_prop, isCollaborative, title, category, date, user, image, text, how, cost, likes, dislikes, num_comments, not_understood, views, idWave);
 
             } catch (JSONException e) {
                 e.printStackTrace();

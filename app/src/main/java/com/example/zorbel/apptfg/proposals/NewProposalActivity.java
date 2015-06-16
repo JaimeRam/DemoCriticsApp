@@ -1,17 +1,23 @@
 package com.example.zorbel.apptfg.proposals;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
@@ -23,12 +29,19 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.swellrt.android.service.SwellRTService;
+import org.swellrt.model.generic.Model;
+import org.swellrt.model.generic.TextType;
+import org.waveprotocol.wave.model.id.WaveId;
+import org.waveprotocol.wave.model.wave.InvalidParticipantAddress;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class NewProposalActivity extends MenuActivity {
+public class NewProposalActivity extends MenuActivity implements ServiceConnection, SwellRTService.SwellRTServiceCallback  {
+
+    private SwellRTService mSwellRT;
 
     private Spinner spinnerCategory;
     private FloatingActionButton mButtonSubmit;
@@ -37,6 +50,18 @@ public class NewProposalActivity extends MenuActivity {
     private EditText mEditTextTextProposal;
     private EditText mEditTextHowProposal;
     private EditText mEditTextCostProposal;
+
+    private boolean createHowWave;
+    private boolean createCostWave;
+
+    protected void bindSwellRTService() {
+
+        if (mSwellRT == null) {
+            final Intent mWaveServiceIntent = new Intent(this, SwellRTService.class);
+            bindService(mWaveServiceIntent, this, Context.BIND_AUTO_CREATE);
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +81,8 @@ public class NewProposalActivity extends MenuActivity {
         mEditTextTextProposal = (EditText) findViewById(R.id.txtTextProposal);
         mEditTextHowProposal = (EditText) findViewById(R.id.txtHowProposal);
         mEditTextCostProposal = (EditText) findViewById(R.id.txtMoneyProposal);
+
+        bindSwellRTService();
 
         mEditTextTitleProposal.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,6 +129,18 @@ public class NewProposalActivity extends MenuActivity {
                 String how = mEditTextHowProposal.getText().toString();
                 String cost = mEditTextCostProposal.getText().toString();
 
+                if(how.isEmpty()) {
+                    createHowWave = true;
+                } else {
+                    createHowWave = false;
+                }
+
+                if(cost.isEmpty()) {
+                    createCostWave = true;
+                } else {
+                    createCostWave = false;
+                }
+
                 if (how.isEmpty() || cost.isEmpty()) {
 
                     AlertDialog dialog = new AlertDialog.Builder(NewProposalActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
@@ -111,8 +150,8 @@ public class NewProposalActivity extends MenuActivity {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     //TODO: create collaborative proposal and go to CollaborateActivity
+                                    doStartSession();
 
-                                    goToMyCollaborativeProposals();
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -153,6 +192,16 @@ public class NewProposalActivity extends MenuActivity {
         spinnerCategory.setAdapter(dataAdapter);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mSwellRT != null) {
+            mSwellRT.stopSession();
+            unbindService(this);
+            mSwellRT = null;
+        }
+    }
+
     private void enableSubmitIfReady() {
 
         int minChars = 3; // Minimal characters that every TextView must have.
@@ -187,7 +236,6 @@ public class NewProposalActivity extends MenuActivity {
         startActivity(in);
     }
 
-
     private void postProposal() {
 
         URL link;
@@ -217,4 +265,150 @@ public class NewProposalActivity extends MenuActivity {
         }
 
     }
+
+    private void postCollaborativeProposal(String idWave) {
+
+        URL link;
+
+        if(super.isNetworkAvailable()) {
+            try {
+                link = new URL(MainActivity.SERVER + "/proposal");
+
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("id_user", User.ID_USER));
+                params.add(new BasicNameValuePair("title", mEditTextTitleProposal.getText().toString()));
+                params.add(new BasicNameValuePair("text", mEditTextTextProposal.getText().toString()));
+
+                int index = spinnerCategory.getSelectedItemPosition() + 1;
+                params.add(new BasicNameValuePair("id_category", Integer.toString(index)));
+                params.add(new BasicNameValuePair("id_image", Integer.toString(index)));
+
+                if(createHowWave || createCostWave) {
+                    params.add(new BasicNameValuePair("id_wave", idWave));
+                }
+
+                if (!createHowWave) {
+                    params.add(new BasicNameValuePair("how", mEditTextHowProposal.getText().toString()));
+                }
+
+                if(!createCostWave) {
+                    params.add(new BasicNameValuePair("cost", mEditTextCostProposal.getText().toString()));
+                }
+
+                PostProposal task = new PostProposal(NewProposalActivity.this, params, findViewById(R.id.addNewProposal));
+                task.execute(link);
+                finish();
+                goToMyProposals();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    //Wave methods
+
+    public void doStartSession() {
+
+        // Crear la wave
+
+        // Abrir sesión con usuario genérico de la app
+        try {
+            mSwellRT.startSession(MainActivity.WAVE_SERVER,
+                    "" + User.ID_USER + "@local.net", "password");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (InvalidParticipantAddress invalidParticipantAddress) {
+            invalidParticipantAddress.printStackTrace();
+        }
+    }
+
+    // SwellRT Service Callbacks
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        mSwellRT = ((SwellRTService.SwellRTBinder) service).getService(this);
+        Log.d(this.getClass().getSimpleName(), "SwellRT Service Bound");
+
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        mSwellRT = null;
+        Log.d(this.getClass().getSimpleName(), "SwellRT Service unBound");
+
+    }
+
+    // Wave Service Operational Callbacks
+
+    // Implementar el siguiente callback en la activity
+
+    public void onStartSessionSuccess(String session) {
+
+        // Crear una wave/model que irá asociada a la propuesta
+        mSwellRT.createModel();
+
+    }
+
+    // Implementar el siguiente callback en la activity
+
+    public void onCreate(Model model) {
+
+        // Obtener el Id de la wave/model a guardar en la BBDD asociada a la propuesta
+        WaveId id = model.getWaveId();
+
+        //TODO: store in the bbdd
+        postCollaborativeProposal(id.toString());
+
+        // Crear un documento de texto para cada Pad
+        TextType padHow = model.createText("¿Cómo lo harías?");
+        TextType padCost = model.createText("¿Cómo lo financiarias?");
+
+        // Incluir el documento como parte de la wave/model en el mapa "root"
+        if(createHowWave)
+            model.getRoot().put("padHow", padHow);
+
+        if(createCostWave)
+            model.getRoot().put("padCost", padCost);
+
+        // Permitir que el usuario actual lea y escriba el texto del Pad
+        model.addParticipant("democritics-" + User.ID_USER + "@local.net");
+
+
+    }
+
+
+    public void onStartSessionFail(String message) {
+        Toast.makeText(this, "Login Error: " + message, Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onClose(boolean everythingCommitted) {
+        Toast.makeText(this, "Connection closed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpdate(int inFlightSize, int notAckedSize, int unCommitedSize) {
+        if (inFlightSize == 0 && notAckedSize == 0 && unCommitedSize == 0)
+            Toast.makeText(this, "All data sent", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDebugInfo(String message) {
+        Toast.makeText(this, "Debug: " + message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onError(String message) {
+        Toast.makeText(this, "Error: " + message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onOpen(Model model) {
+    }
+
+
+
 }

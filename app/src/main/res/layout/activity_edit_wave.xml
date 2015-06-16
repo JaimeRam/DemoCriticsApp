@@ -14,6 +14,7 @@
         android:layout_weight="0.7"/>
 
     <Button
+        android:id="@+id/buttonSaveWave"
         android:layout_below="@id/textWave"
         android:text="Guardar Propuesta"
         android:layout_width="fill_parent"

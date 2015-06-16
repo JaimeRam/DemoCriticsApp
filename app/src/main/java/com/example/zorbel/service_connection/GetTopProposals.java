@@ -30,6 +30,8 @@ public class GetTopProposals extends ConnectionGet {
     private static final String TAG_USER = "user";
     private static final String TAG_COMMENTS = "comments";
 
+    private static final String TAG_PROPOSAL_WAVE = "id_wave";
+
     private List<TopItem> listTopProposals;
 
     public GetTopProposals(Context mContext, View mRootView) {
@@ -68,8 +70,11 @@ public class GetTopProposals extends ConnectionGet {
                     String user = ob.getString(TAG_USER);
                     int numComments = ob.getInt(TAG_COMMENTS);
 
+                    String idWave = ob.getString(TAG_PROPOSAL_WAVE);
 
-                    Proposal prop = new Proposal(idProposal, false, title, null, date, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews);
+                    boolean isCollaborative = (idWave.length() > 0);
+
+                    Proposal prop = new Proposal(idProposal, isCollaborative, title, null, date, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews, idWave);
                     listTopProposals.add(prop);
                 }
 

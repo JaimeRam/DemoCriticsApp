@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -65,7 +66,7 @@ public class SectionViewerActivity extends ActionBarActivity {
     private ListView mIndexListView;
 
     private TextView sectionTitle;
-    private TextView sectionText;
+    private WebView sectionText;
 
     private ImageButton favButton;
 
@@ -84,7 +85,7 @@ public class SectionViewerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_section_viewer);
 
         sectionTitle = (TextView) findViewById(R.id.sectionTitle);
-        sectionText = (TextView) findViewById(R.id.textSection);
+        sectionText = (WebView) findViewById(R.id.textSection);
 
         commentButton = (Button) findViewById(R.id.buttonComment);
         likeButton = (Button) findViewById(R.id.buttonLike);
