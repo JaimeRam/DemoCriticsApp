@@ -74,6 +74,8 @@ public class EditWaveActivity extends SwellRTActivity {
 
         padName = getIntent().getStringExtra("PAD_NAME");
 
+        getService().openModel(mModelId);
+
         // Gets a reference to an already open Model
         mModel = getService().getModel(mModelId);
 
