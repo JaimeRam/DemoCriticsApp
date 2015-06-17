@@ -12,19 +12,12 @@ import android.widget.TextView;
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
-import com.example.zorbel.apptfg.collaborate.EditWaveActivity;
-import com.example.zorbel.data_structures.User;
-import com.example.zorbel.data_structures.Proposal;
 import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.GetProposalContent;
 import com.example.zorbel.service_connection.PutOpinion;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-
-import org.swellrt.android.service.SwellRTService;
-import org.waveprotocol.wave.model.wave.InvalidParticipantAddress;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -125,10 +118,6 @@ public class ProposalViewerActivity extends MenuActivity {
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 putProposalOpinion("dislike");
-
-                String url = "/proposal/" + proposalId + "/dislike";
-                putProposalOpinion(url);
-
             }
         });
 

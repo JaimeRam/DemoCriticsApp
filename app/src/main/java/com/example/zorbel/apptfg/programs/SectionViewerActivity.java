@@ -38,9 +38,13 @@ import com.example.zorbel.apptfg.views.MenuLeftItem;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Section;
+import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.GetProgramsData;
 import com.example.zorbel.service_connection.GetSectionContent;
 import com.example.zorbel.service_connection.PutOpinion;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -148,26 +152,19 @@ public class SectionViewerActivity extends ActionBarActivity {
 
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                String url = "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/like";
-                putOpinion(url);
+                putOpinion("like");
             }
         });
 
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                String url = "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/dislike";
-                putOpinion(url);
+                putOpinion("dislike");
             }
         });
 
         notUnderstoodButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                String url =  "/politicalParty/" + politicalPartyId + "/section/" + sectionId + "/notUnderstood";
-                putOpinion(url);
-
+                putOpinion("not_understood");
             }
         });
 
@@ -448,15 +445,21 @@ public class SectionViewerActivity extends ActionBarActivity {
         }
     }
 
-    private void putOpinion(String url) {
+    private void putOpinion(String sOpinon) {
 
-        URL link = null;
+        URL link;
 
         if(isNetworkAvailable()) {
             try {
-                link = new URL(MainActivity.SERVER + url);
+                link = new URL(MainActivity.SERVER);
 
-                PutOpinion task = new PutOpinion(SectionViewerActivity.this, null, findViewById(R.id.activitySectionViewerLayout));
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("id_user", User.ID_USER));
+                params.add(new BasicNameValuePair("id_political_party", Integer.toString(politicalPartyId)));
+                params.add(new BasicNameValuePair("section", Integer.toString(sectionId)));
+                params.add(new BasicNameValuePair("opinion", sOpinon));
+
+                PutOpinion task = new PutOpinion(SectionViewerActivity.this, params, findViewById(R.id.activitySectionViewerLayout));
                 task.execute(link);
 
             } catch (MalformedURLException e) {
