@@ -316,7 +316,7 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
         // Abrir sesión con usuario genérico de la app
         try {
             mSwellRT.startSession(MainActivity.WAVE_SERVER,
-                    "" + User.ID_USER + "@local.net", "password");
+                    "admin" + "@local.net", "password");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (InvalidParticipantAddress invalidParticipantAddress) {

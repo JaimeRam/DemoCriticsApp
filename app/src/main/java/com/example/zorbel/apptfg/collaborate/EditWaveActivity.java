@@ -1,6 +1,7 @@
 package com.example.zorbel.apptfg.collaborate;
 
 
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -9,6 +10,7 @@ import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.User;
 
 import org.swellrt.android.service.SwellRTActivity;
+import org.swellrt.android.service.SwellRTService;
 import org.swellrt.android.service.WaveDocEditorBinder;
 import org.swellrt.model.generic.Model;
 import org.swellrt.model.generic.TextType;
@@ -17,7 +19,7 @@ import org.waveprotocol.wave.model.wave.InvalidParticipantAddress;
 
 import java.net.MalformedURLException;
 
-public class EditWaveActivity extends SwellRTActivity {
+public class EditWaveActivity extends SwellRTActivity implements ServiceConnection, SwellRTService.SwellRTServiceCallback {
 
     private EditText mEditor;
     private String mModelId;
@@ -33,6 +35,11 @@ public class EditWaveActivity extends SwellRTActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_wave);
+
+        if (mModelId == null)
+            mModelId = getIntent().getStringExtra("MODEL_ID");
+
+        padName = getIntent().getStringExtra("PAD_NAME");
 
         mEditor = (EditText) findViewById(R.id.textWave);
 
@@ -63,18 +70,25 @@ public class EditWaveActivity extends SwellRTActivity {
     @Override
     public void onConnect() {
 
-        // Here startSession, open/create the model for the Pad, get a reference to the Pad's TextType object
-
         doStartSession();
 
-        // An example guessing you have already open a session and open the model in another activity
-        // We receive the modelId to use in the intent
-        if (mModelId == null)
-            mModelId = getIntent().getStringExtra("MODEL_ID");
+    }
 
-        padName = getIntent().getStringExtra("PAD_NAME");
+    @Override
+    public void onDisconnect() {
+        // The service is not available via getService()
+        // Eventually unbind the EditText from the Doc
+        mDocBinder.unbind();
+    }
+
+    @Override
+    public void onStartSessionSuccess(String s) {
 
         getService().openModel(mModelId);
+    }
+
+    @Override
+    public void onOpen(Model model) {
 
         // Gets a reference to an already open Model
         mModel = getService().getModel(mModelId);
@@ -92,10 +106,8 @@ public class EditWaveActivity extends SwellRTActivity {
     }
 
     @Override
-    public void onDisconnect() {
-        // The service is not available via getService()
-        // Eventually unbind the EditText from the Doc
-        mDocBinder.unbind();
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

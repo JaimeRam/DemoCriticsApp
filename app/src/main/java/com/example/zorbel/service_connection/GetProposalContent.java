@@ -1,20 +1,31 @@
 package com.example.zorbel.service_connection;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.collaborate.EditWaveActivity;
 import com.example.zorbel.data_structures.Proposal;
+import com.example.zorbel.data_structures.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.swellrt.android.service.SwellRTActivity;
+import org.swellrt.android.service.SwellRTService;
+import org.swellrt.model.generic.Model;
+import org.waveprotocol.wave.model.wave.InvalidParticipantAddress;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class GetProposalContent extends ConnectionGet {
@@ -43,6 +54,102 @@ public class GetProposalContent extends ConnectionGet {
     public GetProposalContent(Context mContext, View mRootView, boolean isCollaborative) {
         super(mContext, mRootView);
         this.isCollaborative = isCollaborative;
+    }
+
+    private class AddWaveParticipantClass implements ServiceConnection, SwellRTService.SwellRTServiceCallback {
+
+        private String modelId;
+        private Context mContext;
+        private Model mModel;
+        private SwellRTService mSwellRT;
+
+
+        public AddWaveParticipantClass(String id, Context mCon) {
+            this.modelId = id;
+            this.mContext = mCon;
+            bindSwellRTService();
+        }
+
+        protected void bindSwellRTService() {
+
+            if (mSwellRT == null) {
+                final Intent mWaveServiceIntent = new Intent(mContext, SwellRTService.class);
+                mContext.bindService(mWaveServiceIntent, this, Context.BIND_AUTO_CREATE);
+            }
+
+        }
+
+        public void doStartSession() {
+
+            try {
+                mSwellRT.startSession(MainActivity.WAVE_SERVER,
+                        "admin" + "@local.net", "password");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (InvalidParticipantAddress invalidParticipantAddress) {
+                invalidParticipantAddress.printStackTrace();
+            }
+        }
+
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mSwellRT = ((SwellRTService.SwellRTBinder) service).getService(this);
+            doStartSession();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+
+        @Override
+        public void onStartSessionSuccess(String s) {
+           mSwellRT.openModel(modelId);
+        }
+
+        @Override
+        public void onStartSessionFail(String s) {
+
+        }
+
+        @Override
+        public void onCreate(Model model) {
+
+        }
+
+        @Override
+        public void onOpen(Model model) {
+            // Gets a reference to an already open Model
+            mModel = mSwellRT.getModel(modelId);
+
+            //Add actual participant
+            mModel.addParticipant("" + User.ID_USER + "@local.net");
+
+            mSwellRT.closeModel(modelId);
+        }
+
+        @Override
+        public void onClose(boolean b) {
+            mSwellRT.stopSession();
+            mContext.unbindService(this);
+        }
+
+        @Override
+        public void onUpdate(int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onError(String s) {
+
+        }
+
+        @Override
+        public void onDebugInfo(String s) {
+
+        }
+
     }
 
     @Override
@@ -119,6 +226,9 @@ public class GetProposalContent extends ConnectionGet {
 
             Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
             Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+
+            //Start session as admin and add current user to the list of participants of the wave
+            AddWaveParticipantClass add = new AddWaveParticipantClass(currentProposal.getIdWave(), super.getmContext());
 
             editPropHowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
