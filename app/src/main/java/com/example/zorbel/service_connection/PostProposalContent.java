@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -93,6 +94,13 @@ public class PostProposalContent extends ConnectionPost {
             }
         }
 
+        private void doStopSession() {
+
+            if (mSwellRT != null) {
+                mSwellRT.stopSession();
+            }
+
+        }
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -107,7 +115,7 @@ public class PostProposalContent extends ConnectionPost {
 
         @Override
         public void onStartSessionSuccess(String s) {
-           mSwellRT.openModel(modelId);
+            mSwellRT.openModel(modelId);
         }
 
         @Override
@@ -129,12 +137,12 @@ public class PostProposalContent extends ConnectionPost {
             mModel.addParticipant("" + User.ID_USER + "@local.net");
 
             mSwellRT.closeModel(modelId);
+            doStopSession();
         }
 
         @Override
         public void onClose(boolean b) {
-            mSwellRT.stopSession();
-            mContext.unbindService(this);
+
         }
 
         @Override

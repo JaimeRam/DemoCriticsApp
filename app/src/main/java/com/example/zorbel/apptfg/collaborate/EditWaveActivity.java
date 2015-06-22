@@ -3,6 +3,8 @@ package com.example.zorbel.apptfg.collaborate;
 
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.zorbel.apptfg.MainActivity;
@@ -26,6 +28,8 @@ public class EditWaveActivity extends SwellRTActivity implements ServiceConnecti
     private Model mModel;
     private TextType mText;
 
+    private Button saveProp;
+
     private String padName;
 
     private WaveDocEditorBinder mDocBinder;
@@ -43,6 +47,17 @@ public class EditWaveActivity extends SwellRTActivity implements ServiceConnecti
 
         mEditor = (EditText) findViewById(R.id.textWave);
 
+        saveProp = (Button) findViewById(R.id.buttonSaveWave);
+
+        saveProp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getService().closeModel(mModelId);
+                getService().stopSession();
+                finish();
+            }
+        });
+
         //super.getSupportActionBar().setIcon(R.mipmap.ic_collaborate);
         //super.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -53,9 +68,6 @@ public class EditWaveActivity extends SwellRTActivity implements ServiceConnecti
 
     public void doStartSession() {
 
-        // Crear la wave
-
-        // Abrir sesión con usuario genérico de la app
         try {
             getService().startSession(MainActivity.WAVE_SERVER,
                     "" + User.ID_USER + "@local.net", "password");
@@ -93,9 +105,6 @@ public class EditWaveActivity extends SwellRTActivity implements ServiceConnecti
         // Gets a reference to an already open Model
         mModel = getService().getModel(mModelId);
 
-        //Add actual participant
-        mModel.addParticipant("" + User.ID_USER + "@local.net");
-
         // Get the text document supporting the Pad from the Model
         Type instance = mModel.getRoot().get(padName);
         mText = (TextType) instance;
@@ -105,15 +114,13 @@ public class EditWaveActivity extends SwellRTActivity implements ServiceConnecti
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public void onBackPressed() {
-        getService().closeModel(mModelId);
-        getService().stopSession();
+        if(getService() != null) {
+            getService().closeModel(mModelId);
+            getService().stopSession();
+        }
         super.onBackPressed();
     }
 }

@@ -11,6 +11,10 @@
         android:id="@+id/textWave"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
         android:layout_weight="0.7"/>
 
     <Button
