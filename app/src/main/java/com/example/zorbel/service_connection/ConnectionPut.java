@@ -59,7 +59,7 @@ public class ConnectionPut extends ConnectionURL {
                         builder.append(line);
                     }
                 } else {
-                    Log.e(GetSectionContent.class.toString(), "Failed to get JSON object");
+                    Log.e(PostSectionContent.class.toString(), "Failed to get JSON object");
                 }
 
                 con.connect();

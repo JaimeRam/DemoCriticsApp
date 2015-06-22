@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,13 +13,15 @@ import com.example.zorbel.apptfg.adapters.ListIndexAdapter;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 
-public class GetSectionContent extends ConnectionGet {
+public class PostSectionContent extends ConnectionPost {
 
     private static final String TAG_SECTION_ID = "section";
     private static final String TAG_SECTION_TITLE = "title";
@@ -27,13 +30,14 @@ public class GetSectionContent extends ConnectionGet {
     private static final String TAG_SECTION_NOT_UNDERSTOOD = "not_understood";
     private static final String TAG_SECTION_DISLIKES = "dislikes";
     private static final String TAG_SECTION_NUM_COMMENTS = "comments";
+    private static final String TAG_SECTION_FAVORITE = "favorite";
 
     private int politicalProgramId;
 
     private Section currentSection;
 
-    public GetSectionContent(Context mContext, View mRootView, int id) {
-        super(mContext, mRootView);
+    public PostSectionContent(Context mContext, ArrayList<NameValuePair> par, View mRootView, int id) {
+        super(mContext, mRootView, par);
         this.politicalProgramId = id;
     }
 
@@ -68,6 +72,7 @@ public class GetSectionContent extends ConnectionGet {
         Button likeButton = (Button) super.getmRootView().findViewById(R.id.buttonLike);
         Button notUnderstoodButton = (Button) super.getmRootView().findViewById(R.id.buttonNotUnderstood);
         Button dislikeButton = (Button) super.getmRootView().findViewById(R.id.buttonDislike);
+        ImageButton favButton = (ImageButton) super.getmRootView().findViewById(R.id.buttonFav);
 
         if (currentSection.getmTitle().equalsIgnoreCase("null")) { //Check if Section doesn't have text (its text is "null")
             sectionTitle.setText("No text");
@@ -75,7 +80,7 @@ public class GetSectionContent extends ConnectionGet {
             sectionTitle.setText(currentSection.getmTitle());
         }
 
-        String text = "<html><body style=\"text-align:justify\"> " + currentSection.getmText()  + "</body></Html>";
+        String text = "<html><body style=\"text-align:justify\"> " + currentSection.getmText() + "</body></Html>";
 
         sectionText.loadDataWithBaseURL(null, text, "text/html", "UTF-8", null);
 
@@ -85,7 +90,6 @@ public class GetSectionContent extends ConnectionGet {
             notUnderstoodButton.setText(" " + currentSection.getNumNotUnderstoods() + " ");
             commentButton.setText(" " + currentSection.getNumComments() + " ");
         } else {
-
             likeButton.setVisibility(View.GONE);
             dislikeButton.setVisibility(View.GONE);
             notUnderstoodButton.setVisibility(View.GONE);
@@ -97,6 +101,13 @@ public class GetSectionContent extends ConnectionGet {
             mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), currentSection.getlSections()));
         }
 
+        if (currentSection.isFavorite()) {
+            favButton.setTag(true);
+            favButton.setImageResource(R.mipmap.ic_starfav_yellow);
+        } else {
+            favButton.setTag(false);
+            favButton.setImageResource(R.mipmap.ic_starfav_black);
+        }
     }
 
     protected void getSectionData(String jsonStr) {
@@ -114,6 +125,7 @@ public class GetSectionContent extends ConnectionGet {
                 int dislikes = s.getInt(TAG_SECTION_DISLIKES);
 
                 int num_comments = s.getInt(TAG_SECTION_NUM_COMMENTS);
+                String isFavorite = s.getString(TAG_SECTION_FAVORITE);
 
                 currentSection = PoliticalGroups.getInstance().getSection(politicalProgramId, id_section);
 
@@ -122,6 +134,7 @@ public class GetSectionContent extends ConnectionGet {
                 currentSection.setNumDislikes(dislikes);
                 currentSection.setNumNotUnderstoods(not_understood);
                 currentSection.setNumComments(num_comments);
+                currentSection.setFavorite(isFavorite.equalsIgnoreCase("yes"));
 
             } catch (JSONException e) {
                 e.printStackTrace();

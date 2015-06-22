@@ -13,7 +13,8 @@ import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
 import com.example.zorbel.data_structures.User;
-import com.example.zorbel.service_connection.GetProposalContent;
+import com.example.zorbel.service_connection.PostFavorite;
+import com.example.zorbel.service_connection.PostProposalContent;
 import com.example.zorbel.service_connection.PutOpinion;
 
 import org.apache.http.NameValuePair;
@@ -55,6 +56,8 @@ public class ProposalViewerActivity extends MenuActivity {
 
         editHowButton = (Button) findViewById(R.id.buttonEditPropHow);
         editCostButton = (Button) findViewById(R.id.buttonEditPropCost);
+        favButton = (ImageButton) findViewById(R.id.buttonFav);
+
 
         if(!isCollaborative) { //The proposal is not editable
 
@@ -127,6 +130,32 @@ public class ProposalViewerActivity extends MenuActivity {
             }
         });
 
+        favButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (favButton.getTag() == true) {
+                    favButton.setImageResource(R.mipmap.ic_starfav_black);
+                    favButton.setTag(false);
+                } else {
+                    favButton.setImageResource(R.mipmap.ic_starfav_yellow);
+                    favButton.setTag(true);
+                }
+
+                URL link;
+                try {
+                    link = new URL(MainActivity.SERVER + "/favorite");
+
+                    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("id_user", User.ID_USER));
+                    params.add(new BasicNameValuePair("id_proposal", Integer.toString(proposalId)));
+
+                    PostFavorite task = new PostFavorite(ProposalViewerActivity.this, params, findViewById(R.id.activitySectionViewerLayout));
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -157,7 +186,10 @@ public class ProposalViewerActivity extends MenuActivity {
         try {
             link = new URL(MainActivity.SERVER + "/proposal/" + id_proposal);
 
-            GetProposalContent task = new GetProposalContent(this, findViewById(R.id.activityProposalViewerLayout), isCollaborative);
+            ArrayList<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("id_user", User.ID_USER));
+
+            PostProposalContent task = new PostProposalContent(this, params, findViewById(R.id.activityProposalViewerLayout), isCollaborative);
             task.execute(link);
 
         } catch (MalformedURLException e) {

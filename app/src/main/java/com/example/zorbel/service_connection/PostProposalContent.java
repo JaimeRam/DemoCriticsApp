@@ -4,10 +4,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,18 +17,19 @@ import com.example.zorbel.apptfg.collaborate.EditWaveActivity;
 import com.example.zorbel.data_structures.Proposal;
 import com.example.zorbel.data_structures.User;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.swellrt.android.service.SwellRTActivity;
 import org.swellrt.android.service.SwellRTService;
 import org.swellrt.model.generic.Model;
 import org.waveprotocol.wave.model.wave.InvalidParticipantAddress;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class GetProposalContent extends ConnectionGet {
+public class PostProposalContent extends ConnectionPost {
 
     private static final String TAG_PROPOSAL_ID = "id";
     private static final String TAG_PROPOSAL_TITLE = "title";
@@ -47,12 +48,13 @@ public class GetProposalContent extends ConnectionGet {
     private static final String TAG_PROPOSAL_NOT_UNDERSTOOD= "not_understood";
     private static final String TAG_PROPOSAL_DISLIKES = "dislikes";
     private static final String TAG_PROPOSAL_NUM_COMMENTS = "comments";
+    private static final String TAG_PROPOSAL_FAVORITE = "favorite";
 
     private boolean isCollaborative;
     private Proposal currentProposal;
 
-    public GetProposalContent(Context mContext, View mRootView, boolean isCollaborative) {
-        super(mContext, mRootView);
+    public PostProposalContent(Context mContext, ArrayList<NameValuePair> par, View mRootView, boolean isCollaborative) {
+        super(mContext, mRootView, par);
         this.isCollaborative = isCollaborative;
     }
 
@@ -173,7 +175,6 @@ public class GetProposalContent extends ConnectionGet {
 
             editPropHowButton.setVisibility(View.GONE);
             editPropCostButton.setVisibility(View.GONE);
-
         }
     }
 
@@ -226,6 +227,7 @@ public class GetProposalContent extends ConnectionGet {
 
             Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
             Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+            ImageButton favButton = (ImageButton) super.getmRootView().findViewById(R.id.buttonFav);
 
             //Start session as admin and add current user to the list of participants of the wave
             AddWaveParticipantClass add = new AddWaveParticipantClass(currentProposal.getIdWave(), super.getmContext());
@@ -234,11 +236,11 @@ public class GetProposalContent extends ConnectionGet {
                 @Override
                 public void onClick(View v) {
 
-                    Intent in = new Intent(GetProposalContent.super.getmContext(), EditWaveActivity.class);
+                    Intent in = new Intent(PostProposalContent.super.getmContext(), EditWaveActivity.class);
 
                     in.putExtra("MODEL_ID", currentProposal.getIdWave());
                     in.putExtra("PAD_NAME", "padHow");
-                    GetProposalContent.super.getmContext().startActivity(in);
+                    PostProposalContent.super.getmContext().startActivity(in);
                 }
             });
 
@@ -246,11 +248,11 @@ public class GetProposalContent extends ConnectionGet {
                 @Override
                 public void onClick(View v) {
 
-                    Intent in = new Intent(GetProposalContent.super.getmContext(), EditWaveActivity.class);
+                    Intent in = new Intent(PostProposalContent.super.getmContext(), EditWaveActivity.class);
 
                     in.putExtra("MODEL_ID", currentProposal.getIdWave());
                     in.putExtra("PAD_NAME", "padCost");
-                    GetProposalContent.super.getmContext().startActivity(in);
+                    PostProposalContent.super.getmContext().startActivity(in);
                 }
             });
 
@@ -264,8 +266,14 @@ public class GetProposalContent extends ConnectionGet {
                 editPropCostButton.setVisibility(View.GONE);
             }
 
+            if (currentProposal.isFavorite()) {
+                favButton.setTag(true);
+                favButton.setImageResource(R.mipmap.ic_starfav_yellow);
+            } else {
+                favButton.setTag(false);
+                favButton.setImageResource(R.mipmap.ic_starfav_black);
+            }
         }
-
     }
 
     protected void getProposalData(String jsonStr) {
@@ -296,10 +304,12 @@ public class GetProposalContent extends ConnectionGet {
                 int num_comments = s.getInt(TAG_PROPOSAL_NUM_COMMENTS);
 
                 String idWave = s.getString(TAG_PROPOSAL_WAVE);
+                String favorite = s.getString(TAG_PROPOSAL_FAVORITE);
 
                 boolean isCollaborative = (idWave.length() > 0);
 
                 currentProposal = new Proposal(id_prop, isCollaborative, title, category, date, user, image, text, how, cost, likes, dislikes, num_comments, not_understood, views, idWave);
+                currentProposal.setFavorite(favorite.equalsIgnoreCase("yes"));
 
             } catch (JSONException e) {
                 e.printStackTrace();

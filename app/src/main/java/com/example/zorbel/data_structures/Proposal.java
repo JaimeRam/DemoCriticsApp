@@ -25,7 +25,7 @@ public class Proposal implements TopItem {
     private int numNotUnderstoods;
     private int numComments;
     private int numViews;
-
+    private boolean isFavorite;
 
     public Proposal(int propId, boolean editable, String titleProp, String category, String date, String user,
                     String resLogo, String textProp, String howProp, String moneyProp, int numLikes,
@@ -45,7 +45,7 @@ public class Proposal implements TopItem {
         this.numComments = numComments;
         this.numNotUnderstoods = numNotUnderstoods;
         this.numViews = numViews;
-
+        this.isFavorite = false;
         this.idWave = idWave;
     }
 
@@ -215,5 +215,13 @@ public class Proposal implements TopItem {
 
     public void setNumViews(int numViews) {
         this.numViews = numViews;
+    }
+
+    public void setFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public boolean isFavorite() {
+        return this.isFavorite;
     }
 }

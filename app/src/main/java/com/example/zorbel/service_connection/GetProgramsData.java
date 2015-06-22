@@ -159,14 +159,14 @@ public class GetProgramsData extends ConnectionGet {
     }
 
     private void getSectionContentData(int id_section, int id_politicalParty) {
-        URL link = null;
+        URL link;
         try {
             link = new URL(MainActivity.SERVER + "/politicalParty/" + id_politicalParty + "/section/" + id_section);
 
             //Prepare post arguments
             //String parameters = "section=" + URLEncoder.encode(Integer.toString(id_section), "UTF-8") + "&id_political_party=" + URLEncoder.encode(Integer.toString(id_politicalParty), "UTF-8");
 
-            GetSectionContent task = new GetSectionContent(getmContext(), super.getmRootView(), id_politicalParty);
+            PostSectionContent task = new PostSectionContent(getmContext(), null, super.getmRootView(), id_politicalParty);
             task.execute(link);
 
         } catch (MalformedURLException e) {

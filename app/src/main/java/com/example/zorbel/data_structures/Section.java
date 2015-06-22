@@ -16,6 +16,7 @@ public class Section implements TopItem{
     private int numDislikes;
     private int numNotUnderstoods;
     private int numComments;
+    private boolean isFavorite;
 
     private int numViews;
     private List<Section> lSections;
@@ -26,6 +27,7 @@ public class Section implements TopItem{
         this.mTitle = mTitle;
         this.mText = mText;
         this.lSections = lSections;
+        this.isFavorite = false;
     }
 
     public Section(int mSection, int mPoliticalParty, String mTitle, String mCategory, int numLikes, int numDislikes, int numNotUnderstoods, int numComments, int numViews) {
@@ -38,6 +40,7 @@ public class Section implements TopItem{
         this.numNotUnderstoods = numNotUnderstoods;
         this.numComments = numComments;
         this.numViews = numViews;
+        this.isFavorite = false;
     }
 
     public int getmSection() {
@@ -120,5 +123,13 @@ public class Section implements TopItem{
     @Override
     public boolean isProposal() {
         return false;
+    }
+
+    public void setFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public boolean isFavorite() {
+        return this.isFavorite;
     }
 }

@@ -40,7 +40,8 @@ import com.example.zorbel.data_structures.PoliticalParty;
 import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.GetProgramsData;
-import com.example.zorbel.service_connection.GetSectionContent;
+import com.example.zorbel.service_connection.PostFavorite;
+import com.example.zorbel.service_connection.PostSectionContent;
 import com.example.zorbel.service_connection.PutOpinion;
 
 import org.apache.http.NameValuePair;
@@ -79,7 +80,6 @@ public class SectionViewerActivity extends ActionBarActivity {
     private Button notUnderstoodButton;
     private Button dislikeButton;
 
-    private Section currentSection;
     private int politicalPartyId;
     private int sectionId;
 
@@ -95,6 +95,7 @@ public class SectionViewerActivity extends ActionBarActivity {
         likeButton = (Button) findViewById(R.id.buttonLike);
         notUnderstoodButton = (Button) findViewById(R.id.buttonNotUnderstood);
         dislikeButton = (Button) findViewById(R.id.buttonDislike);
+        favButton = (ImageButton) findViewById(R.id.buttonFav);
 
         mIndexListView = (ListView) findViewById(R.id.indexListView);
 
@@ -165,6 +166,34 @@ public class SectionViewerActivity extends ActionBarActivity {
         notUnderstoodButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 putOpinion("not_understood");
+            }
+        });
+
+        favButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (favButton.getTag() == true) {
+                    favButton.setImageResource(R.mipmap.ic_starfav_black);
+                    favButton.setTag(false);
+                } else {
+                    favButton.setImageResource(R.mipmap.ic_starfav_yellow);
+                    favButton.setTag(true);
+                }
+
+                URL link;
+                try {
+                    link = new URL(MainActivity.SERVER + "/favorite");
+
+                    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("id_user", User.ID_USER));
+                    params.add(new BasicNameValuePair("id_political_party", Integer.toString(politicalPartyId)));
+                    params.add(new BasicNameValuePair("section", Integer.toString(sectionId)));
+
+                    PostFavorite task = new PostFavorite(SectionViewerActivity.this, params, findViewById(R.id.activitySectionViewerLayout));
+                    task.execute(link);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -424,7 +453,10 @@ public class SectionViewerActivity extends ActionBarActivity {
             //Prepare post arguments
             //String parameters = "section=" + URLEncoder.encode(Integer.toString(id_section), "UTF-8") + "&id_political_party=" + URLEncoder.encode(Integer.toString(id_politicalParty), "UTF-8");
 
-            GetSectionContent task = new GetSectionContent(this, findViewById(R.id.activitySectionViewerLayout), id_politicalParty);
+            ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("id_user", User.ID_USER));
+
+            PostSectionContent task = new PostSectionContent(this, params, findViewById(R.id.activitySectionViewerLayout), id_politicalParty);
             task.execute(link);
 
         } catch (MalformedURLException e) {
@@ -497,6 +529,6 @@ public class SectionViewerActivity extends ActionBarActivity {
         }
 
         return netInfo != null && netInfo.isConnectedOrConnecting();
-
     }
+
 }
