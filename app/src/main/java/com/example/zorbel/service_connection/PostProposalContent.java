@@ -211,6 +211,7 @@ public class PostProposalContent extends ConnectionPost {
             Button likeButton = (Button) super.getmRootView().findViewById(R.id.buttonLike);
             Button notUnderstoodButton = (Button) super.getmRootView().findViewById(R.id.buttonNotUnderstood);
             Button dislikeButton = (Button) super.getmRootView().findViewById(R.id.buttonDislike);
+            ImageButton favButton = (ImageButton) super.getmRootView().findViewById(R.id.buttonFav);
 
             proposalHow.setText(currentProposal.getHowProp());
             proposalMoney.setText(currentProposal.getMoneyProp());
@@ -220,6 +221,14 @@ public class PostProposalContent extends ConnectionPost {
             notUnderstoodButton.setText(" " + currentProposal.getNumNotUnderstoods() + " ");
             commentButton.setText(" " + currentProposal.getNumComments() + " ");
 
+            if (currentProposal.isFavorite()) {
+                favButton.setTag(true);
+                favButton.setImageResource(R.mipmap.ic_starfav_yellow);
+            } else {
+                favButton.setTag(false);
+                favButton.setImageResource(R.mipmap.ic_starfav_black);
+            }
+
         } else {
 
             TextView proposalHow = (TextView) super.getmRootView().findViewById(R.id.howProposal);
@@ -227,7 +236,6 @@ public class PostProposalContent extends ConnectionPost {
 
             Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
             Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
-            ImageButton favButton = (ImageButton) super.getmRootView().findViewById(R.id.buttonFav);
 
             //Start session as admin and add current user to the list of participants of the wave
             AddWaveParticipantClass add = new AddWaveParticipantClass(currentProposal.getIdWave(), super.getmContext());
@@ -264,14 +272,6 @@ public class PostProposalContent extends ConnectionPost {
             if(!currentProposal.getMoneyProp().toString().equalsIgnoreCase("null")){
                 proposalMoney.setText(currentProposal.getMoneyProp());
                 editPropCostButton.setVisibility(View.GONE);
-            }
-
-            if (currentProposal.isFavorite()) {
-                favButton.setTag(true);
-                favButton.setImageResource(R.mipmap.ic_starfav_yellow);
-            } else {
-                favButton.setTag(false);
-                favButton.setImageResource(R.mipmap.ic_starfav_black);
             }
         }
     }
