@@ -18,7 +18,6 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.zorbel.apptfg.adapters.PartyWidgetAdapter;
-import com.example.zorbel.apptfg.adapters.TopItemAdapter;
 import com.example.zorbel.apptfg.collaborate.CategorizedCollaborativeProposalsActivity;
 import com.example.zorbel.apptfg.programs.CategorizedProgramsActivity;
 import com.example.zorbel.apptfg.programs.PoliticalProgramIndexActivity;
@@ -35,7 +34,12 @@ import com.example.zorbel.data_structures.User;
 import com.example.zorbel.service_connection.GetPoliticalParties;
 import com.example.zorbel.service_connection.GetTopProposals;
 import com.example.zorbel.service_connection.GetTopSections;
+import com.example.zorbel.service_connection.PostTopFavProposal;
+import com.example.zorbel.service_connection.PostTopFavSection;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -73,9 +77,7 @@ public class TabPageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = null;
 
         if (infType == 1) { //Programs Activity
@@ -418,12 +420,28 @@ public class TabPageFragment extends Fragment {
 
             if(pageTab == 1) { //Sections Tab
 
-                //TODO: set the list
+                view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
+
+                FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
+
+                addButton.setVisibility(View.INVISIBLE);
+
+                if (isNetworkAvailable())
+                    getFavoriteSections(view);
+
+                setListTopListeners(view);
 
             } else { //Proposals Tab
+                view = inflater.inflate(R.layout.tab_page_top_fragment, container, false);
 
-                //TODO: set the list
+                FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.btnAddNewContent);
 
+                addButton.setVisibility(View.INVISIBLE);
+
+                if (isNetworkAvailable())
+                    getFavoriteProposals(view);
+
+                setListTopListeners(view);
             }
 
         }
@@ -451,6 +469,36 @@ public class TabPageFragment extends Fragment {
         try {
             link = new URL(MainActivity.SERVER + "/category/" + id_category + "/section/" + limit);
             GetTopSections task = new GetTopSections(getActivity(), v.findViewById(R.id.layoutTabTop));
+            task.execute(link);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getFavoriteSections(View v) {
+        URL link;
+
+        try {
+            ArrayList<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("id_user", User.ID_USER));
+
+            link = new URL(MainActivity.SERVER + "/favorite/sections");
+            PostTopFavSection task = new PostTopFavSection(getActivity(), v.findViewById(R.id.layoutTabTop), params);
+            task.execute(link);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getFavoriteProposals(View v) {
+        URL link;
+
+        try {
+            ArrayList<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("id_user", User.ID_USER));
+
+            link = new URL(MainActivity.SERVER + "/favorite/proposals");
+            PostTopFavProposal task = new PostTopFavProposal(getActivity(), v.findViewById(R.id.layoutTabTop), params);
             task.execute(link);
         } catch (MalformedURLException e) {
             e.printStackTrace();

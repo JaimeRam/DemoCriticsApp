@@ -1,0 +1,104 @@
+package com.example.zorbel.service_connection;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.ListView;
+
+import com.example.zorbel.apptfg.R;
+import com.example.zorbel.apptfg.adapters.TopItemAdapter;
+import com.example.zorbel.apptfg.views.TopItem;
+import com.example.zorbel.data_structures.Proposal;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by jaime on 23/06/15.
+ */
+public class PostTopFavProposal extends ConnectionPost {
+
+    private static final String TAG_PROPOSAL_ID = "id";
+    private static final String TAG_PROPOSAL_TITLE = "title";
+    private static final String TAG_ID_IMAGE = "id_image";
+    private static final String TAG_VIEWS = "views";
+    private static final String TAG_LIKES = "likes";
+    private static final String TAG_NOT_UNDERSTOOD = "not_understood";
+    private static final String TAG_DISLIKES = "dislikes";
+    private static final String TAG_DATE = "date";
+    private static final String TAG_USER = "user";
+    private static final String TAG_COMMENTS = "comments";
+    private static final String TAG_PROPOSAL_WAVE = "id_wave";
+
+    private List<TopItem> listTopProposals;
+
+    public PostTopFavProposal(Context mContext, View mRootView, ArrayList<NameValuePair> par) {
+        super(mContext, mRootView, par);
+    }
+
+    @Override
+    protected Void doInBackground(URL... urls) {
+        super.doInBackground(urls);
+        getTop(super.getJson());
+        return null;
+    }
+
+    private void getTop(String JSONString) {
+        if (JSONString != null) {
+            try {
+
+                JSONArray ar = new JSONArray(JSONString);
+
+                listTopProposals = new ArrayList<TopItem>();
+
+                for (int i = 0; i < ar.length(); i++) {
+
+                    JSONObject ob = ar.getJSONObject(i);
+
+                    int idProposal = ob.getInt(TAG_PROPOSAL_ID);
+                    String title = ob.getString(TAG_PROPOSAL_TITLE);
+                    String idImage = ob.getString(TAG_ID_IMAGE);
+
+                    int numViews = ob.getInt(TAG_VIEWS);
+                    int numLikes = ob.getInt(TAG_LIKES);
+                    int numNotUnd = ob.getInt(TAG_NOT_UNDERSTOOD);
+                    int numDislikes = ob.getInt(TAG_DISLIKES);
+
+                    String date = ob.getString(TAG_DATE);
+                    String user = ob.getString(TAG_USER);
+                    int numComments = ob.getInt(TAG_COMMENTS);
+
+                    String idWave = ob.getString(TAG_PROPOSAL_WAVE);
+
+                    boolean isCollaborative = (idWave.length() > 0);
+
+                    Proposal prop = new Proposal(idProposal, isCollaborative, title, null, date, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews, idWave);
+                    listTopProposals.add(prop);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void showTop() {
+        ListView topTabPageListView = (ListView) super.getmRootView().findViewById(R.id.topListView);
+        topTabPageListView.setAdapter(new TopItemAdapter(super.getmContext(), listTopProposals));
+    }
+
+    @Override
+    protected void onPreExecute() {
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        showTop();
+    }
+
+}
