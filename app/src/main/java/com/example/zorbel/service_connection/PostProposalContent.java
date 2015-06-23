@@ -180,9 +180,11 @@ public class PostProposalContent extends ConnectionPost {
             //REMOVE COLLABORATIVE PROPOSAL BUTTON
             Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
             Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+            Button savePropButton = (Button) super.getmRootView().findViewById(R.id.buttonSaveProp);
 
             editPropHowButton.setVisibility(View.GONE);
             editPropCostButton.setVisibility(View.GONE);
+            savePropButton.setVisibility(View.GONE);
         }
     }
 
@@ -244,6 +246,19 @@ public class PostProposalContent extends ConnectionPost {
 
             Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
             Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+
+            Button savePropButton = (Button) super.getmRootView().findViewById(R.id.buttonSaveProp);
+
+/*            if(currentProposal.getUserID() != User.ID_USER) {
+                savePropButton.setVisibility(View.GONE);
+            } else {
+                savePropButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        updateProposal();
+                    }
+                });
+            }*/
 
             //Start session as admin and add current user to the list of participants of the wave
             AddWaveParticipantClass add = new AddWaveParticipantClass(currentProposal.getIdWave(), super.getmContext());

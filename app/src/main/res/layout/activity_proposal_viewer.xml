@@ -97,6 +97,7 @@
                                 android:layout_margin="10dp"
                                 android:background="@android:color/darker_gray"/>
 
+
                             <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -154,6 +155,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="80dp" />
 
+
                         </LinearLayout>
 
                         <TextView
@@ -209,6 +211,14 @@
                             </TableRow>
 
                         </TableLayout>
+
+                    <Button
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/buttonSaveProp"
+                        android:background="@color/blue"
+                        android:text="@string/name_buttonSaveWave"
+                        android:layout_width="fill_parent"
+                        android:layout_height="80dp" />
 
                 </LinearLayout>
 

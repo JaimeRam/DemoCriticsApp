@@ -389,7 +389,7 @@ public class TabPageFragment extends Fragment {
                 switch(pageTab) {
 
                     case 1: //Last Proposals Tab
-                        //TODO: set the list
+
                         sLink = MainActivity.SERVER + "/category/" + categoryId + "/proposal/colaborative/" + limit;
                         setListTopListeners(view);
                         break;

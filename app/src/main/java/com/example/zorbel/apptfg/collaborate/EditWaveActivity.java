@@ -52,8 +52,6 @@ public class EditWaveActivity extends SwellRTActivity implements ServiceConnecti
         saveProp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getService().closeModel(mModelId);
-                getService().stopSession();
                 finish();
             }
         });
@@ -114,13 +112,13 @@ public class EditWaveActivity extends SwellRTActivity implements ServiceConnecti
 
     }
 
-
     @Override
-    public void onBackPressed() {
+    protected void onDestroy() {
         if(getService() != null) {
             getService().closeModel(mModelId);
             getService().stopSession();
         }
-        super.onBackPressed();
+        super.onDestroy();
     }
+
 }

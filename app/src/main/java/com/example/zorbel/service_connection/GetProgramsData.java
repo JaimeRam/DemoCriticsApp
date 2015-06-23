@@ -9,7 +9,10 @@ import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.adapters.ListIndexAdapter;
 import com.example.zorbel.data_structures.PoliticalGroups;
 import com.example.zorbel.data_structures.Section;
+import com.example.zorbel.data_structures.User;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -165,8 +168,10 @@ public class GetProgramsData extends ConnectionGet {
 
             //Prepare post arguments
             //String parameters = "section=" + URLEncoder.encode(Integer.toString(id_section), "UTF-8") + "&id_political_party=" + URLEncoder.encode(Integer.toString(id_politicalParty), "UTF-8");
+            ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("id_user", User.ID_USER));
 
-            PostSectionContent task = new PostSectionContent(getmContext(), null, super.getmRootView(), id_politicalParty);
+            PostSectionContent task = new PostSectionContent(getmContext(), params, super.getmRootView(), id_politicalParty);
             task.execute(link);
 
         } catch (MalformedURLException e) {

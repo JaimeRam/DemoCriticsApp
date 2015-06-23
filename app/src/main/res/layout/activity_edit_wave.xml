@@ -20,7 +20,7 @@
     <Button
         android:id="@+id/buttonSaveWave"
         android:layout_below="@id/textWave"
-        android:text="Guardar Propuesta"
+        android:text="@string/name_buttonFinishEditWave"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
