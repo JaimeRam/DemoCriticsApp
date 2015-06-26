@@ -86,7 +86,7 @@ public class PostProposalContent extends ConnectionPost {
 
             try {
                 mSwellRT.startSession(MainActivity.WAVE_SERVER,
-                        "admin" + "@local.net", "password");
+                        "" + MainActivity.WAVE_ADMIN + MainActivity.WAVE_HOST, "password");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (InvalidParticipantAddress invalidParticipantAddress) {
@@ -105,7 +105,10 @@ public class PostProposalContent extends ConnectionPost {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mSwellRT = ((SwellRTService.SwellRTBinder) service).getService(this);
-            doStartSession();
+            if (mSwellRT.isSessionStarted()) {
+                mSwellRT.stopSession();
+            }
+                doStartSession();
         }
 
         @Override
@@ -134,7 +137,7 @@ public class PostProposalContent extends ConnectionPost {
             mModel = mSwellRT.getModel(modelId);
 
             //Add actual participant
-            mModel.addParticipant("" + User.ID_USER + "@local.net");
+            mModel.addParticipant("" + User.ID_USER + MainActivity.WAVE_HOST);
 
             mSwellRT.closeModel(modelId);
             doStopSession();
@@ -287,12 +290,12 @@ public class PostProposalContent extends ConnectionPost {
                 }
             });
 
-            if(!currentProposal.getHowProp().toString().equalsIgnoreCase("null")) {
+            if(currentProposal.getHowProp().length() > 0) {
                 proposalHow.setText(currentProposal.getHowProp());
                 editPropHowButton.setVisibility(View.GONE);
             }
 
-            if(!currentProposal.getMoneyProp().toString().equalsIgnoreCase("null")){
+            if(currentProposal.getMoneyProp().length() > 0){
                 proposalMoney.setText(currentProposal.getMoneyProp());
                 editPropCostButton.setVisibility(View.GONE);
             }

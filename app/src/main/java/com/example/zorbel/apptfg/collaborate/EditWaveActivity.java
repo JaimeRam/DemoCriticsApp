@@ -21,7 +21,7 @@ import org.waveprotocol.wave.model.wave.InvalidParticipantAddress;
 
 import java.net.MalformedURLException;
 
-public class EditWaveActivity extends SwellRTActivity implements ServiceConnection, SwellRTService.SwellRTServiceCallback {
+public class EditWaveActivity extends SwellRTActivity  {
 
     private EditText mEditor;
     private String mModelId;
@@ -68,7 +68,7 @@ public class EditWaveActivity extends SwellRTActivity implements ServiceConnecti
 
         try {
             getService().startSession(MainActivity.WAVE_SERVER,
-                    "" + User.ID_USER + "@local.net", "password");
+                    "" + User.ID_USER +  MainActivity.WAVE_HOST, "password");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (InvalidParticipantAddress invalidParticipantAddress) {

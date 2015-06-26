@@ -430,7 +430,7 @@ public class SectionViewerActivity extends ActionBarActivity {
         } else if (position == 5) {  //Collaborative Proposals Menu Option
 
             Intent in = new Intent(this, CollaborativeProposalsActivity.class);
-            in.putExtra("FocusTab", 2);
+            in.putExtra("FocusTab", 1);
             startActivity(in);
 
         } else if (position == 6) {  //Favourites Menu Option

@@ -316,7 +316,7 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
         // Abrir sesión con usuario genérico de la app
         try {
             mSwellRT.startSession(MainActivity.WAVE_SERVER,
-                    "admin" + "@local.net", "password");
+                    "" + MainActivity.WAVE_ADMIN + MainActivity.WAVE_HOST, "password");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (InvalidParticipantAddress invalidParticipantAddress) {
@@ -367,8 +367,8 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
         postCollaborativeProposal(id);
 
         // Crear un documento de texto para cada Pad
-        TextType padHow = model.createText("¿Cómo lo harías?");
-        TextType padCost = model.createText("¿Cómo lo financiarias?");
+        TextType padHow = model.createText("hola");
+        TextType padCost = model.createText("hola");
 
         // Incluir el documento como parte de la wave/model en el mapa "root"
         if(createHowWave)
@@ -378,7 +378,7 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
             model.getRoot().put("padCost", padCost);
 
         // Permitir que el usuario actual lea y escriba el texto del Pad
-        model.addParticipant("" + User.ID_USER + "@local.net");
+        model.addParticipant("" + User.ID_USER + MainActivity.WAVE_HOST);
 
 
     }

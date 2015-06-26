@@ -37,8 +37,11 @@ public class MainActivity extends MenuActivity implements ServiceConnection, Swe
 
     AsyncTask<String, Void, Boolean> mRegisterTask;
 
-    public static String WAVE_SERVER = "http://10.1.1.237:9898";
+    public static String WAVE_SERVER = "https://wave.p2pvalue.eu";
+    public static String WAVE_ADMIN = "admin.dm";
+    public static String WAVE_HOST = "@prototype.p2pvalue.eu";
     public static String SERVER = "https://apptfg-servicerest.rhcloud.com";
+
     private Button btnPrograms;
     private Button btnComparatives;
     private Button btnProposals;
@@ -170,15 +173,12 @@ public class MainActivity extends MenuActivity implements ServiceConnection, Swe
             @Override
             protected void onPostExecute(Boolean result) {
                 if (result)
-                    Toast.makeText(MainActivity.this, "User created successfully", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(MainActivity.this, "Error creating user", Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(MainActivity.this, "Wave user created successfully", Toast.LENGTH_LONG).show();
             }
         };
 
         mRegisterTask.execute(WAVE_SERVER,
-                "" + User.ID_USER + "@local.net", "password");
+                "" + User.ID_USER + WAVE_HOST, "password");
 
     }
 

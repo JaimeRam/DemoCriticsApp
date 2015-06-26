@@ -215,12 +215,13 @@ public class MenuActivity extends ActionBarActivity {
             } else if (position == 4) {  //Proposals Menu Option
 
                 Intent in = new Intent(this, ProposalsActivity.class);
+                in.putExtra("FocusTab", 2);
                 startActivity(in);
 
             } else if (position == 5) {  //Colaborative Proposals Menu Option
 
                 Intent in = new Intent(this, CollaborativeProposalsActivity.class);
-                in.putExtra("FocusTab", 2);
+                in.putExtra("FocusTab", 1);
                 startActivity(in);
 
             } else if (position == 6) {  //Favourites Menu Option
