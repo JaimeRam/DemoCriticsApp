@@ -70,7 +70,9 @@
                 <WebView
                     android:id="@+id/textSection"
                     android:layout_width="fill_parent"
+                    android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
                     android:gravity="center"/>
 
                 <ListView

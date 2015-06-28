@@ -17,6 +17,7 @@ import com.example.zorbel.apptfg.R;
 import com.example.zorbel.apptfg.collaborate.EditWaveActivity;
 import com.example.zorbel.data_structures.Proposal;
 import com.example.zorbel.data_structures.User;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -40,6 +41,7 @@ public class PostProposalContent extends ConnectionPost {
     private static final String TAG_PROPOSAL_IMAGE = "image";
     private static final String TAG_PROPOSAL_DATE = "date";
     private static final String TAG_PROPOSAL_CATEGORY = "category";
+    private static final String TAG_PROPOSAL_ID_USER = "id_user";
     private static final String TAG_PROPOSAL_USER = "user";
 
     private static final String TAG_PROPOSAL_WAVE = "id_wave";
@@ -181,13 +183,19 @@ public class PostProposalContent extends ConnectionPost {
 
         if(!isCollaborative) {
             //REMOVE COLLABORATIVE PROPOSAL BUTTON
-            Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
-            Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
-            Button savePropButton = (Button) super.getmRootView().findViewById(R.id.buttonSaveProp);
+            ImageButton editPropHowButton = (ImageButton) super.getmRootView().findViewById(R.id.buttonEditPropHow);
+            TextView textHow = (TextView) super.getmRootView().findViewById(R.id.textEditWaveHow);
+            ImageButton editPropCostButton = (ImageButton) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+            TextView textCost = (TextView) super.getmRootView().findViewById(R.id.textEditWaveCost);
+            FloatingActionButton savePropButton = (FloatingActionButton) super.getmRootView().findViewById(R.id.buttonSaveProp);
+            TextView textSave = (TextView) super.getmRootView().findViewById(R.id.textSaveProp);
 
             editPropHowButton.setVisibility(View.GONE);
+            textHow.setVisibility(View.GONE);
             editPropCostButton.setVisibility(View.GONE);
+            textCost.setVisibility(View.GONE);
             savePropButton.setVisibility(View.GONE);
+            textSave.setVisibility(View.GONE);
         }
     }
 
@@ -247,21 +255,26 @@ public class PostProposalContent extends ConnectionPost {
             TextView proposalHow = (TextView) super.getmRootView().findViewById(R.id.howProposal);
             TextView proposalMoney = (TextView) super.getmRootView().findViewById(R.id.moneyProposal);
 
-            Button editPropHowButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropHow);
-            Button editPropCostButton = (Button) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+            ImageButton editPropHowButton = (ImageButton) super.getmRootView().findViewById(R.id.buttonEditPropHow);
+            TextView textHow = (TextView) super.getmRootView().findViewById(R.id.textEditWaveHow);
+            ImageButton editPropCostButton = (ImageButton) super.getmRootView().findViewById(R.id.buttonEditPropCost);
+            TextView textCost = (TextView) super.getmRootView().findViewById(R.id.textEditWaveCost);
 
-            Button savePropButton = (Button) super.getmRootView().findViewById(R.id.buttonSaveProp);
+            FloatingActionButton savePropButton = (FloatingActionButton) super.getmRootView().findViewById(R.id.buttonSaveProp);
+            TextView textSave = (TextView) super.getmRootView().findViewById(R.id.textSaveProp);
 
-/*            if(currentProposal.getUserID() != User.ID_USER) {
+
+           if(!currentProposal.getId_user().equals(User.ID_USER)) {
                 savePropButton.setVisibility(View.GONE);
+                textSave.setVisibility(View.GONE);
             } else {
-                savePropButton.setOnClickListener(new View.OnClickListener() {
+               /* savePropButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         updateProposal();
                     }
-                });
-            }*/
+                });*/
+            }
 
             //Start session as admin and add current user to the list of participants of the wave
             AddWaveParticipantClass add = new AddWaveParticipantClass(currentProposal.getIdWave(), super.getmContext());
@@ -293,11 +306,13 @@ public class PostProposalContent extends ConnectionPost {
             if(currentProposal.getHowProp().length() > 0) {
                 proposalHow.setText(currentProposal.getHowProp());
                 editPropHowButton.setVisibility(View.GONE);
+                textHow.setVisibility(View.GONE);
             }
 
             if(currentProposal.getMoneyProp().length() > 0){
                 proposalMoney.setText(currentProposal.getMoneyProp());
                 editPropCostButton.setVisibility(View.GONE);
+                textCost.setVisibility(View.GONE);
             }
         }
     }
@@ -320,6 +335,7 @@ public class PostProposalContent extends ConnectionPost {
                 String image = s.getString(TAG_PROPOSAL_IMAGE);
                 String date = s.getString(TAG_PROPOSAL_DATE);
                 String category = s.getString(TAG_PROPOSAL_CATEGORY);
+                String id_user = s.getString(TAG_PROPOSAL_ID_USER);
                 String user = s.getString(TAG_PROPOSAL_USER);
 
                 int views = s.getInt(TAG_PROPOSAL_VIEWS);
@@ -334,7 +350,7 @@ public class PostProposalContent extends ConnectionPost {
 
                 boolean isCollaborative = (idWave.length() > 0);
 
-                currentProposal = new Proposal(id_prop, isCollaborative, title, category, date, user, image, text, how, cost, likes, dislikes, num_comments, not_understood, views, idWave);
+                currentProposal = new Proposal(id_prop, isCollaborative, title, category, date, id_user, user, image, text, how, cost, likes, dislikes, num_comments, not_understood, views, idWave);
                 currentProposal.setFavorite(favorite.equalsIgnoreCase("yes"));
 
             } catch (JSONException e) {

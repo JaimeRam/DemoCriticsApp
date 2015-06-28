@@ -18,9 +18,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jaime on 23/06/15.
- */
 public class PostTopFavProposal extends ConnectionPost {
 
     private static final String TAG_PROPOSAL_ID = "id";
@@ -77,7 +74,7 @@ public class PostTopFavProposal extends ConnectionPost {
 
                     boolean isCollaborative = (idWave.length() > 0);
 
-                    Proposal prop = new Proposal(idProposal, isCollaborative, title, null, date, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews, idWave);
+                    Proposal prop = new Proposal(idProposal, isCollaborative, title, null, date, null, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews, idWave);
                     listTopProposals.add(prop);
                 }
 

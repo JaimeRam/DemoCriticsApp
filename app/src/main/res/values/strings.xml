@@ -11,8 +11,8 @@
 
     <string name="btnPrograms">Programas\nPolíticos</string>
     <string name="btnTopics">Categorías</string>
-    <string name="btnProposals">Propuestas\nCiudadanas</string>
-    <string name="btnCollaborate">Propuestas\nColaborativas</string>
+    <string name="btnProposals">Discusión de\nPropuestas</string>
+    <string name="btnCollaborate">Propuestas en\nDesarrollo</string>
 
     <string name="drawer_open">Menu Abierto!</string>
     <string name="drawer_close">Menu Cerrado!</string>
@@ -26,8 +26,8 @@
         <item>Inicio</item>
         <item>Programas</item>
         <item>Categorías</item>
-        <item>Propuestas\nciudadanas</item>
-        <item>Propuestas\ncolaborativas</item>
+        <item>Discusión de\nPropuestas</item>
+        <item>Propuestas en\nDesarrollo</item>
         <item>Favoritos</item>
     </string-array>
 
@@ -95,7 +95,7 @@
     <string name="name_headerMoreNotUnderstood">Lo menos entendido</string>
     <string name="name_headerMoreComments">Lo más comentado</string>
 
-    <string name="name_buttonSaveWave">Guardar Propuesta Definitiva</string>
+    <string name="name_buttonSaveWave">Guardar Propuesta Definitiva ></string>
     <string name="name_buttonFinishEditWave">Finalizar edición</string>
 
     <string-array name="TabsProposalsEntries">

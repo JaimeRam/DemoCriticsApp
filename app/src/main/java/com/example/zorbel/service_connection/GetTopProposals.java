@@ -74,7 +74,7 @@ public class GetTopProposals extends ConnectionGet {
 
                     boolean isCollaborative = (idWave.length() > 0);
 
-                    Proposal prop = new Proposal(idProposal, isCollaborative, title, null, date, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews, idWave);
+                    Proposal prop = new Proposal(idProposal, isCollaborative, title, null, date, null, user, idImage, null, null, null, numLikes, numDislikes, numComments, numNotUnd, numViews, idWave);
                     listTopProposals.add(prop);
                 }
 

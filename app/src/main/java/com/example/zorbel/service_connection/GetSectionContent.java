@@ -92,9 +92,17 @@ public class GetSectionContent extends ConnectionGet {
             commentButton.setVisibility(View.GONE);
         }
 
+        if(currentSection.getmText().length() == 0) {
+            WebView wv = (WebView) super.getmRootView().findViewById(R.id.textSection);
+            wv.setVisibility(View.GONE);
+        }
+
         if (currentSection.getlSections() != null) { //Check if Section doesn't have subsections
             ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
             mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), currentSection.getlSections()));
+        } else {
+            ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
+            mIndexListView.setVisibility(View.GONE);
         }
 
     }

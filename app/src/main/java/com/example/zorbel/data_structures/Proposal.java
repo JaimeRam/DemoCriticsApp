@@ -12,7 +12,8 @@ public class Proposal implements TopItem {
     private String titleProp;
     private String category; //ID
     private String date;
-    private String user; //ID
+    private String id_user;
+    private String user; //name
     private String resLogo;
     private String textProp;
     private String howProp;
@@ -27,14 +28,15 @@ public class Proposal implements TopItem {
     private int numViews;
     private boolean isFavorite;
 
-    public Proposal(int propId, boolean editable, String titleProp, String category, String date, String user,
-                    String resLogo, String textProp, String howProp, String moneyProp, int numLikes,
+    public Proposal(int propId, boolean editable, String titleProp, String category, String date, String id_user,
+                    String user, String resLogo, String textProp, String howProp, String moneyProp, int numLikes,
                     int numDislikes, int numComments, int numNotUnderstoods, int numViews, String idWave) {
         this.propId = propId;
         this.isEditable = editable;
         this.titleProp = titleProp;
         this.category = category;
         this.date = date;
+        this.id_user =id_user;
         this.user = user;
         this.resLogo = resLogo;
         this.textProp = textProp;
@@ -135,6 +137,14 @@ public class Proposal implements TopItem {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
     }
 
     public String getUser() {

@@ -3,6 +3,7 @@ package com.example.zorbel.apptfg.proposals;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -33,8 +34,8 @@ public class ProposalViewerActivity extends MenuActivity {
     private Button notUnderstoodButton;
     private Button dislikeButton;
 
-    private Button editHowButton;
-    private Button editCostButton;
+    private ImageButton editHowButton;
+    private ImageButton editCostButton;
 
     private boolean isCollaborative;
 
@@ -54,8 +55,8 @@ public class ProposalViewerActivity extends MenuActivity {
         dislikeButton = (Button) findViewById(R.id.buttonDislike);
         favButton = (ImageButton) findViewById(R.id.buttonFav);
 
-        editHowButton = (Button) findViewById(R.id.buttonEditPropHow);
-        editCostButton = (Button) findViewById(R.id.buttonEditPropCost);
+        editHowButton = (ImageButton) findViewById(R.id.buttonEditPropHow);
+        editCostButton = (ImageButton) findViewById(R.id.buttonEditPropCost);
         favButton = (ImageButton) findViewById(R.id.buttonFav);
 
 
