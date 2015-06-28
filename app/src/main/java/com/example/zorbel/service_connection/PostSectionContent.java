@@ -16,6 +16,7 @@ import com.example.zorbel.data_structures.Section;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.waveprotocol.wave.model.document.util.TextExtractor;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -68,6 +69,10 @@ public class PostSectionContent extends ConnectionPost {
         TextView sectionTitle = (TextView) super.getmRootView().findViewById(R.id.sectionTitle);
         WebView sectionText = (WebView) super.getmRootView().findViewById(R.id.textSection);
 
+        sectionText.setBackgroundColor(0x00000000);
+
+        TextView textSub = (TextView) super.getmRootView().findViewById(R.id.textSubSec);
+
         Button commentButton = (Button) super.getmRootView().findViewById(R.id.buttonComment);
         Button likeButton = (Button) super.getmRootView().findViewById(R.id.buttonLike);
         Button notUnderstoodButton = (Button) super.getmRootView().findViewById(R.id.buttonNotUnderstood);
@@ -90,15 +95,22 @@ public class PostSectionContent extends ConnectionPost {
             notUnderstoodButton.setText(" " + currentSection.getNumNotUnderstoods() + " ");
             commentButton.setText(" " + currentSection.getNumComments() + " ");
         } else {
+
+            sectionText.setVisibility(View.GONE);
             likeButton.setVisibility(View.GONE);
             dislikeButton.setVisibility(View.GONE);
             notUnderstoodButton.setVisibility(View.GONE);
             commentButton.setVisibility(View.GONE);
         }
 
+
         if (currentSection.getlSections() != null) { //Check if Section doesn't have subsections
             ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
             mIndexListView.setAdapter(new ListIndexAdapter(super.getmContext(), currentSection.getlSections()));
+        } else {
+            ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
+            mIndexListView.setVisibility(View.GONE);
+            textSub.setVisibility(View.GONE);
         }
 
         if (currentSection.isFavorite()) {

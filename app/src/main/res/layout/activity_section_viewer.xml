@@ -71,15 +71,25 @@
                     android:id="@+id/textSection"
                     android:layout_width="fill_parent"
                     android:background="@android:color/transparent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.5"
                     android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/textSubSec"
+                    android:layout_margin="10sp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:text="@string/textSubsections"/>
 
                 <ListView
                     android:id="@+id/indexListView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5" />
+                    android:layout_weight="0.4" />
 
             </LinearLayout>
 

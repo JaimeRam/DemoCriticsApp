@@ -64,6 +64,8 @@ public class GetSectionContent extends ConnectionGet {
         TextView sectionTitle = (TextView) super.getmRootView().findViewById(R.id.sectionTitle);
         WebView sectionText = (WebView) super.getmRootView().findViewById(R.id.textSection);
 
+        sectionText.setBackgroundColor(0x00000000);
+
         Button commentButton = (Button) super.getmRootView().findViewById(R.id.buttonComment);
         Button likeButton = (Button) super.getmRootView().findViewById(R.id.buttonLike);
         Button notUnderstoodButton = (Button) super.getmRootView().findViewById(R.id.buttonNotUnderstood);
@@ -86,16 +88,13 @@ public class GetSectionContent extends ConnectionGet {
             commentButton.setText(" " + currentSection.getNumComments() + " ");
         } else {
 
+            sectionText.setVisibility(View.GONE);
             likeButton.setVisibility(View.GONE);
             dislikeButton.setVisibility(View.GONE);
             notUnderstoodButton.setVisibility(View.GONE);
             commentButton.setVisibility(View.GONE);
         }
 
-        if(currentSection.getmText().length() == 0) {
-            WebView wv = (WebView) super.getmRootView().findViewById(R.id.textSection);
-            wv.setVisibility(View.GONE);
-        }
 
         if (currentSection.getlSections() != null) { //Check if Section doesn't have subsections
             ListView mIndexListView = (ListView) super.getmRootView().findViewById(R.id.indexListView);
