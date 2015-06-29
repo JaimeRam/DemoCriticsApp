@@ -367,8 +367,8 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
         postCollaborativeProposal(id);
 
         // Crear un documento de texto para cada Pad
-        TextType padHow = model.createText("hola");
-        TextType padCost = model.createText("hola");
+        TextType padHow = model.createText("");
+        TextType padCost = model.createText("");
 
         // Incluir el documento como parte de la wave/model en el mapa "root"
         if(createHowWave)
@@ -385,13 +385,13 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
 
 
     public void onStartSessionFail(String message) {
-        Toast.makeText(this, "Login Error: " + message, Toast.LENGTH_LONG).show();
+
 
     }
 
     @Override
     public void onClose(boolean everythingCommitted) {
-        Toast.makeText(this, "Connection closed", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -402,12 +402,12 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
 
     @Override
     public void onDebugInfo(String message) {
-        Toast.makeText(this, "Debug: " + message, Toast.LENGTH_LONG).show();
+
     }
 
     @Override
     public void onError(String message) {
-        Toast.makeText(this, "Error: " + message, Toast.LENGTH_LONG).show();
+
     }
 
     @Override
