@@ -1,14 +1,23 @@
 package com.example.zorbel.apptfg.programs;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.zorbel.apptfg.MainActivity;
 import com.example.zorbel.apptfg.MenuActivity;
 import com.example.zorbel.apptfg.R;
+import com.example.zorbel.apptfg.proposals.ProposalViewerActivity;
+import com.example.zorbel.apptfg.views.TopItem;
+import com.example.zorbel.data_structures.PoliticalGroups;
+import com.example.zorbel.data_structures.PoliticalParty;
+import com.example.zorbel.data_structures.Proposal;
+import com.example.zorbel.data_structures.Section;
 import com.example.zorbel.service_connection.GetTopSections;
 
 import java.net.MalformedURLException;
@@ -42,6 +51,8 @@ public class CategorizedProgramsActivity extends MenuActivity {
 
         if(super.isNetworkAvailable())
             getSectionsData(id_category);
+
+        setListTopListeners();
     }
 
     private void getSectionsData(int id_category) {
@@ -56,6 +67,45 @@ public class CategorizedProgramsActivity extends MenuActivity {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+
+    }
+
+    private void setListTopListeners() {
+
+        //set more Views header
+
+        ListView topListView = (ListView) findViewById(R.id.topListView);
+
+        topListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                TopItem it = (TopItem) parent.getItemAtPosition(position);
+
+                if (it != null) {
+
+                    if (it.isSection()) {
+
+                        // TODO: launch the SectionViewerActivity
+
+                        Section sec = (Section) it;
+
+                        PoliticalParty pol = PoliticalGroups.getInstance().getPoliticalParty(sec.getmPoliticalParty());
+
+                        Intent in = new Intent(CategorizedProgramsActivity.this, SectionViewerActivity.class);
+
+                        Bundle b = new Bundle();
+                        b.putInt("PoliticalPartyId", pol.getmId());
+                        b.putInt("SectionId", sec.getmSection());
+
+                        in.putExtras(b);
+
+                        startActivity(in);
+
+                    }
+                }
+            }
+        });
 
     }
 }

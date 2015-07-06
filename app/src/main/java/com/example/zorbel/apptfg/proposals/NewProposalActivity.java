@@ -396,8 +396,7 @@ public class NewProposalActivity extends MenuActivity implements ServiceConnecti
 
     @Override
     public void onUpdate(int inFlightSize, int notAckedSize, int unCommitedSize) {
-        if (inFlightSize == 0 && notAckedSize == 0 && unCommitedSize == 0)
-            Toast.makeText(this, "All data sent", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
